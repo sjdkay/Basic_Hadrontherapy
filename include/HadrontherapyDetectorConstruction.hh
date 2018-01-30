@@ -150,8 +150,8 @@ inline bool IsInside(G4double detectorX,
 /////////////////////////////////////////////////////////////////////////////
 
   G4bool  SetPhantomMaterial(G4String material);
-  G4bool  SetComplexPhantomMaterial1(G4String material);
-  G4bool  SetComplexPhantomMaterial2(G4String material);
+  G4bool  SetComplexPhantomMaterial1(G4String material1);
+  G4bool  SetComplexPhantomMaterial2(G4String material2);
   void SetUseComplexPhantom(G4int use){UseComplexPhantom=use;}
   void SetVoxelSize(G4double sizeX, G4double sizeY, G4double sizeZ);
   void SetDetectorSize(G4double sizeX, G4double sizeY, G4double sizeZ);
@@ -186,6 +186,9 @@ private:
   G4double detectorSizeX;
   G4double detectorSizeY;
   G4double detectorSizeZ;
+
+  G4double ComplexPhantomThick1;
+  G4double ComplexPhantomThick2;
 
   G4ThreeVector phantomPosition, detectorPosition, detectorToPhantomPosition; //  phantom center, detector center, detector to phantom relative position
 
