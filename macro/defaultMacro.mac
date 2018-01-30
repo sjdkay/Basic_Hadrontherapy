@@ -108,12 +108,12 @@
 # USE THE FOLLOWING FOR A VOXELLIZED DETECTOR
 ###################################################
 #
-/changeDetector/size 4 4 4 cm
-/changeDetector/voxelSize .1 40 40 mm
+/changeDetector/size 10 10 10 cm
+/changeDetector/voxelSize .1 100 100 mm
 
 # Put the detector in the lower left corner of the phantom
 #
-/changeDetector/displacement 0 18 18 cm
+/changeDetector/displacement 0 15 15 cm
 /changePhantom/update
 
 
@@ -130,11 +130,16 @@
 #/analysis/secondary true 
 
 # Default material is water liquid
-#/changePhantom/material G4_PLEXIGLASS
+/changePhantom/material G4_Ca
+/changeComplexPhantom/useComplexPhantom 1
+/changeComplexPhantom/Mat1Thick 10 cm
+/changeComplexPhantom/Mat2Thick 30 cm
+/changeComplexPhantom/material1 G4_A-150_TISSUE 
+/changeComplexPhantom/material2 G4_Ca
 
 /run/printProgress 10
 
-/run/beamOn 1
+/run/beamOn 10
 
 /control/shell mkdir -p SimulationOutputs/proton/BraggPeak
 /control/shell mv DoseDistribution.root SimulationOutputs/proton/BraggPeak/protonBraggPeak.root

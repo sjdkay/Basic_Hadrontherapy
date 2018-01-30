@@ -86,6 +86,10 @@ aRegion(0)
 
     // Define here the material of the water phantom and of the detector
     SetPhantomMaterial("G4_WATER");
+    SetComplexPhantomMaterial1("G4_WATER");
+    SetComplexPhantomMaterial2("G4_WATER");
+    SetComplexPhantomMat1Thick(20. *cm);
+    SetComplexPhantomMat2Thick(20. *cm);
     // Construct geometry (messenger commands)
     SetDetectorSize(4.*cm, 4.*cm, 4.*cm);
     SetPhantomSize(40. *cm, 40. *cm, 40. *cm);
@@ -304,15 +308,15 @@ G4bool HadrontherapyDetectorConstruction::SetComplexPhantomMaterial1(G4String ma
         ComplexPhantomMaterial1 = CPMat1;
 //        phantomMaterial  = pMat;
 //        detectorMaterial = pMat;
-        if (detectorLogicalVolume && phantomLogicalVolume)
-        {
+//        if (detectorLogicalVolume && phantomLogicalVolume)
+//        {
 //            detectorLogicalVolume -> SetMaterial(pMat);
 //            phantomLogicalVolume ->  SetMaterial(pMat);
 
 //            G4RunManager::GetRunManager() -> PhysicsHasBeenModified();
 //            G4RunManager::GetRunManager() -> GeometryHasBeenModified();
 //            G4cout << "The material of Phantom/Detector has been changed to " << material << G4endl;
-        }
+//        }
     }
     else
     {
@@ -321,6 +325,8 @@ G4bool HadrontherapyDetectorConstruction::SetComplexPhantomMaterial1(G4String ma
         G4cout << "Use command \"/parameter/nist\" to see full materials list!" << G4endl;
         return false;
     }
+
+//    G4cout << "ComplexPhantomMat1" << material1 << G4endl;
 
     return true;
 }
@@ -334,15 +340,15 @@ G4bool HadrontherapyDetectorConstruction::SetComplexPhantomMaterial2(G4String ma
         ComplexPhantomMaterial2 = CPMat2;
 //        phantomMaterial  = pMat;
 //        detectorMaterial = pMat;
-        if (detectorLogicalVolume && phantomLogicalVolume)
-        {
+//        if (detectorLogicalVolume && phantomLogicalVolume)
+//        {
 //            detectorLogicalVolume -> SetMaterial(pMat);
 //            phantomLogicalVolume ->  SetMaterial(pMat);
 
 //            G4RunManager::GetRunManager() -> PhysicsHasBeenModified();
 //            G4RunManager::GetRunManager() -> GeometryHasBeenModified();
 //            G4cout << "The material of Phantom/Detector has been changed to " << material << G4endl;
-        }
+//        }
     }
     else
     {
@@ -351,6 +357,8 @@ G4bool HadrontherapyDetectorConstruction::SetComplexPhantomMaterial2(G4String ma
         G4cout << "Use command \"/parameter/nist\" to see full materials list!" << G4endl;
         return false;
     }
+
+//    G4cout << "ComplexPhantomMat2" << material2 << G4endl;
 
     return true;
 }
@@ -396,12 +404,14 @@ void HadrontherapyDetectorConstruction::SetDetectorToPhantomPosition(G4ThreeVect
 void HadrontherapyDetectorConstruction::SetComplexPhantomMat1Thick(G4double tm1)
 {
     ComplexPhantomThick1 = tm1;
+//    G4cout << "CPMat1"  << ComplexPhantomThick1 << G4endl;
 }
 
 /////////////////////////////////////////////////////////////////////////////
 void HadrontherapyDetectorConstruction::SetComplexPhantomMat2Thick(G4double tm2)
 {
     ComplexPhantomThick2 = tm2;
+//    G4cout << "CPMat2"  << ComplexPhantomThick2 << G4endl;
 }
 
 /////////////////////////////////////////////////////////////////////////////
