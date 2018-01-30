@@ -95,16 +95,16 @@ aRegion(0)
     //GetDetectorToWorldPosition();
 
     if(UseComplexPhantom == 0){
-        cout << "Complex phantom not being used, value read as 0";
+        G4cout << "Complex phantom not being used, value read as 0";
     }
 
     else if (UseComplexPhantom == 1){
-        cout << "Complex phantom being used, value read as 1";
+        G4cout << "Complex phantom being used, value read as 1";
         SetComplexPhantomMaterial1("G4_WATER");
         SetComplexPhantomMaterial2("G4_WATER");
     }
     else{
-        cout << "Some other value detected for Complex Phantom Usage";
+        G4cout << "Some other value detected for Complex Phantom Usage";
     }
 
 
@@ -301,7 +301,7 @@ G4bool HadrontherapyDetectorConstruction::SetComplexPhantomMaterial1(G4String ma
 
     if (G4Material* CPMat1 = G4NistManager::Instance()->FindOrBuildMaterial(material1, false) )
     {
-        ComplexPhantomMaterial1 = material1;
+        ComplexPhantomMaterial1 = CPMat1;
 //        phantomMaterial  = pMat;
 //        detectorMaterial = pMat;
         if (detectorLogicalVolume && phantomLogicalVolume)
@@ -326,12 +326,12 @@ G4bool HadrontherapyDetectorConstruction::SetComplexPhantomMaterial1(G4String ma
 }
 
 ///////////////////////////////////////////////////////////////////////
-G4bool HadrontherapyDetectorConstruction::SetComplexPhantomMaterial2(G4String material1)
+G4bool HadrontherapyDetectorConstruction::SetComplexPhantomMaterial2(G4String material2)
 {
 
     if (G4Material* CPMat2 = G4NistManager::Instance()->FindOrBuildMaterial(material2, false) )
     {
-        ComplexPhantomMaterial2 = material2;
+        ComplexPhantomMaterial2 = CPMat2;
 //        phantomMaterial  = pMat;
 //        detectorMaterial = pMat;
         if (detectorLogicalVolume && phantomLogicalVolume)

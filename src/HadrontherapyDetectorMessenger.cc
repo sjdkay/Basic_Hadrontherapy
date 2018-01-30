@@ -32,6 +32,8 @@
 #include "G4UIcmdWith3VectorAndUnit.hh"
 #include "G4UIcmdWithoutParameter.hh"
 #include "G4UIcmdWithAString.hh"
+#include "G4UIcmdWithAnInteger.hh"
+#include "G4UIcmdWithADoubleAndUnit.hh"
 #include "G4SystemOfUnits.hh"
 
 
@@ -53,15 +55,15 @@ HadrontherapyDetectorMessenger::HadrontherapyDetectorMessenger(HadrontherapyDete
     changeThePhantomSizeCmd -> AvailableForStates(G4State_Idle);
 
     // Use complex Phantom or not
-    changeComplexPhantomDir = new G4UIDirectory("/changeComplexPhantom/");
-    changeComplexPhantomDir ->SetGuidance("Command to use the Complex Phantom and define materials/sizes");
-    UseComplexPhantomCmd = new G4UICmdWithAnInteger("/changeComplexPhantom/useComplexPhantom", this);
+    changeComplexPhantomDir = new G4UIdirectory("/changeComplexPhantom/");
+    changeComplexPhantomDir -> SetGuidance("Command to use the Complex Phantom and define materials/sizes");
+    UseComplexPhantomCmd = new G4UIcmdWithAnInteger("/changeComplexPhantom/useComplexPhantom", this);
     UseComplexPhantomCmd -> SetGuidance("Insert 1 to use ComplexPhantom or 0 to disable");
-    UseComplexPhantomCmd ->S etParameterName("UseComplexPhantom",false);
+    UseComplexPhantomCmd -> SetParameterName("UseComplexPhantom",false);
     UseComplexPhantomCmd -> AvailableForStates(G4State_Idle);
 
     // Change how thick each material of the complex phantom is (material 1)
-    ComplexPhantomMat1ThickCmd = new G4UiCmdWithDoubleAndUnit("/changeComplexPhantom/Mat1Thick", this);
+    ComplexPhantomMat1ThickCmd = new G4UIcmdWithADoubleAndUnit("/changeComplexPhantom/Mat1Thick", this);
     ComplexPhantomMat1ThickCmd -> SetGuidance("Change how thick the first material is");
     ComplexPhantomMat1ThickCmd -> SetParameterName("Mat1Thickness", false);
     ComplexPhantomMat1ThickCmd -> SetUnitCategory("Length");
@@ -70,7 +72,7 @@ HadrontherapyDetectorMessenger::HadrontherapyDetectorMessenger(HadrontherapyDete
     ComplexPhantomMat1ThickCmd -> AvailableForStates(G4State_Idle);
 
     // Change how thick each material of the complex phantom is (material 2)
-    ComplexPhantomMat2ThickCmd = new G4UiCmdWithDoubleAndUnit("/changeComplexPhantom/Mat2Thick", this);
+    ComplexPhantomMat2ThickCmd = new G4UIcmdWithADoubleAndUnit("/changeComplexPhantom/Mat2Thick", this);
     ComplexPhantomMat2ThickCmd -> SetGuidance("Change how thick the first material is");
     ComplexPhantomMat2ThickCmd -> SetParameterName("Mat2Thickness", false);
     ComplexPhantomMat2ThickCmd -> SetUnitCategory("Length");
@@ -182,12 +184,12 @@ void HadrontherapyDetectorMessenger::SetNewValue(G4UIcommand* command,G4String n
     }
   else if (command == changeThePhantomPositionCmd )
   {
-	 G4ThreeVector size = changeThePhantomPositionCmd -> GetNew3VectorValue(newValue);
-         hadrontherapyDetector -> SetPhantomPosition(size);
+    G4ThreeVector size = changeThePhantomPositionCmd -> GetNew3VectorValue(newValue);
+    hadrontherapyDetector -> SetPhantomPosition(size);
   }
   else if (command == UseComplexPhantomCmd)
   {
-  hadrontherapyDetector->SetUseComplexPhantom(newValue);
+    hadrontherapyDetector -> SetUseComplexPhantom(UseComplexPhantomCmd->GetNewIntValue(newValue));
   }
   else if (command = ComplexPhantomMat1ThickCmd)
   {
@@ -199,33 +201,33 @@ void HadrontherapyDetectorMessenger::SetNewValue(G4UIcommand* command,G4String n
   }
   else if (command == changeThePhantomMaterialCmd)
   {
-      hadrontherapyDetector -> SetPhantomMaterial(newValue);
+    hadrontherapyDetector -> SetPhantomMaterial(newValue);
   }
     else if (command == ComplexPhantomMaterial1Cmd)
   {
-      hadrontherapyDetector -> SetComplexPhantomMaterial1(newValue);
+    hadrontherapyDetector -> SetComplexPhantomMaterial1(newValue);
   }
     else if (command == ComplexPhantomMaterial2Cmd)
   {
-      hadrontherapyDetector -> SetComplexPhantomMaterial2(newValue);
+    hadrontherapyDetector -> SetComplexPhantomMaterial2(newValue);
   }
   else if (command == changeTheDetectorSizeCmd)
   {
 	G4ThreeVector size = changeTheDetectorSizeCmd  -> GetNew3VectorValue(newValue);
-        hadrontherapyDetector -> SetDetectorSize(size.getX(),size.getY(),size.getZ());
+    hadrontherapyDetector -> SetDetectorSize(size.getX(),size.getY(),size.getZ());
   }
   else if (command == changeTheDetectorToPhantomPositionCmd)
   {
 	G4ThreeVector size = changeTheDetectorToPhantomPositionCmd-> GetNew3VectorValue(newValue);
-        hadrontherapyDetector -> SetDetectorToPhantomPosition(size);
+    hadrontherapyDetector -> SetDetectorToPhantomPosition(size);
   }
   else if (command == changeTheDetectorVoxelCmd)
   {
 	G4ThreeVector size = changeTheDetectorVoxelCmd  -> GetNew3VectorValue(newValue);
-        hadrontherapyDetector -> SetVoxelSize(size.getX(),size.getY(),size.getZ());
+    hadrontherapyDetector -> SetVoxelSize(size.getX(),size.getY(),size.getZ());
   }
   else if (command == updateCmd)
   {
-      hadrontherapyDetector -> UpdateGeometry();
+    hadrontherapyDetector -> UpdateGeometry();
   }
 }

@@ -37,8 +37,8 @@ class G4UIdirectory;
 class G4UIcmdWith3VectorAndUnit;
 class G4UIcmdWithoutParameter;
 class G4UIcmdWithAString;
-class G4UIcmdWithADoubleAndUnit
-class G4UIcmdWithAnInteger
+class G4UIcmdWithADoubleAndUnit;
+class G4UIcmdWithAnInteger;
 
 class HadrontherapyDetectorMessenger: public G4UImessenger
 {
@@ -55,7 +55,7 @@ private:
 
   G4UIdirectory *changeThePhantomDir,  *changeTheDetectorDir, *changeComplexPhantomDir;
 
-  G4UICmdWithAnInteger      *UseComplexPhantomCmd;
+  G4UIcmdWithAnInteger      *UseComplexPhantomCmd;
 
   G4UIcmdWithoutParameter   *updateCmd;
   G4UIcmdWithAString        *changeThePhantomMaterialCmd;
@@ -66,8 +66,8 @@ private:
     *changeTheDetectorSizeCmd,
     *changeTheDetectorToPhantomPositionCmd,
     *changeTheDetectorVoxelCmd;
-  G4UICmdWithADoubleAndUnit *ComplexPhantomMat1ThickCmd;
-  G4UICmdWithADoubleAndUnit *ComplexPhantomMat2ThickCmd;
+  G4UIcmdWithADoubleAndUnit *ComplexPhantomMat1ThickCmd;
+  G4UIcmdWithADoubleAndUnit *ComplexPhantomMat2ThickCmd;
 };
 #endif
 
