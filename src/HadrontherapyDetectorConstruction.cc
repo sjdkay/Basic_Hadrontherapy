@@ -94,18 +94,18 @@ aRegion(0)
     SetDetectorPosition();
     //GetDetectorToWorldPosition();
 
-    if(UseComplexPhantom == 0){
-        G4cout << "Complex phantom not being used, value read as 0";
-    }
-
-    else if (UseComplexPhantom == 1){
-        G4cout << "Complex phantom being used, value read as 1";
-        SetComplexPhantomMaterial1("G4_WATER");
-        SetComplexPhantomMaterial2("G4_WATER");
-    }
-    else{
-        G4cout << "Some other value detected for Complex Phantom Usage";
-    }
+//    if(UseComplexPhantom == 0){
+//        G4cout << "Complex phantom not being used, value read as 0";
+//    }
+//
+//    else if (UseComplexPhantom == 1){
+//        G4cout << "Complex phantom being used, value read as 1";
+//        SetComplexPhantomMaterial1("G4_WATER");
+//        SetComplexPhantomMaterial2("G4_WATER");
+//    }
+//    else{
+//        G4cout << "Some other value detected for Complex Phantom Usage";
+//    }
 
 
     // Write virtual parameters to the real ones and check for consistency

@@ -36,7 +36,6 @@
 #include "G4UIcmdWithADoubleAndUnit.hh"
 #include "G4SystemOfUnits.hh"
 
-
 /////////////////////////////////////////////////////////////////////////////
 HadrontherapyDetectorMessenger::HadrontherapyDetectorMessenger(HadrontherapyDetectorConstruction* detector)
   :hadrontherapyDetector(detector)
@@ -66,7 +65,6 @@ HadrontherapyDetectorMessenger::HadrontherapyDetectorMessenger(HadrontherapyDete
     ComplexPhantomMat1ThickCmd = new G4UIcmdWithADoubleAndUnit("/changeComplexPhantom/Mat1Thick", this);
     ComplexPhantomMat1ThickCmd -> SetGuidance("Change how thick the first material is");
     ComplexPhantomMat1ThickCmd -> SetParameterName("Mat1Thickness", false);
-    ComplexPhantomMat1ThickCmd -> SetUnitCategory("Length");
     ComplexPhantomMat1ThickCmd -> SetDefaultUnit("mm");
     ComplexPhantomMat1ThickCmd -> SetUnitCandidates ("nm um mm cm");
     ComplexPhantomMat1ThickCmd -> AvailableForStates(G4State_Idle);
@@ -75,7 +73,6 @@ HadrontherapyDetectorMessenger::HadrontherapyDetectorMessenger(HadrontherapyDete
     ComplexPhantomMat2ThickCmd = new G4UIcmdWithADoubleAndUnit("/changeComplexPhantom/Mat2Thick", this);
     ComplexPhantomMat2ThickCmd -> SetGuidance("Change how thick the first material is");
     ComplexPhantomMat2ThickCmd -> SetParameterName("Mat2Thickness", false);
-    ComplexPhantomMat2ThickCmd -> SetUnitCategory("Length");
     ComplexPhantomMat2ThickCmd -> SetDefaultUnit("mm");
     ComplexPhantomMat2ThickCmd -> SetUnitCandidates ("nm um mm cm");
     ComplexPhantomMat2ThickCmd -> AvailableForStates(G4State_Idle);
