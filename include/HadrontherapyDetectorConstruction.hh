@@ -179,6 +179,8 @@ private:
   G4LogicalVolume *phantomLogicalVolume, *detectorLogicalVolume;
   G4VPhysicalVolume *phantomPhysicalVolume, *detectorPhysicalVolume;
 
+  G4int UseComplexPhantom;
+
   G4double phantomSizeX;
   G4double phantomSizeY;
   G4double phantomSizeZ;
