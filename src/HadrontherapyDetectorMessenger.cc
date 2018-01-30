@@ -60,7 +60,7 @@ HadrontherapyDetectorMessenger::HadrontherapyDetectorMessenger(HadrontherapyDete
     UseComplexPhantomCmd ->S etParameterName("UseComplexPhantom",false);
     UseComplexPhantomCmd -> AvailableForStates(G4State_Idle);
 
-    // Change how thick each material of the complex phantom is
+    // Change how thick each material of the complex phantom is (material 1)
     ComplexPhantomMat1ThickCmd = new G4UiCmdWithDoubleAndUnit("/changeComplexPhantom/Mat1Thick", this);
     ComplexPhantomMat1ThickCmd -> SetGuidance("Change how thick the first material is");
     ComplexPhantomMat1ThickCmd -> SetParameterName("Mat1Thickness", false);
@@ -69,7 +69,7 @@ HadrontherapyDetectorMessenger::HadrontherapyDetectorMessenger(HadrontherapyDete
     ComplexPhantomMat1ThickCmd -> SetUnitCandidates ("nm um mm cm");
     ComplexPhantomMat1ThickCmd -> AvailableForStates(G4State_Idle);
 
-    // Change how thick each material of the complex phantom is
+    // Change how thick each material of the complex phantom is (material 2)
     ComplexPhantomMat2ThickCmd = new G4UiCmdWithDoubleAndUnit("/changeComplexPhantom/Mat2Thick", this);
     ComplexPhantomMat2ThickCmd -> SetGuidance("Change how thick the first material is");
     ComplexPhantomMat2ThickCmd -> SetParameterName("Mat2Thickness", false);
