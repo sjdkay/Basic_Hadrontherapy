@@ -53,21 +53,20 @@ private:
   // Pointer to the phantom/detector
   HadrontherapyDetectorConstruction* hadrontherapyDetector;
 
-  G4UIdirectory *changeThePhantomDir,  *changeTheDetectorDir, *changeComplexPhantomDir;
+  G4UIdirectory *changeThePhantomDir,  *changeTheDetectorDir;
 
-  G4UIcmdWithAnInteger      *UseComplexPhantomCmd;
 
   G4UIcmdWithoutParameter   *updateCmd;
   G4UIcmdWithAString        *changeThePhantomMaterialCmd;
-  G4UIcmdWithAString        *ComplexPhantomMaterial1Cmd;
-  G4UIcmdWithAString        *ComplexPhantomMaterial2Cmd;
+  G4UIcmdWithAString        *changePhantomMaterial1Cmd;
+  G4UIcmdWithAString        *changePhantomMaterial2Cmd;
   G4UIcmdWith3VectorAndUnit *changeThePhantomSizeCmd,
     *changeThePhantomPositionCmd,
     *changeTheDetectorSizeCmd,
     *changeTheDetectorToPhantomPositionCmd,
     *changeTheDetectorVoxelCmd;
-  G4UIcmdWithADoubleAndUnit *ComplexPhantomMat1ThickCmd;
-  G4UIcmdWithADoubleAndUnit *ComplexPhantomMat2ThickCmd;
+  G4UIcmdWithADoubleAndUnit *changePhantomMat1ThickCmd;
+  G4UIcmdWithADoubleAndUnit *changePhantomMat2ThickCmd;
 };
 #endif
 

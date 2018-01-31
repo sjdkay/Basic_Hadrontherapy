@@ -1,0 +1,5 @@
+/changeComplexPhantom/useComplexPhantom 1
+/changeComplexPhantom/Mat1Thick 10 cm
+/changeComplexPhantom/Mat2Thick 30 cm
+/changeComplexPhantom/material1 G4_A-150_TISSUE 
+/changeComplexPhantom/material2 G4_Ca

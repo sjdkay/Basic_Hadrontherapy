@@ -66,7 +66,7 @@
 
 #---------------------------gps-----------------
 /gps/pos/shape Circle
-/gps/pos/centre -310. 0. 0. cm
+/gps/pos/centre -10. 0. 0. cm
 /gps/pos/radius 0. mm
 /gps/pos/sigma_r 2. mm
 /gps/particle proton
@@ -114,6 +114,8 @@
 # Put the detector in the lower left corner of the phantom
 #
 /changeDetector/displacement 0 15 15 cm
+/changePhantom/Mat1Thick 10 cm
+/changePhantom/Mat2Thick 30 cm
 /changePhantom/update
 
 
@@ -130,16 +132,12 @@
 #/analysis/secondary true 
 
 # Default material is water liquid
-/changePhantom/material G4_Ca
-/changeComplexPhantom/useComplexPhantom 1
-/changeComplexPhantom/Mat1Thick 10 cm
-/changeComplexPhantom/Mat2Thick 30 cm
-/changeComplexPhantom/material1 G4_A-150_TISSUE 
-/changeComplexPhantom/material2 G4_Ca
+/changePhantom/material1 G4_A-150_TISSUE 
+/changePhantom/material2 G4_Ca
 
 /run/printProgress 10
 
-/run/beamOn 10
+/run/beamOn 100
 
 /control/shell mkdir -p SimulationOutputs/proton/BraggPeak
 /control/shell mv DoseDistribution.root SimulationOutputs/proton/BraggPeak/protonBraggPeak.root

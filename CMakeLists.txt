@@ -19,27 +19,22 @@ endif()
 #----------------------------------------------------------------------------
 # Find ROOT variables if the variable G4ANALYSIS_USE_ROOT is set
 #
-#find_package(ROOT)
+find_package(ROOT QUIET)
 
 
 #----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
 # Setup include directory for this project
 #
-#if(ROOT_FOUND)
+if(ROOT_FOUND)
 add_definitions(-DG4ANALYSIS_USE_ROOT)
 include(${Geant4_USE_FILE})
-include_directories($ENV{ROOTSYS}/include/root/ ${Geant4_INCLUDE_DIR} ${PROJECT_SOURCE_DIR}/include)
-#else()
-#include(${Geant4_USE_FILE})
-#include_directories(${PROJECT_SOURCE_DIR}/include)
-#endif()
+include_directories(${ROOT_INCLUDE_DIR} ${Geant4_INCLUDE_DIR} ${PROJECT_SOURCE_DIR}/include)
+else()
+include(${Geant4_USE_FILE})
+include_directories(${PROJECT_SOURCE_DIR}/include)
+endif()
 
-
-
-SET(GCC_COVERAGE_COMPILE_FLAGS "-std=c++11")
-
-SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
 
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
@@ -53,13 +48,11 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #
 add_executable(hadrontherapy hadrontherapy.cc ${sources} ${headers})
 
-execute_process(COMMAND root-config --libs OUTPUT_VARIABLE ROOT_LIBS)
-string(STRIP ${ROOT_LIBS} ROOT_LIBS)
-#if(ROOT_FOUND)
-target_link_libraries(hadrontherapy ${Geant4_LIBRARIES} ${ROOT_LIBS})
-#else()
-#target_link_libraries(hadrontherapy ${Geant4_LIBRARIES})
-#endif()
+if(ROOT_FOUND)
+target_link_libraries(hadrontherapy ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
+else()
+target_link_libraries(hadrontherapy ${Geant4_LIBRARIES})
+endif()
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
@@ -69,6 +62,7 @@ target_link_libraries(hadrontherapy ${Geant4_LIBRARIES} ${ROOT_LIBS})
 set(EXAMPLEhadrontherapy_SCRIPTS
   clean.sh
  batch.mac
+ ModoulWeight.txt
  macro/GUIPersonalisation.mac
   macro/carbon_beamline.mac
   macro/detectorGeometry.mac
