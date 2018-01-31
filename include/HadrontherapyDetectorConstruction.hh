@@ -167,17 +167,15 @@ private:
   HadrontherapyDetectorMessenger* detectorMessenger;
 
   G4VisAttributes* skyBlue;
-  G4VisAttributes* red;
+  G4VisAttributes* red, *blue;
 
   HadrontherapyDetectorROGeometry* detectorROGeometry; // Pointer to ROGeometry
   HadrontherapyMatrix*             matrix;
   HadrontherapyLet*                let;
 
-  G4Box *phantom , *detector;
-  G4LogicalVolume *phantomLogicalVolume, *detectorLogicalVolume;
-  G4VPhysicalVolume *phantomPhysicalVolume, *detectorPhysicalVolume;
-
-  G4int UseComplexPhantom;
+  G4Box *phantom1 , *phantom2, *detector;
+  G4LogicalVolume *phantom1LogicalVolume, *phantom2LogicalVolume, *detectorLogicalVolume;
+  G4VPhysicalVolume *phantom1PhysicalVolume, *phantom2PhysicalVolume, *detectorPhysicalVolume;
 
   G4double phantomSizeX;
   G4double phantomSizeY;
@@ -190,7 +188,7 @@ private:
   G4double PhantomThick1;
   G4double PhantomThick2;
 
-  G4ThreeVector phantomPosition, detectorPosition, detectorToPhantomPosition; //  phantom center, detector center, detector to phantom relative position
+  G4ThreeVector phantomPosition, phantom2Position, detectorPosition, detectorToPhantomPosition; //  phantom center, detector center, detector to phantom relative position
 
   G4double sizeOfVoxelAlongX;
   G4double sizeOfVoxelAlongY;
