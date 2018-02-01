@@ -77,7 +77,7 @@ inline G4ThreeVector GetDetectorToWorldPosition()
 // Get displacement between phantom and detector by detector position (center of), phantom (center of) and detector sizes
 inline G4ThreeVector GetDetectorToPhantomPosition()
 {
-    return G4ThreeVector(phantomSizeX/2 - detectorSizeX/2 + detectorPosition.getX(),
+    return G4ThreeVector(PhantomThick1/2 - detectorSizeX/2 + detectorPosition.getX(),
                          phantomSizeY/2 - detectorSizeY/2 + detectorPosition.getY(),
                          phantomSizeZ/2 - detectorSizeZ/2 + detectorPosition.getZ()
 		          );
@@ -88,7 +88,7 @@ inline G4ThreeVector GetDetectorToPhantomPosition()
 inline void SetDetectorPosition()
   {
 	  // Adjust detector position
-	  detectorPosition.setX(detectorToPhantomPosition.getX() - phantomSizeX/2 + detectorSizeX/2);
+	  detectorPosition.setX(detectorToPhantomPosition.getX() - PhantomThick1/2 + detectorSizeX/2);
 	  detectorPosition.setY(detectorToPhantomPosition.getY() - phantomSizeY/2 + detectorSizeY/2);
 	  detectorPosition.setZ(detectorToPhantomPosition.getZ() - phantomSizeZ/2 + detectorSizeZ/2);
 

@@ -227,7 +227,7 @@ void HadrontherapyDetectorConstruction::ConstructDetector()
                                                 0,0,0);
     // Definition of the physical volume of the Phantom
     detectorPhysicalVolume = new G4PVPlacement(0,
-                                               detectorPosition, // Setted by displacement
+                                               detectorPosition, // Set by displacement
                                                "DetectorPhys",
                                                detectorLogicalVolume,
                                                phantom1PhysicalVolume,
@@ -276,34 +276,41 @@ void  HadrontherapyDetectorConstruction::ParametersCheck()
     if (!IsInside(detectorSizeX,
                   detectorSizeY,
                   detectorSizeZ,
-                  phantomSizeX,
+                  PhantomThick1,
                   phantomSizeY,
                   phantomSizeZ,
                   detectorToPhantomPosition
                   ))
         G4Exception("HadrontherapyDetectorConstruction::ParametersCheck()", "Hadrontherapy0001", FatalException, "Error: Detector is not fully inside Phantom!");
-
     // Check Detector sizes respect to the voxel ones
 
-    if ( detectorSizeX < sizeOfVoxelAlongX) {
+    if ( detectorSizeX < sizeOfVoxelAlongX)
+    {
         G4Exception("HadrontherapyDetectorConstruction::ParametersCheck()", "Hadrontherapy0002", FatalException, "Error:  Detector X size must be bigger or equal than that of Voxel X!");
     }
-    if ( detectorSizeY < sizeOfVoxelAlongY) {
+    if ( detectorSizeY < sizeOfVoxelAlongY)
+    {
         G4Exception(" HadrontherapyDetectorConstruction::ParametersCheck()", "Hadrontherapy0003", FatalException, "Error:  Detector Y size must be bigger or equal than that of Voxel Y!");
     }
-    if ( detectorSizeZ < sizeOfVoxelAlongZ) {
+    if ( detectorSizeZ < sizeOfVoxelAlongZ)
+    {
         G4Exception(" HadrontherapyDetectorConstruction::ParametersCheck()", "Hadrontherapy0004", FatalException, "Error:  Detector Z size must be bigger or equal than that of Voxel Z!");
     }
-    if((PhantomThick1 + PhantomThick2) != phantomSizeX){
+    if((PhantomThick1 + PhantomThick2) != phantomSizeX)
+    {
     G4Exception(" HadrontherapyDetectorConstruction::ParametersCheck()", "Hadrontherapy0005", FatalException, "Error:  Thickness of both sides of phantom must sum to total phantom size!");
     }
+
+//    if( (IsInside() == kFALSE) && (IsInside() == kFALSE))
+//    {
+//        G4Exception("HadrontherapyDetectorConstruction::ParametersCheck()", "Hadrontherapy0006", FatalException, "Error:  Ensure detecor is inside the phantom!");
+//    }
 }
 
 // These currently do not DO anything but they read in the material as it has been set, should test these work correctly
 ///////////////////////////////////////////////////////////////////////
 G4bool HadrontherapyDetectorConstruction::SetPhantomMaterial1(G4String material1)
 {
-
     if (G4Material* PMat1 = G4NistManager::Instance()->FindOrBuildMaterial(material1, false) )
     {
         PhantomMaterial1 = PMat1;
@@ -311,7 +318,7 @@ G4bool HadrontherapyDetectorConstruction::SetPhantomMaterial1(G4String material1
         if (detectorLogicalVolume && phantom1LogicalVolume)
         {
           detectorLogicalVolume -> SetMaterial(PMat1);
-          phantom1LogicalVolume ->  SetMaterial(PMat1);
+          phantom1LogicalVolume -> SetMaterial(PMat1);
 
             G4RunManager::GetRunManager() -> PhysicsHasBeenModified();
             G4RunManager::GetRunManager() -> GeometryHasBeenModified();
@@ -332,7 +339,6 @@ G4bool HadrontherapyDetectorConstruction::SetPhantomMaterial1(G4String material1
 ///////////////////////////////////////////////////////////////////////
 G4bool HadrontherapyDetectorConstruction::SetPhantomMaterial2(G4String material2)
 {
-
     if (G4Material* PMat2 = G4NistManager::Instance()->FindOrBuildMaterial(material2, false) )
     {
         PhantomMaterial2 = PMat2;
@@ -427,7 +433,6 @@ void HadrontherapyDetectorConstruction::UpdateGeometry()
         phantom2 -> SetZHalfLength(phantomSizeZ/2);
         G4ThreeVector phantom2Position((phantomPosition.x()+((PhantomThick1+PhantomThick2)/2)), phantomPosition.y(), phantomPosition.z());
         phantom2PhysicalVolume -> SetTranslation(phantom2Position);
-        G4cout << phantomPosition << "   " << phantom2Position << G4endl;
     }
 
     else   ConstructPhantom();
