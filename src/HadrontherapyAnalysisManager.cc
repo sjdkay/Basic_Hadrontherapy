@@ -34,11 +34,11 @@
 
 HadrontherapyAnalysisManager* HadrontherapyAnalysisManager::instance = 0;
 
-HadrontherapyAnalysisManager::HadrontherapyAnalysisManager() 
-#ifdef G4ANALYSIS_USE_ROOT 
+HadrontherapyAnalysisManager::HadrontherapyAnalysisManager()
+#ifdef G4ANALYSIS_USE_ROOT
 :
 analysisFileName("DoseDistribution.root"),theTFile(0), histo1(0), histo2(0), histo3(0),
-histo4(0), histo5(0), histo6(0), histo7(0), histo8(0), histo9(0), histo10(0), histo11(0), histo12(0), histo13(0), histo14(0), histo15(0), histo16(0),
+histo4(0), histo5(0), histo6(0), histo7(0), histo8(0), histo9(0), histo10(0), histo11(0), histo11b(0), histo12(0), histo13(0), histo14(0), histo15(0), histo16(0),
 kinFragNtuple(0),
 kineticEnergyPrimaryNtuple(0),
 doseFragNtuple(0),
@@ -57,9 +57,9 @@ eventCounter(0)
 
 HadrontherapyAnalysisManager::~HadrontherapyAnalysisManager()
 {
-    delete fMess; 
+    delete fMess;
 #ifdef G4ANALYSIS_USE_ROOT
-    Clear();	
+    Clear();
 #endif
 }
 
@@ -84,7 +84,7 @@ void HadrontherapyAnalysisManager::Clear()
 
 	delete theROOTNtuple;
 	theROOTNtuple = 0;
-	
+
 
 	delete histo16;
 	histo16 = 0;
@@ -100,6 +100,9 @@ void HadrontherapyAnalysisManager::Clear()
 
 	delete histo12;
 	histo12 = 0;
+
+	delete histo11b;
+	histo11b = 0;
 
 	delete histo11;
 	histo11 = 0;
@@ -145,11 +148,11 @@ void HadrontherapyAnalysisManager::SetAnalysisFileName(G4String aFileName)
 	/////////////////////////////////////////////////////////////////////////////
 G4bool HadrontherapyAnalysisManager::IsTheTFile()
 {
-    return (theTFile) ? true:false; 
+    return (theTFile) ? true:false;
 }
 void HadrontherapyAnalysisManager::book()
 {
-	delete theTFile; // this is similar to theTFile->Close() => delete all associated variables created via new, moreover it delete itself.  
+	delete theTFile; // this is similar to theTFile->Close() => delete all associated variables created via new, moreover it delete itself.
 
 	theTFile = new TFile(analysisFileName, "RECREATE");
 
@@ -164,7 +167,8 @@ void HadrontherapyAnalysisManager::book()
 	histo8 = createHistogram1D("h80","Secondary deuteron - slice, energy", 400, 0., 400.);
 	histo9 = createHistogram1D("h90","Secondary pion - slice, energy", 400, 0., 400.);
 	histo10 = createHistogram1D("h100","Energy distribution of secondary electrons", 70, 0., 70.);
-	histo11 = createHistogram1D("h110","Energy distribution of secondary photons", 70, 0., 70.);
+	histo11 = createHistogram1D("h110","Energy distribution of secondary photons", 200, 0., 20.);
+	histo11b = createHistogram1D("h110b", "Energy distribution of secondary photons", 200, 1., 10.);
 	histo12 = createHistogram1D("h120","Energy distribution of secondary deuterons", 70, 0., 70.);
 	histo13 = createHistogram1D("h130","Energy distribution of secondary tritons", 70, 0., 70.);
 	histo14 = createHistogram1D("h140","Energy distribution of secondary alpha particles", 70, 0., 70.);
@@ -173,25 +177,25 @@ void HadrontherapyAnalysisManager::book()
 	histo16 = createHistogram1D("hydrogenEnergyAfterPhantom","Energy distribution of secondary helium fragments after the phantom",
 		70, 0., 500.);
 
-	kinFragNtuple  = new TNtuple("kinFragNtuple", 
-		"Kinetic energy by voxel & fragment", 
+	kinFragNtuple  = new TNtuple("kinFragNtuple",
+		"Kinetic energy by voxel & fragment",
 		"i:j:k:A:Z:kineticEnergy");
-	kineticEnergyPrimaryNtuple= new TNtuple("kineticEnergyPrimaryNtuple", 
-		"Kinetic energy by voxel of primary", 
+	kineticEnergyPrimaryNtuple= new TNtuple("kineticEnergyPrimaryNtuple",
+		"Kinetic energy by voxel of primary",
 		"i:j:k:kineticEnergy");
 	doseFragNtuple = new TNtuple("doseFragNtuple",
 		"Energy deposit by voxel & fragment",
 		"i:j:k:A:Z:energy");
 
-	fluenceFragNtuple = new TNtuple("fluenceFragNtuple", 
+	fluenceFragNtuple = new TNtuple("fluenceFragNtuple",
 		"Fluence by voxel & fragment",
 		"i:j:k:A:Z:fluence");
 
-	letFragNtuple = new TNtuple("letFragNtuple", 
+	letFragNtuple = new TNtuple("letFragNtuple",
 		"Let by voxel & fragment",
 		"i:j:k:A:Z:letT:letD");
 
-	theROOTNtuple =   new TNtuple("theROOTNtuple", 
+	theROOTNtuple =   new TNtuple("theROOTNtuple",
 		"Energy deposit by slice",
 		"i:j:k:energy");
 
@@ -214,7 +218,7 @@ void HadrontherapyAnalysisManager::FillEnergyDeposit(G4int i,
 						     G4int k,
 						     G4double energy)
 {
-	if (theROOTNtuple) 
+	if (theROOTNtuple)
 	{
 		theROOTNtuple->Fill(i, j, k, energy);
 	}
@@ -287,6 +291,12 @@ void HadrontherapyAnalysisManager::gammaEnergyDistribution(G4double energy)
 }
 
 	/////////////////////////////////////////////////////////////////////////////
+void HadrontherapyAnalysisManager::gammaEnergyDistributionb(G4double energy)
+{
+	histo11b->Fill(energy);
+}
+
+	/////////////////////////////////////////////////////////////////////////////
 void HadrontherapyAnalysisManager::deuteronEnergyDistribution(G4double energy)
 {
 	histo12->Fill(energy);
@@ -333,14 +343,14 @@ void HadrontherapyAnalysisManager::FillKineticEnergyPrimaryNTuple(G4int i, G4int
 
 	/////////////////////////////////////////////////////////////////////////////
 	// This function is called only if ROOT is activated.
-	// It is called by the HadrontherapyMatric.cc class file and it is used to create two ntuples containing 
-	// the total energy deposited and the fluence values, in each voxel and per any particle (primary 
-	// and secondary particles beam) 
+	// It is called by the HadrontherapyMatric.cc class file and it is used to create two ntuples containing
+	// the total energy deposited and the fluence values, in each voxel and per any particle (primary
+	// and secondary particles beam)
 void HadrontherapyAnalysisManager::FillVoxelFragmentTuple(G4int i, G4int j, G4int k, G4int A, G4double Z, G4double energy, G4double fluence)
 {
 		// Fill the ntuple containing the voxel, mass and atomic number and the energy deposited
     doseFragNtuple ->    Fill( i, j, k, A, Z, energy );
-	
+
 		// Fill the ntuple containing the voxel, mass and atomic number and the fluence
 	if (i==1 && Z==1) {
 		fluenceFragNtuple -> Fill( i, j, k, A, Z, fluence );
@@ -392,7 +402,7 @@ void HadrontherapyAnalysisManager::flush()
 {
     if (theTFile)
     {
-	theTFile -> Write(); 
+	theTFile -> Write();
 	theTFile -> Close();
     }
     theTFile = 0;

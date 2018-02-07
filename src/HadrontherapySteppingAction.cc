@@ -87,7 +87,7 @@ G4String namePre = volumePre->GetName();
  G4String namePost;
 
 if(volumePost){
- namePost = volumePost->GetName(); 
+ namePost = volumePost->GetName();
      }
 
 
@@ -98,18 +98,18 @@ G4double PosY = aStep->GetTrack()->GetPosition().y();
 G4double PosZ = aStep->GetTrack()->GetPosition().z();
 G4String material= aStep -> GetTrack() -> GetMaterial() -> GetName();
 G4String volume=  aStep->GetTrack()->GetVolume()->GetName();
-G4Track* theTrack = aStep->GetTrack();	
+G4Track* theTrack = aStep->GetTrack();
 
- if((namePre== "collimator")||(namePre== "PhysicExternalMagnet_1Down")||(namePre== "PhysicExternalMagnet_1")||(namePre== "PhysicMagnet_1Right")||(namePre== "PhysicMagnet_1Left")||(namePre== "PhysicExternalMagnet_2")||(namePre== "PhysicExternalMagnet_2Down")||(namePre== "PhysicMagnet_2Right")||(namePre== "PhysicMagnet_2Left")||(namePre== "PhysicExternalMagnet_3")||(namePre== "PhysicExternalMagnet_3Down")||(namePre== "PhysicMagnet_3Right")||(namePre== "PhysicMagnet_3Left")||(namePre== "PhysicExternalMagnet_4")||(namePre== "PhysicExternalMagnet_4Down")||(namePre=="physQuadChamberWall")||(namePre== "PhysicMagnet_4Right")||(namePre== "PhysicMagnet_4Left")||(namePre=="ExternalChamber")||(namePre=="collimatorFinal")||(namePre=="ExternalSlit")||(namePre=="PhysFourthQuad")||(namePre=="PhysThirdQuad")||(namePre=="PhysSecondQuad")||(namePre=="PhysFirstQuad")) 
+ if((namePre== "collimator")||(namePre== "PhysicExternalMagnet_1Down")||(namePre== "PhysicExternalMagnet_1")||(namePre== "PhysicMagnet_1Right")||(namePre== "PhysicMagnet_1Left")||(namePre== "PhysicExternalMagnet_2")||(namePre== "PhysicExternalMagnet_2Down")||(namePre== "PhysicMagnet_2Right")||(namePre== "PhysicMagnet_2Left")||(namePre== "PhysicExternalMagnet_3")||(namePre== "PhysicExternalMagnet_3Down")||(namePre== "PhysicMagnet_3Right")||(namePre== "PhysicMagnet_3Left")||(namePre== "PhysicExternalMagnet_4")||(namePre== "PhysicExternalMagnet_4Down")||(namePre=="physQuadChamberWall")||(namePre== "PhysicMagnet_4Right")||(namePre== "PhysicMagnet_4Left")||(namePre=="ExternalChamber")||(namePre=="collimatorFinal")||(namePre=="ExternalSlit")||(namePre=="PhysFourthQuad")||(namePre=="PhysThirdQuad")||(namePre=="PhysSecondQuad")||(namePre=="PhysFirstQuad"))
      {
-       theTrack -> SetTrackStatus(fKillTrackAndSecondaries);	        
+       theTrack -> SetTrackStatus(fKillTrackAndSecondaries);
     }
- 
+
  // G4TransportationManager* tManager = G4TransportationManager::GetTransportationManager();
   //G4VPhysicalVolume* pW = tManager->GetParallelWorld ("DetectorROGeometry");
 
   //G4Navigator* gNav = tManager->GetNavigator(pW);
-  
+
  // G4VPhysicalVolume* currentVol = gNav->LocateGlobalPointAndSetup(aStep->GetTrack()->GetPosition());
 
  // G4cout << "Step: " << currentVol->GetName() << " " << aStep->GetTrack()->GetPosition() << G4endl;
@@ -118,15 +118,15 @@ G4Track* theTrack = aStep->GetTrack();
    // G4cout << "Sensitive Detector: " << currentVol->GetLogicalVolume()->GetSensitiveDetector()->GetName() << G4endl;
 
 
-   
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////  A METHOD TO RETRIEVE INFORMATIONS ABOUT SECONDARY ELECTRONS IN DIFFERENT POINTS OF FARADAY CUP      ////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  
 
-    
-   
-  //if( (aStep->GetTLocateGlobalPointAndSeturack()->GetVolume()->GetName() == "PVirtualMag") 
+
+
+
+  //if( (aStep->GetTLocateGlobalPointAndSeturack()->GetVolume()->GetName() == "PVirtualMag")
  if((aStep->GetTrack()->GetVolume()->GetName()=="PVirtualMag") && aStep->GetTrack()->GetDefinition()->GetParticleName() == "e-")
     {
       std::ofstream WriteDataIn("new200.out", std::ios::app);
@@ -144,17 +144,17 @@ G4Track* theTrack = aStep->GetTrack();
 
 // USEFULL METHODS TO RETRIEVE INFORMATION DURING THE STEPS
 
-      /*    G4cout << "ENERGIA:   " << aStep->GetTrack()->GetKineticEnergy() 
+      /*    G4cout << "ENERGIA:   " << aStep->GetTrack()->GetKineticEnergy()
     << "   VOLUME  " << aStep->GetTrack()->GetVolume()->GetName()
     << "   MATERIALE    " <<  aStep -> GetTrack() -> GetMaterial() -> GetName()
     << "   EVENTO     " << G4RunManager::GetRunManager()->GetCurrentEvent() -> GetEventID()
     << "   POS     " << aStep->GetTrack()->GetPosition().x()
     << G4endl;*/
-    
-   
-if ((namePre=="PhysicEntranceWindow")   &&  
+
+
+if ((namePre=="PhysicEntranceWindow")   &&
     (aStep->GetTrack()->GetDefinition()->GetParticleName() == "e-") && (PreStep->GetStepStatus() == fGeomBoundary))
-{       
+{
        std::ofstream WriteDataIn("finestra.out", std::ios::app);
        WriteDataIn	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -166,12 +166,12 @@ if ((namePre=="PhysicEntranceWindow")   &&
 			<< G4endl;
 
        //theTrack -> SetTrackStatus(fKillTrackAndSecondaries);
-       
+
       }
-   
+
  if ((namePre=="PhysicCup")   &&  (aStep->GetTrack()->GetDefinition()->GetParticleName() == "e-") && (PreStep->GetStepStatus() == fGeomBoundary))
 {
-      
+
        std::ofstream WriteDataBack("fondo.out", std::ios::app);
        WriteDataBack	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -181,26 +181,26 @@ if ((namePre=="PhysicEntranceWindow")   &&
 			<<   parentID            << '\t'  << "   "
                         <<    trackID            << '\t'  << "   "
 			<< G4endl;
-      
-    
+
+
        //theTrack -> SetTrackStatus(fKillTrackAndSecondaries);
  }
 
-                                                            ////////////////////////////////////  VIRTUAL WINDOW  //////////////////////////////////////////////////   
+                                                            ////////////////////////////////////  VIRTUAL WINDOW  //////////////////////////////////////////////////
 
- if (((namePost=="PhysicVirtualWindow") && (namePre!="PhysicVirtualWindow"))  &&  
+ if (((namePost=="PhysicVirtualWindow") && (namePre!="PhysicVirtualWindow"))  &&
  (aStep->GetTrack()->GetDefinition()->GetParticleName() == "e-") && (PreStep->GetStepStatus() == fGeomBoundary)) //To check that the particle has just entered in the current volume (i.e. it is at the first step in the volume; the preStepPoint is at the boundary):
-{  //(namePost=="VirtualWindow") && 
-      
+{  //(namePost=="VirtualWindow") &&
+
      if ((PostStepX - PreStepX)>0)
-      { 
-  
+      {
+
 //To check that the particle is leaving the current volume (i.e. it is at the last step in the volume; the postStepPoint is at the boundary):
 // if (PostStep->GetStepStatus() == fGeomBoundary)
 
-      
-      
- 
+
+
+
        std::ofstream WriteDataIn("DatiFCWindowIn.out", std::ios::app);
        WriteDataIn	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -213,14 +213,14 @@ if ((namePre=="PhysicEntranceWindow")   &&
 			<<   parentID            << '\t'  << "   "
                         <<    trackID            << '\t'  << "   "
 			<< G4endl;
-       
+
       }
-    
+
       else //if  ((PostStepX - PreStepX)<0)
      {
-      
+
 //G4cout<<"ecco il nome del volume nella condizione Out  "<< namePre<<"   "<<namePost<<G4endl;
-      
+
        std::ofstream WriteDataBack("DatiFCWindowBack.out", std::ios::app);
        WriteDataBack	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -230,7 +230,7 @@ if ((namePre=="PhysicEntranceWindow")   &&
 			<<   parentID            << '\t'  << "   "
                         <<    trackID            << '\t'  << "   "
 			<< G4endl;
-      
+
      }
 }
 
@@ -239,19 +239,19 @@ if ((namePre=="PhysicEntranceWindow")   &&
                                                            /////////////////////////////////////////  proton in window //////////////////////////////////////////////////
 
 /*
-if ((namePost=="SpectrumPVolume") && (namePre!="SpectrumPVolume")  &&  
+if ((namePost=="SpectrumPVolume") && (namePre!="SpectrumPVolume")  &&
    (aStep->GetTrack()->GetDefinition()->GetParticleName() == "proton"))//&& (PreStep->GetStepStatus() == fGeomBoundary)To check that the particle has just entered in the current volume (i.e. it is at the first step in the volume; the preStepPoint is at the boundary):
-{  //(namePost=="VirtualVolumeWindow") && 
-      
-    
-  
+{  //(namePost=="VirtualVolumeWindow") &&
+
+
+
 //To check that the particle is leaving the current volume (i.e. it is at the last step in the volume; the postStepPoint is at the boundary):
 // if (PostStep->GetStepStatus() == fGeomBoundary)
 
-      
+
 */
-/*     
-     
+/*
+
        std::ofstream WriteDataP("DatiFCWindowProton.out", std::ios::app);
        WriteDataP	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -261,24 +261,24 @@ if ((namePost=="SpectrumPVolume") && (namePre!="SpectrumPVolume")  &&
 			<<   parentID            << '\t'  << "   "
                         <<    trackID            << '\t'  << "   "
 			<< G4endl;
-       
+
       }
 */
- 
-if (((namePost=="PhysicVirtualWindow") && (namePre!="PhysicVirtualWindow"))  &&  
+
+if (((namePost=="PhysicVirtualWindow") && (namePre!="PhysicVirtualWindow"))  &&
     (aStep->GetTrack()->GetDefinition()->GetParticleName() == "proton"))//&& (PreStep->GetStepStatus() == fGeomBoundary)) //To check that the particle has just entered in the current volume (i.e. it is at the first step in the volume; the preStepPoint is at the boundary):
-{  //(namePost=="VirtualVolumeWindow") && 
-      
-    
-  
+{  //(namePost=="VirtualVolumeWindow") &&
+
+
+
 //To check that the particle is leaving the current volume (i.e. it is at the last step in the volume; the postStepPoint is at the boundary):
 // if (PostStep->GetStepStatus() == fGeomBoundary)
 
-      
-      
-      
-// 
-      
+
+
+
+//
+
        std::ofstream WriteData("DatiFCAfterWindowProton.out", std::ios::app);
        WriteData	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -288,23 +288,23 @@ if (((namePost=="PhysicVirtualWindow") && (namePre!="PhysicVirtualWindow"))  &&
 			<<   parentID            << '\t'  << "   "
                         <<    trackID            << '\t'  << "   "
 			<< G4endl;
-       
+
       }
 
 
 
 
                                                          //////////////////////////////////////////////////  GUARD RING  ///////////////////////////////////////////////////////////////
-      
-    
-if ((namePre=="PhysicGuardRing")  &&  
+
+
+if ((namePre=="PhysicGuardRing")  &&
      (aStep->GetTrack()->GetDefinition()->GetParticleName() == "e-")&& (PreStep->GetStepStatus() == fGeomBoundary))
 {
-      
+
      if ((PostStepX - PreStepX)>0)
-    {      
-     
-      
+    {
+
+
        std::ofstream WriteDataIn("DatiFCGuardRingIn.out", std::ios::app);
        WriteDataIn	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -313,12 +313,12 @@ if ((namePre=="PhysicGuardRing")  &&
 			<<   PreStepZ            << '\t' << "   "
 			<<   parentID            << '\t'  << "   "
 			<< G4endl;
-       
+
      }
-    
+
    else
      {
-      
+
 
        std::ofstream WriteDataBack("DatiFCGuardRingBack.out", std::ios::app);
        WriteDataBack	<<      eKin             << '\t' << "   "
@@ -328,22 +328,22 @@ if ((namePre=="PhysicGuardRing")  &&
 			<<   PreStepZ            << '\t' << "   "
 			<<   parentID            << '\t' << "   "
 			<< G4endl;
-      
+
      }
-} 
+}
 
                                                            ////////////////////////////////////////  VIRTUAL MIDDLE  ///////////////////////////////////////////////////////////////
-    
+
  if (((namePost=="PhysicVirtualMiddle") && (namePre!="PhysicVirtualMiddle"))  &&
  (aStep->GetTrack()->GetDefinition()->GetParticleName() == "e-") && (PreStep->GetStepStatus() == fGeomBoundary))
 {
-      
+
      if ((PostStepX - PreStepX)>0)
-    {      
-      
-      
-// 
-      
+    {
+
+
+//
+
        std::ofstream WriteMDataIn("DatiFCMiddleIn.out", std::ios::app);
        WriteMDataIn	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -353,12 +353,12 @@ if ((namePre=="PhysicGuardRing")  &&
 			<<   parentID            << '\t'  << "   "
                         <<    trackID            << '\t'  << "   "
 			<< G4endl;
-       
+
      }
-    
+
    else
      {
-      
+
        std::ofstream WriteMDataBack("DatiFCMiddleBack.out", std::ios::app);
        WriteMDataBack	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -368,19 +368,19 @@ if ((namePre=="PhysicGuardRing")  &&
 			<<   parentID            << '\t'  << "   "
                         <<    trackID            << '\t'  << "   "
 			<< G4endl;
-      
+
      }
-} 
+}
 
-                                                         /////////////////////////////////////// VIRTUAL BOTTOM  ///////////////////////////////////////////////////////////////    
+                                                         /////////////////////////////////////// VIRTUAL BOTTOM  ///////////////////////////////////////////////////////////////
 
- if (((namePost=="PhysicVirtualBottom") && (namePre!="PhysicVirtualBottom")) && 
+ if (((namePost=="PhysicVirtualBottom") && (namePre!="PhysicVirtualBottom")) &&
  (aStep->GetTrack()->GetDefinition()->GetParticleName() == "e-")&& (PreStep->GetStepStatus() == fGeomBoundary))
 {
-      
+
      if ((PostStepX - PreStepX)>0)
-    {      
-      
+    {
+
        std::ofstream WriteDataIn("DatiFCBottomIn.out", std::ios::app);
        WriteDataIn	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -390,14 +390,14 @@ if ((namePre=="PhysicGuardRing")  &&
 			<<   parentID            << '\t'  << "   "
                         <<    trackID            << '\t'  << "   "
 			<< G4endl;
-       
+
      }
-    
+
    else
      {
-      
+
 //G4cout<<"ecco il nome del volume nella condizione Back  "<< namePre<<"   "<<namePost<<G4endl;
-      
+
        std::ofstream WriteDataBack("DatiFCBottomBack.out", std::ios::app);
        WriteDataBack	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -410,9 +410,9 @@ if ((namePre=="PhysicGuardRing")  &&
 			<<   parentID            << '\t'  << "   "
                         <<    trackID            << '\t'  << "   "
 			<< G4endl;
-      
+
      }
-} 
+}
 
 
 
@@ -437,7 +437,7 @@ if ((namePre=="PhysicGuardRing")  &&
 }
 
 //namePre!=("PhysicFaradayCupBottom")
- if (((namePost=="PhysicFaradayCupBottom") && (namePre!="PhysicFaradayCupBottom"))&& 
+ if (((namePost=="PhysicFaradayCupBottom") && (namePre!="PhysicFaradayCupBottom"))&&
     (aStep->GetTrack()->GetDefinition()->GetParticleName() == "proton") && (PreStep->GetStepStatus() == fGeomBoundary)) // || (namePre=="cup") && )
 {
 
@@ -458,10 +458,10 @@ if ((namePre=="PhysicGuardRing")  &&
 
  if (((namePre=="PhysicFaradayCupBottom") || (namePre=="PhysicCup")) && ((aStep->GetTrack()->GetDefinition()->GetParticleName() == "e-") && (PreStep->GetStepStatus() == fGeomBoundary)))
 {
-      
+
      if ((PostStepX - PreStepX)>0)
-    {      
-      
+    {
+
        std::ofstream WriteDataIn("DatiFCConeBottomCupIn.out", std::ios::app);
        WriteDataIn	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -470,14 +470,14 @@ if ((namePre=="PhysicGuardRing")  &&
 			<<   PreStepZ            << '\t' << "   "
 			<<   parentID            << '\t'  << "   "
 			<< G4endl;
-       
+
      }
-    
+
    else
      {
-      
+
 //G4cout<<"ecco il nome del volume nella condizione Back  "<< namePre<<"   "<<namePost<<G4endl;
-      
+
        std::ofstream WriteDataBack("DatiFCConeBottomCupBack.out", std::ios::app);
        WriteDataBack	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -486,23 +486,23 @@ if ((namePre=="PhysicGuardRing")  &&
 			<<   PreStepZ            << '\t' << "   "
 			<<   parentID            << '\t'  << "   "
 			<< G4endl;
-      
+
      }
 }
 
                                                     /////////////////////////////////////////////////  VIRTUAL OVER BOTTOM  ///////////////////////////////////////////////////////////////
-    
-   
-if ((namePre=="PhysicVirtualOverBottom")  &&  
+
+
+if ((namePre=="PhysicVirtualOverBottom")  &&
     (aStep->GetTrack()->GetDefinition()->GetParticleName() == "e-")&& (PreStep->GetStepStatus() == fGeomBoundary))
 {
-      
+
      if ((PostStepX - PreStepX)>0)
-    {      
-      
-      
-// 
-      
+    {
+
+
+//
+
        std::ofstream WriteDataIn("DatiFCOverBottomIn.out", std::ios::app);
        WriteDataIn	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -512,14 +512,14 @@ if ((namePre=="PhysicVirtualOverBottom")  &&
 			<<   parentID            << '\t'  << "   "
                         <<    trackID            << '\t'  << "   "
 			<< G4endl;
-       
+
      }
-    
+
    else
      {
-      
+
 //G4cout<<"ecco il nome del volume nella condizione Back  "<< namePre<<"   "<<namePost<<G4endl;
-      
+
        std::ofstream WriteDataBack("DatiFCOverBottomBack.out", std::ios::app);
        WriteDataBack	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -529,21 +529,21 @@ if ((namePre=="PhysicVirtualOverBottom")  &&
 			<<   parentID            << '\t'  << "   "
                         <<    trackID            << '\t'  << "   "
 			<< G4endl;
-      
+
      }
-     
-     
+
+
 }
 
 
                                                     /////////////////////////////////////////////  VIRTUAL LATERAL  ///////////////////////////////////////////////////////////////
-   
+
 
 if (((namePost=="PhysicVirtualLateral") && (namePre!="PhysicVirtualLateral"))&&
     (aStep->GetTrack()->GetDefinition()->GetParticleName() == "e-") && (PreStep->GetStepStatus() == fGeomBoundary))
 {
-     
-      
+
+
        std::ofstream WriteDataIn("DatiFCLateral.out", std::ios::app);
        WriteDataIn	<<      eKin             << '\t' << "   "
 			<<   eventNum            << '\t' << "   "
@@ -554,7 +554,7 @@ if (((namePost=="PhysicVirtualLateral") && (namePre!="PhysicVirtualLateral"))&&
                         <<    trackID            << '\t'  << "   "
 			<< G4endl;
 
-       
+
      }
 
 
@@ -562,7 +562,7 @@ if (((namePost=="PhysicVirtualLateral") && (namePre!="PhysicVirtualLateral"))&&
     if( aStep->GetTrack()->GetVolume()->GetName() == "NewDetectorPhys"){
 #ifdef G4ANALYSIS_USE_ROOT
 	G4ParticleDefinition *def = aStep->GetTrack()->GetDefinition();
-	G4double secondaryParticleKineticEnergy =  aStep->GetTrack()->GetKineticEnergy();     
+	G4double secondaryParticleKineticEnergy =  aStep->GetTrack()->GetKineticEnergy();
 	G4String particleType = def->GetParticleType(); // particle type = nucleus for d, t, He3, alpha, and heavier nuclei
 	G4String particleName = def->GetParticleName(); // e.g. for alpha: the name = "alpha" and type = "nucleus"
 	if(particleType == "nucleus") {
@@ -573,7 +573,7 @@ if (((namePost=="PhysicVirtualLateral") && (namePre!="PhysicVirtualLateral"))&&
 	    G4double posZ = aStep->GetTrack()->GetPosition().z() / cm;
 	    G4double energy = secondaryParticleKineticEnergy / A / MeV;
 
-	    HadrontherapyAnalysisManager* analysisMgr =  HadrontherapyAnalysisManager::GetInstance();   
+	    HadrontherapyAnalysisManager* analysisMgr =  HadrontherapyAnalysisManager::GetInstance();
 	    analysisMgr->FillFragmentTuple(A, Z, energy, posX, posY, posZ);
 	} else if(particleName == "proton") {   // proton (hydrogen-1) is a special case
 	    G4double posX = aStep->GetTrack()->GetPosition().x() / cm ;
@@ -583,10 +583,10 @@ if (((namePost=="PhysicVirtualLateral") && (namePre!="PhysicVirtualLateral"))&&
 	    HadrontherapyAnalysisManager::GetInstance()->FillFragmentTuple(1, 1.0, energy, posX, posY, posZ);
 	}
 
-	G4String secondaryParticleName =  def -> GetParticleName();  
+	G4String secondaryParticleName =  def -> GetParticleName();
 	//G4cout <<"Particle: " << secondaryParticleName << G4endl;
 	//G4cout <<"Energy: " << secondaryParticleKineticEnergy << G4endl;
-	HadrontherapyAnalysisManager* analysis =  HadrontherapyAnalysisManager::GetInstance();   
+	HadrontherapyAnalysisManager* analysis =  HadrontherapyAnalysisManager::GetInstance();
 	//There is a bunch of stuff recorded with the energy 0, something should perhaps be done about this.
 	if(secondaryParticleName == "proton") {
 	    analysis->hydrogenEnergy(secondaryParticleKineticEnergy / MeV);
@@ -601,7 +601,7 @@ if (((namePost=="PhysicVirtualLateral") && (namePre!="PhysicVirtualLateral"))&&
 	    analysis->heliumEnergy((secondaryParticleKineticEnergy/4) / MeV);
 	}
 	if(secondaryParticleName == "He3"){
-	    analysis->heliumEnergy((secondaryParticleKineticEnergy/3) / MeV);		
+	    analysis->heliumEnergy((secondaryParticleKineticEnergy/3) / MeV);
 	}
 #endif
 
@@ -614,24 +614,24 @@ if (((namePost=="PhysicVirtualLateral") && (namePre!="PhysicVirtualLateral"))&&
 	    (aStep -> GetTrack() -> GetVolume() -> GetName() == "PhantomPhys") &&
 	    (aStep -> GetPostStepPoint() -> GetProcessDefinedStep() != NULL))
     {
-	G4String process = aStep -> GetPostStepPoint() -> 
+	G4String process = aStep -> GetPostStepPoint() ->
 	    GetProcessDefinedStep() -> GetProcessName();
 
 	if ((process == "Transportation") || (process == "StepLimiter")) {;}
-	else 
+	else
 	{
-	    if ((process == "msc") || (process == "hLowEIoni") || (process == "hIoni")) 
-	    { 
+	    if ((process == "msc") || (process == "hLowEIoni") || (process == "hIoni"))
+	    {
 		runAction -> AddEMProcess();
-	    } 
-	    else  
+	    }
+	    else
 	    {
 		runAction -> AddHadronicProcess();
 
 		if ( (process != "LElastic") && (process != "ProtonInelastic") && (process != "hElastic") )
 		    G4cout << "Warning! Unknown proton process: "<< process << G4endl;
 	    }
-	}         
+	}
     }
 
     // Retrieve information about the secondary particles originated in the phantom
@@ -645,22 +645,26 @@ if (((namePost=="PhysicVirtualLateral") && (namePre!="PhysicVirtualLateral"))&&
     G4TrackVector* fSecondary = steppingManager -> GetfSecondary();
 
     for(size_t lp1=0;lp1<(*fSecondary).size(); lp1++)
-    { 
-	G4String volumeName = (*fSecondary)[lp1] -> GetVolume() -> GetName(); 
+    {
+	G4String volumeName = (*fSecondary)[lp1] -> GetVolume() -> GetName();
 
 	if (volumeName == "phantomPhys")
 	{
-#ifdef G4ANALYSIS_USE_ROOT   
-	    G4String secondaryParticleName =  (*fSecondary)[lp1]->GetDefinition() -> GetParticleName();  
-	    G4double secondaryParticleKineticEnergy =  (*fSecondary)[lp1] -> GetKineticEnergy();     
+#ifdef G4ANALYSIS_USE_ROOT
+	    G4String secondaryParticleName =  (*fSecondary)[lp1]->GetDefinition() -> GetParticleName();
+	    G4double secondaryParticleKineticEnergy =  (*fSecondary)[lp1] -> GetKineticEnergy();
 
-	    HadrontherapyAnalysisManager* analysis =  HadrontherapyAnalysisManager::GetInstance();   
+	    HadrontherapyAnalysisManager* analysis =  HadrontherapyAnalysisManager::GetInstance();
 
 	    if (secondaryParticleName == "e-")
 		analysis -> electronEnergyDistribution(secondaryParticleKineticEnergy/MeV);
 
-	    if (secondaryParticleName == "gamma")
+	    if (secondaryParticleName == "gamma"){
 		analysis -> gammaEnergyDistribution(secondaryParticleKineticEnergy/MeV);
+		if(secondaryParticleKineticEnergy/MeV > 1 && secondaryParticleKineticEnergy/MeV < 10){
+            analysis -> gammaEnergyDistributionb(secondaryParticleKineticEnergy/MeV);
+            }
+		}
 
 	    if (secondaryParticleName == "deuteron")
 		analysis -> deuteronEnergyDistribution(secondaryParticleKineticEnergy/MeV);
@@ -673,12 +677,12 @@ if (((namePost=="PhysicVirtualLateral") && (namePre!="PhysicVirtualLateral"))&&
 
 	    G4double z = (*fSecondary)[lp1]-> GetDynamicParticle() -> GetDefinition() -> GetPDGCharge();
 	    if (z > 0.)
-	    {      
+	    {
 		G4int a = (*fSecondary)[lp1]-> GetDynamicParticle() -> GetDefinition() -> GetBaryonNumber();
-		G4int electronOccupancy = (*fSecondary)[lp1] ->  GetDynamicParticle() -> GetTotalOccupancy(); 
+		G4int electronOccupancy = (*fSecondary)[lp1] ->  GetDynamicParticle() -> GetTotalOccupancy();
 
-		// If a generic ion is originated in the detector, its baryonic number, PDG charge, 
-		// total number of electrons in the orbitals are stored in a ntuple 
+		// If a generic ion is originated in the detector, its baryonic number, PDG charge,
+		// total number of electrons in the orbitals are stored in a ntuple
 		analysis -> genericIonInformation(a, z, electronOccupancy, secondaryParticleKineticEnergy/MeV);
 	    }
 #endif

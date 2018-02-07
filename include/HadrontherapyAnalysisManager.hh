@@ -39,7 +39,7 @@
 #include "TH1F.h"
 #endif
 /**
- * Messenger class for analysis-settings for HadronTherapyAnalysisManager 
+ * Messenger class for analysis-settings for HadronTherapyAnalysisManager
  */
 class HadrontherapyAnalysisFileMessenger;
 
@@ -56,16 +56,16 @@ private:
    * @see GetInstance
    */
   HadrontherapyAnalysisManager();
-	
+
 public:
   ~HadrontherapyAnalysisManager();
-	
+
   /**
    * Get the pointer to the analysis manager.
    */
   static HadrontherapyAnalysisManager* GetInstance();
 
-#ifdef G4ANALYSIS_USE_ROOT 
+#ifdef G4ANALYSIS_USE_ROOT
   /**
    * Clear analysis manager heap.
    */
@@ -82,88 +82,91 @@ public:
    * Set name for the analysis file .root (used by macro)
    */
   void SetAnalysisFileName(G4String);
-	
+
   /**
    * Fill the ntuple with the energy deposit in the phantom
    */
   void FillEnergyDeposit(G4int voxelXId, G4int voxelYId, G4int voxelZId,
 			 G4double energyDeposit);
-	
+
   void BraggPeak(G4int, G4double); ///< Fill 1D histogram with the Bragg peak in the phantom
-	
+
   void SecondaryProtonEnergyDeposit(G4int slice, G4double energy);
   ///< Fill 1D histogram with the energy deposit of secondary protons
-	
+
   void SecondaryNeutronEnergyDeposit(G4int slice, G4double energy);
   ///< Fill 1D histogram with the energy deposit of secondary neutrons
-	
+
   void SecondaryAlphaEnergyDeposit(G4int slice, G4double energy);
   ///< Fill 1D histogram with the energy deposit of secondary alpha particles
-	
+
   void SecondaryGammaEnergyDeposit(G4int slice, G4double energy);
   ///< Fill 1D histogram with the energy deposit of secondary gamma
-	
+
   void SecondaryElectronEnergyDeposit(G4int slice, G4double energy);
   ///< Fill 1D histogram with the energy deposit of secondary electrons
-	
+
   void SecondaryTritonEnergyDeposit(G4int slice, G4double energy);
   ///< Fill 1D histogram with the energy deposit of secondary tritons
-	
+
   void SecondaryDeuteronEnergyDeposit(G4int slice, G4double energy);
   ///< Fill 1D histogram with the energy deposit of secondary deuterons
-	
+
   void SecondaryPionEnergyDeposit(G4int slice, G4double energy);
   ///< Fill 1D histogram with the energy deposit of secondary pions
-	
+
   void electronEnergyDistribution(G4double secondaryParticleKineticEnergy);
   ///< Energy distribution of secondary electrons originated in the phantom
-	
+
   void gammaEnergyDistribution(G4double secondaryParticleKineticEnergy);
   ///< Energy distribution of secondary gamma originated in the phantom
-	
+
+  void gammaEnergyDistributionb(G4double secondaryParticleKineticEnergy);
+  ///< Energy distribution of secondary gamma originated in the phantom, finer binning
+
   void deuteronEnergyDistribution(G4double secondaryParticleKineticEnergy);
   ///< Energy distribution of secondary deuterons originated in the phantom
-	
+
   void tritonEnergyDistribution(G4double secondaryParticleKineticEnergy);
   ///< Energy distribution of secondary tritons originated in the phantom
-	
+
   void alphaEnergyDistribution(G4double secondaryParticleKineticEnergy);
   ///< Energy distribution of secondary alpha originated in the phantom
-	
+
   void heliumEnergy(G4double secondaryParticleKineticEnergy);
   ///< Energy distribution of the helium (He3 and alpha) particles after the phantom
-	
+
   void hydrogenEnergy(G4double secondaryParticleKineticEnergy);
   ///< Energy distribution of the hydrogen (proton, d, t) particles after the phantom
-	
+
   //Kinetic energy by voxel, mass number A and atomic number Z.
   void FillKineticFragmentTuple(G4int i, G4int j, G4int k, G4int A, G4double Z, G4double kinEnergy);
-	
+
   //Kinetic energy by voxel, mass number A and atomic number Z of only primary particles
   void FillKineticEnergyPrimaryNTuple(G4int i, G4int j, G4int k, G4double kinEnergy);
-	
+
   ///< Energy by voxel, mass number A and atomic number Z.
   void FillVoxelFragmentTuple(G4int i, G4int j, G4int k, G4int A, G4double Z, G4double energy, G4double fluence);
-	
+
   void FillFragmentTuple(G4int A, G4double Z, G4double energy, G4double posX, G4double posY, G4double posZ);
   ///< Energy ntuple
-	
+
  // void FillLetFragmentTuple(G4int i, G4int j, G4int k, G4int A, G4double Z, G4double letT, G4double letD);
   ///< let ntuple
   void FillLetFragmentTuple(G4int i, G4int j, G4int k, G4int A, G4double Z, G4double letD);
   void genericIonInformation(G4int, G4double, G4int, G4double);
-	
+
   void ThintargetBeamDisp(G4double,G4double);
-	
+
   void startNewEvent();
   ///< Tell the analysis manager that a new event is starting
-	
+
   void setGeometryMetaData(G4double, G4double, G4double);
   ///< from the detector construction information about the geometry can be written as metadata
-	
+
   void setBeamMetaData(G4double, G4double);
   ///< metadata about the beam can be written this way
-	
+
   void flush();
   ///< Close the .hbk file with the histograms and the ntuples
 private:
@@ -172,12 +175,12 @@ private:
     histo->SetLineWidth(2);
     return histo;
   }
-	
+
 private:
 #endif
   static HadrontherapyAnalysisManager* instance;
   HadrontherapyAnalysisFileMessenger* fMess;
-#ifdef G4ANALYSIS_USE_ROOT 
+#ifdef G4ANALYSIS_USE_ROOT
   G4String analysisFileName;
   TFile *theTFile;
   TH1F *histo1;
@@ -191,21 +194,22 @@ private:
   TH1F *histo9;
   TH1F *histo10;
   TH1F *histo11;
+  TH1F *histo11b;
   TH1F *histo12;
   TH1F *histo13;
   TH1F *histo14;
   TH1F *histo15;
   TH1F *histo16;
-	
+
   TNtuple *kinFragNtuple;
   TNtuple *kineticEnergyPrimaryNtuple;
 
   // ntuple containing the fluence of all the particle in any voxel
-  TNtuple *doseFragNtuple; 
+  TNtuple *doseFragNtuple;
 
   // ntuple containing the fluence of all the particle in any voxel
   TNtuple *fluenceFragNtuple;
-	
+
   // ntuple containing the fluence of all the particle in any voxel
   TNtuple *letFragNtuple;
 
