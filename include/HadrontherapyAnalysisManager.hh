@@ -124,6 +124,9 @@ public:
   void gammaEnergyDistributionb(G4double secondaryParticleKineticEnergy);
   ///< Energy distribution of secondary gamma originated in the phantom, finer binning
 
+  void gammaEnergyDistributionc(G4double secondaryParticleKineticEnergy);
+  ///< Energy distribution of secondary gamma originated in the phantom, finer binning over Ca Gamma range
+
   void deuteronEnergyDistribution(G4double secondaryParticleKineticEnergy);
   ///< Energy distribution of secondary deuterons originated in the phantom
 
@@ -195,6 +198,7 @@ private:
   TH1F *histo10;
   TH1F *histo11;
   TH1F *histo11b;
+  TH1F *histo11c;
   TH1F *histo12;
   TH1F *histo13;
   TH1F *histo14;

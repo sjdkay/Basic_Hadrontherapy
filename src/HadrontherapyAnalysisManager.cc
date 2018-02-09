@@ -38,7 +38,7 @@ HadrontherapyAnalysisManager::HadrontherapyAnalysisManager()
 #ifdef G4ANALYSIS_USE_ROOT
 :
 analysisFileName("DoseDistribution.root"),theTFile(0), histo1(0), histo2(0), histo3(0),
-histo4(0), histo5(0), histo6(0), histo7(0), histo8(0), histo9(0), histo10(0), histo11(0), histo11b(0), histo12(0), histo13(0), histo14(0), histo15(0), histo16(0),
+histo4(0), histo5(0), histo6(0), histo7(0), histo8(0), histo9(0), histo10(0), histo11(0), histo11b(0), histo11c(0), histo12(0), histo13(0), histo14(0), histo15(0), histo16(0),
 kinFragNtuple(0),
 kineticEnergyPrimaryNtuple(0),
 doseFragNtuple(0),
@@ -85,7 +85,6 @@ void HadrontherapyAnalysisManager::Clear()
 	delete theROOTNtuple;
 	theROOTNtuple = 0;
 
-
 	delete histo16;
 	histo16 = 0;
 
@@ -100,6 +99,9 @@ void HadrontherapyAnalysisManager::Clear()
 
 	delete histo12;
 	histo12 = 0;
+
+	delete histo11c;
+	histo11c = 0;
 
 	delete histo11b;
 	histo11b = 0;
@@ -168,7 +170,8 @@ void HadrontherapyAnalysisManager::book()
 	histo9 = createHistogram1D("h90","Secondary pion - slice, energy", 400, 0., 400.);
 	histo10 = createHistogram1D("h100","Energy distribution of secondary electrons", 70, 0., 70.);
 	histo11 = createHistogram1D("h110","Energy distribution of secondary photons", 200, 0., 20.);
-	histo11b = createHistogram1D("h110b", "Energy distribution of secondary photons", 200, 1., 10.);
+	histo11b = createHistogram1D("h110b", "Energy distribution of secondary photons", 198, 0.1, 10.);
+	histo11c = createHistogram1D("h110c", "Energy distribution of secondary photons", 200, 2., 4.);
 	histo12 = createHistogram1D("h120","Energy distribution of secondary deuterons", 70, 0., 70.);
 	histo13 = createHistogram1D("h130","Energy distribution of secondary tritons", 70, 0., 70.);
 	histo14 = createHistogram1D("h140","Energy distribution of secondary alpha particles", 70, 0., 70.);
@@ -294,6 +297,12 @@ void HadrontherapyAnalysisManager::gammaEnergyDistribution(G4double energy)
 void HadrontherapyAnalysisManager::gammaEnergyDistributionb(G4double energy)
 {
 	histo11b->Fill(energy);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+void HadrontherapyAnalysisManager::gammaEnergyDistributionc(G4double energy)
+{
+	histo11c->Fill(energy);
 }
 
 	/////////////////////////////////////////////////////////////////////////////
