@@ -665,7 +665,7 @@ if (((namePost=="PhysicVirtualLateral") && (namePre!="PhysicVirtualLateral"))&&
 		if(secondaryParticleKineticEnergy/MeV > 0.1 && secondaryParticleKineticEnergy/MeV < 10){
             analysis -> gammaEnergyDistributionb(secondaryParticleKineticEnergy/MeV);
             }
-        if(secondaryParticleKineticEnergy/MeV > 2 && secondaryParticleKineticEnergy/MeV < 4){
+        if(secondaryParticleKineticEnergy/MeV > 2 && secondaryParticleKineticEnergy/MeV < 5){
             analysis -> gammaEnergyDistributionc(secondaryParticleKineticEnergy/MeV);
             }
 		}
