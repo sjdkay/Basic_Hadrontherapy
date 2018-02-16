@@ -42,14 +42,15 @@ class HadrontherapyEventActionMessenger: public G4UImessenger
 public:
   HadrontherapyEventActionMessenger(HadrontherapyEventAction*);
   ~HadrontherapyEventActionMessenger();
-    
+
   void SetNewValue(G4UIcommand*, G4String);
-    
+
 private:
   HadrontherapyEventAction*          eventAction;
-  G4UIdirectory*        eventDir;        
+  G4UIdirectory*        eventDir;
+  G4UIcmdWithAString*   fOutFileCmd;
   G4UIcmdWithAString*   DrawCmd;
-  G4UIcmdWithAnInteger* PrintCmd;    
+  G4UIcmdWithAnInteger* PrintCmd;
 };
 
 #endif

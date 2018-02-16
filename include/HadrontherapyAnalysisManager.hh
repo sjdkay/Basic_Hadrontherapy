@@ -37,6 +37,7 @@
 #include "TFile.h"
 #include "TNtuple.h"
 #include "TH1F.h"
+#include "TH2F.h"
 #endif
 /**
  * Messenger class for analysis-settings for HadronTherapyAnalysisManager
@@ -127,6 +128,12 @@ public:
   void gammaEnergyDistributionc(G4double secondaryParticleKineticEnergy);
   ///< Energy distribution of secondary gamma originated in the phantom, finer binning over Ca Gamma range
 
+  void gammaPositionDistribution(G4double XPos);
+  ///< X Position distribution of secondary gamma originated in the phantom
+
+  void gammaEnergyPositionDistribution(G4double energy, G4double XPos);
+  ///< E distribution as a fn of X Position distribution of secondary gamma originated in the phantom
+
   void deuteronEnergyDistribution(G4double secondaryParticleKineticEnergy);
   ///< Energy distribution of secondary deuterons originated in the phantom
 
@@ -179,6 +186,13 @@ private:
     return histo;
   }
 
+  TH2F *createHistogram2D(const TString name, const TString title, int xbins, double xmin, double xmax, int ybins, double ymin, double ymax) {
+    TH2F *histo = new TH2F(name, title, xbins, xmin, xmax, ybins, ymin, ymax);
+    histo->SetLineWidth(2);
+    return histo;
+  }
+
+
 private:
 #endif
   static HadrontherapyAnalysisManager* instance;
@@ -199,11 +213,13 @@ private:
   TH1F *histo11;
   TH1F *histo11b;
   TH1F *histo11c;
+  TH1F *histo11d;
   TH1F *histo12;
   TH1F *histo13;
   TH1F *histo14;
   TH1F *histo15;
   TH1F *histo16;
+  TH2F *histo17;
 
   TNtuple *kinFragNtuple;
   TNtuple *kineticEnergyPrimaryNtuple;

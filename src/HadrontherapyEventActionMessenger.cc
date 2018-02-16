@@ -40,7 +40,7 @@ HadrontherapyEventActionMessenger::HadrontherapyEventActionMessenger(Hadronthera
 {
   eventDir = new G4UIdirectory("/event/");
   eventDir->SetGuidance("Permits controls on simulation events");
- 
+
   DrawCmd = new G4UIcmdWithAString("/event/drawTracks",this);
   DrawCmd->SetGuidance("Draw the tracks in the event");
   DrawCmd->SetGuidance("  Choice : none,charged, all, neutral");
@@ -48,12 +48,12 @@ HadrontherapyEventActionMessenger::HadrontherapyEventActionMessenger(Hadronthera
   DrawCmd->SetDefaultValue("all");
   DrawCmd->SetCandidates("none charged all neutral");
   DrawCmd->AvailableForStates(G4State_Idle);
-  
+
   PrintCmd = new G4UIcmdWithAnInteger("/event/printEventNumber",this);
   PrintCmd->SetGuidance("Print the event number of modulo n");
   PrintCmd->SetParameterName("EventNb",false);
   PrintCmd->SetRange("EventNb>0");
-  PrintCmd->AvailableForStates(G4State_Idle);      
+  PrintCmd->AvailableForStates(G4State_Idle);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -61,16 +61,16 @@ HadrontherapyEventActionMessenger::~HadrontherapyEventActionMessenger()
 {
   delete DrawCmd;
   delete PrintCmd;
-  delete eventDir;         
+  delete eventDir;
 }
 
 /////////////////////////////////////////////////////////////////////////////
 void HadrontherapyEventActionMessenger::SetNewValue(G4UIcommand* command,
                                           G4String newValue)
-{ 
+{
   if(command == DrawCmd)
     {eventAction->SetDrawFlag(newValue);}
-    
+
   if(command == PrintCmd)
-    {eventAction->SetPrintModulo(PrintCmd->GetNewIntValue(newValue));}           
+    {eventAction->SetPrintModulo(PrintCmd->GetNewIntValue(newValue));}
  }

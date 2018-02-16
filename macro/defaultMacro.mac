@@ -17,6 +17,7 @@
 # Set of the physic models
 #
 /Physics/addPhysics HADRONTHERAPY_1
+/analysis/setAnalysisFile /scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_45mm_Bone_ICRP.root
 
 ##########################
 # Initialisation procedure
@@ -114,10 +115,9 @@
 # Put the detector in the lower left corner of the phantom
 #
 /changeDetector/displacement 3 0 0 cm
-/changePhantom/Mat1Thick 16 cm
-/changePhantom/Mat2Thick 4 cm
+/changePhantom/Mat1Thick 15.5 cm
+/changePhantom/Mat2Thick 4.5 cm
 /changePhantom/update
-
 
 #########################
 # Display the event number
@@ -133,13 +133,8 @@
 
 # Default material is water liquid
 /changePhantom/material1 G4_Galactic
-/changePhantom/material2 G4_BONE_COMPACT_ICRU
-
+/changePhantom/material2 G4_BONE_CORTICAL_ICRP
 
 /run/printProgress 10000
 
 /run/beamOn 1000000
-
-/control/shell mkdir -p SimulationOutputs/proton/BraggPeak
-/control/shell mv DoseDistribution4.root SimulationOutputs/proton/BraggPeak/10e6_4cm_Bone_ICRU_Compact.root
-
