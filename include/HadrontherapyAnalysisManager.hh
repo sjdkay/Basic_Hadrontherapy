@@ -131,7 +131,7 @@ public:
   void gammaPositionDistribution(G4double XPos);
   ///< X Position distribution of secondary gamma originated in the phantom
 
-  void gammaEnergyPositionDistribution(G4double energy, G4double XPos);
+  void gammaEnergyPositionDistribution(G4double XPos, G4double energy);
   ///< E distribution as a fn of X Position distribution of secondary gamma originated in the phantom
 
   void deuteronEnergyDistribution(G4double secondaryParticleKineticEnergy);

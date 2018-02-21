@@ -179,7 +179,7 @@ void HadrontherapyAnalysisManager::book()
 	histo11 = createHistogram1D("h110","Energy distribution of secondary photons", 200, 0., 20.);
 	histo11b = createHistogram1D("h110b", "Energy distribution of secondary photons", 198, 0.1, 10.);
 	histo11c = createHistogram1D("h110c", "Energy distribution of secondary photons", 300, 2., 5.);
-	histo11d = createHistogram1D("h110d", "X Position distirbution of secondary photons", 400, 0, 40);
+	histo11d = createHistogram1D("h110d", "X Position distirbution of secondary photons", 100, 0, 100);
 	histo12 = createHistogram1D("h120","Energy distribution of secondary deuterons", 70, 0., 70.);
 	histo13 = createHistogram1D("h130","Energy distribution of secondary tritons", 70, 0., 70.);
 	histo14 = createHistogram1D("h140","Energy distribution of secondary alpha particles", 70, 0., 70.);
@@ -187,7 +187,7 @@ void HadrontherapyAnalysisManager::book()
 		70, 0., 500.);
 	histo16 = createHistogram1D("hydrogenEnergyAfterPhantom","Energy distribution of secondary helium fragments after the phantom",
 		70, 0., 500.);
-    histo17 = createHistogram2D("h170", "Photon Energy Distribution as fn of X Position", 200, 0, 40, 200, 3.5, 3.9);
+    histo17 = createHistogram2D("h170", "Photon Energy Distribution as fn of X Position", 100, 0, 100, 200, 3.5, 3.9);
 
 	kinFragNtuple  = new TNtuple("kinFragNtuple",
 		"Kinetic energy by voxel & fragment",
@@ -350,7 +350,7 @@ void HadrontherapyAnalysisManager::hydrogenEnergy(G4double secondaryParticleKine
 }
 
 	/////////////////////////////////////////////////////////////////////////////
-void HadrontherapyAnalysisManager::gammaEnergyPositionDistribution(G4double energy, G4double XPos)
+void HadrontherapyAnalysisManager::gammaEnergyPositionDistribution(G4double XPos, G4double energy)
 {
 	histo17->Fill(energy, XPos);
 }

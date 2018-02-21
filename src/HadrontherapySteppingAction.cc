@@ -653,7 +653,7 @@ if (((namePost=="PhysicVirtualLateral") && (namePre!="PhysicVirtualLateral"))&&
 #ifdef G4ANALYSIS_USE_ROOT
 	    G4String secondaryParticleName =  (*fSecondary)[lp1]->GetDefinition() -> GetParticleName();
 	    G4double secondaryParticleKineticEnergy =  (*fSecondary)[lp1] -> GetKineticEnergy();
-        G4double secondaryParticleposX = (*fSecondary)[lp1] -> GetPosition().x() / cm ;
+        G4double secondaryParticleposX = (*fSecondary)[lp1] -> GetPosition().x()/cm ;
 
 	    HadrontherapyAnalysisManager* analysis =  HadrontherapyAnalysisManager::GetInstance();
 
@@ -662,19 +662,13 @@ if (((namePost=="PhysicVirtualLateral") && (namePre!="PhysicVirtualLateral"))&&
 
 	    if (secondaryParticleName == "gamma"){
 		analysis -> gammaEnergyDistribution(secondaryParticleKineticEnergy/MeV);
-        analysis -> gammaPositionDistribution(secondaryParticleposX/cm);
 		if(secondaryParticleKineticEnergy/MeV > 0.1 && secondaryParticleKineticEnergy/MeV < 10){
             analysis -> gammaEnergyDistributionb(secondaryParticleKineticEnergy/MeV);
             }
         if(secondaryParticleKineticEnergy/MeV > 2 && secondaryParticleKineticEnergy/MeV < 5){
             analysis -> gammaEnergyDistributionc(secondaryParticleKineticEnergy/MeV);
             }
-        if(secondaryParticleKineticEnergy/MeV > 3.5 && secondaryParticleKineticEnergy/MeV < 3.9){
-            analysis -> gammaEnergyPositionDistribution(secondaryParticleKineticEnergy/MeV, secondaryParticleposX/cm);
-            }
-
-		}
-
+        }
 	    if (secondaryParticleName == "deuteron")
 		analysis -> deuteronEnergyDistribution(secondaryParticleKineticEnergy/MeV);
 

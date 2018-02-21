@@ -2,17 +2,24 @@
 
 void Peak_Analysis_Part2(){
 
-    Double_t CPeakConst[4][8], CPeakMean[4][8], CPeakSigma[4][8], CPeakIntegral[4][8],
-    CaPeakConst[4][8], CaPeakMean[4][10], CaPeakSigma[4][8], CaPeakIntegral[4][8];
+    Double_t CPeakConst[4][14], CPeakMean[4][14], CPeakSigma[4][14], CPeakIntegral[4][14],
+    CaPeakConst[4][14], CaPeakMean[4][14], CaPeakSigma[4][14], CaPeakIntegral[4][14];
     double CFPar, CaFPar;
     Double_t x[8] = {1, 2, 3, 4, 5, 6, 7, 8};
-    Double_t BoneCY[8], BoneCaY[8], TissueCY[8], TissueCaY[8], ParaffinCY[8], ParaffinCaY[8];
+    Double_t xb[14] = {1, 2, 3, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 5, 5.5, 6, 7, 8};
+    Double_t BoneCY[14], BoneCaY[14], TissueCY[8], TissueCaY[8], ParaffinCY[8], ParaffinCaY[8];
 
-    char* BoneFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_1cm.root",
+    char* BoneFiles[14] =  {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_1cm.root",
                           "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_2cm.root",
                           "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_3cm.root",
+                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_325mm.root",
+                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_35mm.root",
+                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_375mm.root",
                           "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_4cm.root",
+                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_425mm.root",
+                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_45mm.root",
                           "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_5cm.root",
+                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_55mm.root",
                           "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_6cm.root",
                           "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_7cm.root",
                           "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_8cm.root"};
@@ -35,7 +42,7 @@ void Peak_Analysis_Part2(){
                       "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_7cm.root",
                       "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_8cm.root"};
 
-    for(Int_t i = 0; i < 8; i++){
+    for(Int_t i = 0; i < 14; i++){
 
         TFile *f1 = TFile::Open(BoneFiles[i]);
         TTree *t1 = (TTree*)f1->Get("Peak_Parameters");
@@ -116,7 +123,7 @@ void Peak_Analysis_Part2(){
 
     }
 
-    gr1 = new TGraph(8, x, BoneCY);
+    gr1 = new TGraph(14, xb, BoneCY);
     gr1->SetMarkerColor(2);
     gr1->SetLineColor(2);
     gr1->SetMarkerStyle(8);
@@ -127,7 +134,7 @@ void Peak_Analysis_Part2(){
     gr1->SetName("BoneCY");
     gr1->Draw("ep");
 
-    gr2 = new TGraph(8, x, BoneCaY);
+    gr2 = new TGraph(14, xb, BoneCaY);
     gr2->SetMarkerColor(2);
     gr2->SetLineColor(2);
     gr2->SetMarkerStyle(8);
@@ -197,7 +204,7 @@ void Peak_Analysis_Part2(){
     gr5->SetMarkerStyle(3);
     gr5->SetMarkerSize(2);
     gr5->Draw("SAMEP");
-    leg = new TLegend(0.75, 0.25, 0.95, 0.45); // Add legend to plot
+    leg = new TLegend(0.75, 0.15, 0.85, 0.25); // Add legend to plot
     leg->AddEntry(gr1, "Bone", "p");
     leg->AddEntry(gr3, "Tissue", "p");
     leg->AddEntry(gr5, "Paraffin", "p");
@@ -218,7 +225,7 @@ void Peak_Analysis_Part2(){
     gr6->SetMarkerStyle(3);
     gr6->SetMarkerSize(2);
     gr6->Draw("SAMEP");
-    leg2 = new TLegend(0.75, 0.25, 0.95, 0.45); // Add legend to plot
+    leg2 = new TLegend(0.75, 0.15, 0.85, 0.25); // Add legend to plot
     leg2->AddEntry(gr2, "Bone", "p");
     leg2->AddEntry(gr4, "Tissue", "p");
     leg2->AddEntry(gr6, "Paraffin", "p");
