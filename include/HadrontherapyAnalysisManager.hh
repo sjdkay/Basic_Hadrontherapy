@@ -134,6 +134,19 @@ public:
   void gammaEnergyPositionDistribution(G4double XPos, G4double energy);
   ///< E distribution as a fn of X Position distribution of secondary gamma originated in the phantom
 
+  void neutronEnergyDistributiona(G4double energy);
+  /// E Distribution of secondary neutrons
+
+  void neutronEnergyDistributionb(G4double energy);
+  /// E Distribution of secondary neutrons finer binning
+
+  void gammaThetaDistribution(G4double Theta);
+  void gammaPhiDistribution(G4double Phi);
+  void neutronThetaDistribution(G4double Theta);
+  void neutronPhiDistribution(G4double Phi);
+  void gammaEnergyThetaDistribution(G4double theta, G4double energy);
+  void gammaEnergyPhiDistribution(G4double phi, G4double energy);
+
   void deuteronEnergyDistribution(G4double secondaryParticleKineticEnergy);
   ///< Energy distribution of secondary deuterons originated in the phantom
 
@@ -220,6 +233,14 @@ private:
   TH1F *histo15;
   TH1F *histo16;
   TH2F *histo17;
+  TH1F *histo18a;
+  TH1F *histo18b;
+  TH1F *histo19a;
+  TH1F *histo19b;
+  TH1F *histo20a;
+  TH1F *histo20b;
+  TH2F *histo21;
+  TH2F *histo22;
 
   TNtuple *kinFragNtuple;
   TNtuple *kineticEnergyPrimaryNtuple;

@@ -39,6 +39,7 @@ HadrontherapyAnalysisManager::HadrontherapyAnalysisManager()
 :
 analysisFileName("DoseDistribution2.root"),theTFile(0), histo1(0), histo2(0), histo3(0),
 histo4(0), histo5(0), histo6(0), histo7(0), histo8(0), histo9(0), histo10(0), histo11(0), histo11b(0), histo11c(0), histo11d(0), histo12(0), histo13(0), histo14(0), histo15(0), histo16(0), histo17(0),
+histo18a(0), histo18b(0), histo19a(0), histo19b(0), histo20a(0), histo20b(0), histo21(0), histo22(0),
 kinFragNtuple(0),
 kineticEnergyPrimaryNtuple(0),
 doseFragNtuple(0),
@@ -85,6 +86,30 @@ void HadrontherapyAnalysisManager::Clear()
 	delete theROOTNtuple;
 
 	theROOTNtuple = 0;
+
+    delete histo22;
+	histo22 = 0;
+
+	delete histo21;
+	histo21 = 0;
+
+    delete histo20b;
+	histo20b = 0;
+
+	delete histo20a;
+	histo20a = 0;
+
+    delete histo19b;
+	histo19b = 0;
+
+	delete histo19a;
+	histo19a = 0;
+
+	delete histo18b;
+	histo18b = 0;
+
+	delete histo18a;
+	histo18a = 0;
 
 	delete histo17;
 	histo17 = 0;
@@ -166,7 +191,7 @@ void HadrontherapyAnalysisManager::book()
 	theTFile = new TFile(analysisFileName, "RECREATE");
 
 	// Create the histograms with the energy deposit along the X axis
-	histo1 = createHistogram1D("braggPeak","slice, energy", 400, 0., 80); //<different waterthicknesses are accoutned for in ROOT-analysis stage
+	histo1 = createHistogram1D("braggPeak","slice, energy", 100, 0., 100); //<different waterthicknesses are accoutned for in ROOT-analysis stage
 	histo2 = createHistogram1D("h20","Secondary protons - slice, energy", 400, 0., 400.);
 	histo3 = createHistogram1D("h30","Secondary neutrons - slice, energy", 400, 0., 400.);
 	histo4 = createHistogram1D("h40","Secondary alpha - slice, energy", 400, 0., 400.);
@@ -179,7 +204,7 @@ void HadrontherapyAnalysisManager::book()
 	histo11 = createHistogram1D("h110","Energy distribution of secondary photons", 200, 0., 20.);
 	histo11b = createHistogram1D("h110b", "Energy distribution of secondary photons", 198, 0.1, 10.);
 	histo11c = createHistogram1D("h110c", "Energy distribution of secondary photons", 300, 2., 5.);
-	histo11d = createHistogram1D("h110d", "X Position distirbution of secondary photons", 100, 0, 100);
+	histo11d = createHistogram1D("h110d", "X Position distirbution of secondary photons", 200, 0, 10);
 	histo12 = createHistogram1D("h120","Energy distribution of secondary deuterons", 70, 0., 70.);
 	histo13 = createHistogram1D("h130","Energy distribution of secondary tritons", 70, 0., 70.);
 	histo14 = createHistogram1D("h140","Energy distribution of secondary alpha particles", 70, 0., 70.);
@@ -187,7 +212,15 @@ void HadrontherapyAnalysisManager::book()
 		70, 0., 500.);
 	histo16 = createHistogram1D("hydrogenEnergyAfterPhantom","Energy distribution of secondary helium fragments after the phantom",
 		70, 0., 500.);
-    histo17 = createHistogram2D("h170", "Photon Energy Distribution as fn of X Position", 100, 0, 100, 200, 3.5, 3.9);
+    histo17 = createHistogram2D("h170", "Photon Energy Distribution as fn of X Position", 200, 0, 10, 200, 3.5, 3.9);
+    histo18a = createHistogram1D("h180a", "Energy distribution of secondary neutrons", 400, 0, 50);
+    histo18b = createHistogram1D("h180b", "Energy distribution of secondary neutrons", 300, 2, 5);
+    histo19a = createHistogram1D("h190a", "#theta distribution of secondary photons", 400, 0, 180);
+    histo19b = createHistogram1D("h190b", "#phi distribution of secondary photons", 400, -180, 180);
+    histo20a = createHistogram1D("h200a", "#theta distribution of secondary neutrons", 400, 0, 180);
+    histo20b = createHistogram1D("h200b", "#phi distribution of secondary neutrons", 400, -180, 180);
+    histo21 = createHistogram2D("h210" , "Energy Distribution as fn of #theta", 200, 0, 180, 200, 0.1, 10);
+    histo22 = createHistogram2D("h220" , "Energy Distribution as fn of #phi", 200, -180, 180, 200, 0.1, 10);
 
 	kinFragNtuple  = new TNtuple("kinFragNtuple",
 		"Kinetic energy by voxel & fragment",
@@ -320,40 +353,89 @@ void HadrontherapyAnalysisManager::gammaPositionDistribution(G4double XPos)
 	histo11d->Fill(XPos);
 }
 
-	/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 void HadrontherapyAnalysisManager::deuteronEnergyDistribution(G4double energy)
 {
 	histo12->Fill(energy);
 }
 
-	/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 void HadrontherapyAnalysisManager::tritonEnergyDistribution(G4double energy)
 {
 	histo13->Fill(energy);
 }
 
-	/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 void HadrontherapyAnalysisManager::alphaEnergyDistribution(G4double energy)
 {
 	histo14->Fill(energy);
 }
-	/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 void HadrontherapyAnalysisManager::heliumEnergy(G4double secondaryParticleKineticEnergy)
 {
 	histo15->Fill(secondaryParticleKineticEnergy);
 }
 
-	/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 void HadrontherapyAnalysisManager::hydrogenEnergy(G4double secondaryParticleKineticEnergy)
 {
 	histo16->Fill(secondaryParticleKineticEnergy);
 }
 
-	/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 void HadrontherapyAnalysisManager::gammaEnergyPositionDistribution(G4double XPos, G4double energy)
 {
-	histo17->Fill(energy, XPos);
+	histo17->Fill(XPos, energy);
 }
+
+/////////////////////////////////////////////////////////////////////////////
+void HadrontherapyAnalysisManager::neutronEnergyDistributiona(G4double energy)
+{
+	histo18a->Fill(energy);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+void HadrontherapyAnalysisManager::neutronEnergyDistributionb(G4double energy)
+{
+	histo18b->Fill(energy);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+void HadrontherapyAnalysisManager::gammaThetaDistribution(G4double Theta)
+{
+	histo19a->Fill(Theta);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+void HadrontherapyAnalysisManager::gammaPhiDistribution(G4double Phi)
+{
+	histo19b->Fill(Phi);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+void HadrontherapyAnalysisManager::neutronThetaDistribution(G4double Theta)
+{
+	histo20a->Fill(Theta);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+void HadrontherapyAnalysisManager::neutronPhiDistribution(G4double Phi)
+{
+	histo20b->Fill(Phi);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+void HadrontherapyAnalysisManager::gammaEnergyThetaDistribution(G4double theta, G4double energy)
+{
+	histo21->Fill(theta, energy);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+void HadrontherapyAnalysisManager::gammaEnergyPhiDistribution(G4double phi, G4double energy)
+{
+	histo22->Fill(phi, energy);
+}
+
 
 	/////////////////////////////////////////////////////////////////////////////
 	// FillKineticFragmentTuple create an ntuple where the voxel indexs, the atomic number and mass and the kinetic

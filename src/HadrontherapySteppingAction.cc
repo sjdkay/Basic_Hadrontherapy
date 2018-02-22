@@ -583,6 +583,9 @@ if (((namePost=="PhysicVirtualLateral") && (namePre!="PhysicVirtualLateral"))&&
 	    HadrontherapyAnalysisManager::GetInstance()->FillFragmentTuple(1, 1.0, energy, posX, posY, posZ);
 	}
 
+	//G4double Theta = aStep->GetTrack()->GetTheta();
+	//G4double Phi = aStep->GetTrack()->GetPhi();
+
 	G4String secondaryParticleName =  def -> GetParticleName();
 	//G4cout <<"Particle: " << secondaryParticleName << G4endl;
 	//G4cout <<"Energy: " << secondaryParticleKineticEnergy << G4endl;
@@ -654,21 +657,41 @@ if (((namePost=="PhysicVirtualLateral") && (namePre!="PhysicVirtualLateral"))&&
 	    G4String secondaryParticleName =  (*fSecondary)[lp1]->GetDefinition() -> GetParticleName();
 	    G4double secondaryParticleKineticEnergy =  (*fSecondary)[lp1] -> GetKineticEnergy();
         G4double secondaryParticleposX = (*fSecondary)[lp1] -> GetPosition().x()/cm ;
+        G4ThreeVector SecondaryPartMom =  aStep->GetPreStepPoint()->GetMomentumDirection();
+        G4double SecondaryTheta = SecondaryPartMom.theta();
+        G4double SecondaryPhi = SecondaryPartMom.phi();
 
 	    HadrontherapyAnalysisManager* analysis =  HadrontherapyAnalysisManager::GetInstance();
 
 	    if (secondaryParticleName == "e-")
 		analysis -> electronEnergyDistribution(secondaryParticleKineticEnergy/MeV);
 
-	    if (secondaryParticleName == "gamma"){
-		analysis -> gammaEnergyDistribution(secondaryParticleKineticEnergy/MeV);
-		if(secondaryParticleKineticEnergy/MeV > 0.1 && secondaryParticleKineticEnergy/MeV < 10){
-            analysis -> gammaEnergyDistributionb(secondaryParticleKineticEnergy/MeV);
+        if (secondaryParticleName == "gamma"){
+            analysis -> gammaEnergyDistribution(secondaryParticleKineticEnergy/MeV);
+            analysis -> gammaPositionDistribution(secondaryParticleposX/cm);
+            if(secondaryParticleKineticEnergy/MeV > 0.1 && secondaryParticleKineticEnergy/MeV < 10){
+                analysis -> gammaEnergyDistributionb(secondaryParticleKineticEnergy/MeV);
+                analysis -> gammaEnergyThetaDistribution(SecondaryTheta/degree, secondaryParticleKineticEnergy/MeV);
+                analysis -> gammaEnergyPhiDistribution(SecondaryPhi/degree, secondaryParticleKineticEnergy/MeV);
+                analysis -> gammaThetaDistribution(SecondaryTheta/degree);
+                analysis -> gammaPhiDistribution(SecondaryPhi/degree);
             }
-        if(secondaryParticleKineticEnergy/MeV > 2 && secondaryParticleKineticEnergy/MeV < 5){
-            analysis -> gammaEnergyDistributionc(secondaryParticleKineticEnergy/MeV);
+            if(secondaryParticleKineticEnergy/MeV > 2 && secondaryParticleKineticEnergy/MeV < 5){
+                analysis -> gammaEnergyDistributionc(secondaryParticleKineticEnergy/MeV);
+            }
+            if(secondaryParticleKineticEnergy/MeV > 3.5 && secondaryParticleKineticEnergy/MeV < 3.9){
+                analysis -> gammaEnergyPositionDistribution(secondaryParticleposX/cm, secondaryParticleKineticEnergy/MeV);
             }
         }
+        if(secondaryParticleName == "neutron"){
+            analysis ->neutronEnergyDistributiona(secondaryParticleKineticEnergy/MeV);
+            analysis -> neutronThetaDistribution(SecondaryTheta/degree);
+            analysis -> neutronPhiDistribution(SecondaryPhi/degree);
+            if(secondaryParticleKineticEnergy/MeV > 2 && secondaryParticleKineticEnergy/MeV < 5){
+                analysis ->neutronEnergyDistributionb(secondaryParticleKineticEnergy/MeV);
+            }
+        }
+
 	    if (secondaryParticleName == "deuteron")
 		analysis -> deuteronEnergyDistribution(secondaryParticleKineticEnergy/MeV);
 
