@@ -94,42 +94,14 @@ G4bool HadrontherapyDetectorSD::ProcessHits(G4Step* aStep, G4TouchableHistory* )
     G4double Theta = PartMom.theta();
     G4double Phi = PartMom.phi();
 
- // Read voxel indexes: i is the x index, k is the z index
- const G4VTouchable* touchable = aStep->GetPreStepPoint()->GetTouchable();
- G4int k  = touchable->GetReplicaNumber(0);
- G4int i  = touchable->GetReplicaNumber(2);
- G4int j  = touchable->GetReplicaNumber(1);
+     // Read voxel indexes: i is the x index, k is the z index
+     const G4VTouchable* touchable = aStep->GetPreStepPoint()->GetTouchable();
+     G4int k  = touchable->GetReplicaNumber(0);
+     G4int i  = touchable->GetReplicaNumber(2);
+     G4int j  = touchable->GetReplicaNumber(1);
 
 #ifdef G4ANALYSIS_USE_ROOT
     HadrontherapyAnalysisManager* analysis = HadrontherapyAnalysisManager::GetInstance();
-
-    if(trackID != 1){
-        if (particleName == "gamma"){
-            analysis -> gammaEnergyDistribution(kineticEnergy/MeV);
-            analysis -> gammaPositionDistribution(PosX/cm);
-            if(kineticEnergy/MeV > 0.1 && kineticEnergy/MeV < 10){
-                analysis -> gammaEnergyDistributionb(kineticEnergy/MeV);
-                analysis -> gammaEnergyThetaDistribution(Theta/degree, kineticEnergy/MeV);
-                analysis -> gammaEnergyPhiDistribution(Phi/degree, kineticEnergy/MeV);
-                analysis -> gammaThetaDistribution(Theta/degree);
-                analysis -> gammaPhiDistribution(Phi/degree);
-            }
-            if(kineticEnergy/MeV > 2 && kineticEnergy/MeV < 5){
-                analysis -> gammaEnergyDistributionc(kineticEnergy/MeV);
-            }
-            if(kineticEnergy/MeV > 3.5 && kineticEnergy/MeV < 3.9){
-                analysis -> gammaEnergyPositionDistribution(PosX/cm, kineticEnergy/MeV);
-            }
-        }
-        if(particleName == "neutron"){
-            analysis ->neutronEnergyDistributiona(kineticEnergy/MeV);
-            analysis -> neutronThetaDistribution(Theta/degree);
-            analysis -> neutronPhiDistribution(Phi/degree);
-            if(kineticEnergy/MeV > 2 && kineticEnergy/MeV < 5){
-                analysis ->neutronEnergyDistributionb(kineticEnergy/MeV);
-            }
-        }
-    }
 #endif
 
     HadrontherapyMatrix* matrix = HadrontherapyMatrix::GetInstance();

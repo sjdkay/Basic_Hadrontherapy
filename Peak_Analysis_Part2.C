@@ -2,47 +2,44 @@
 
 void Peak_Analysis_Part2(){
 
-    Double_t CPeakConst[4][14], CPeakMean[4][14], CPeakSigma[4][14], CPeakIntegral[4][14],
-    CaPeakConst[4][14], CaPeakMean[4][14], CaPeakSigma[4][14], CaPeakIntegral[4][14];
+    Double_t CPeakConst[4][8], CPeakMean[4][8], CPeakSigma[4][8], CPeakIntegral[4][8],
+    CaPeakConst[4][8], CaPeakMean[4][8], CaPeakSigma[4][8], CaPeakIntegral[4][8];
     double CFPar, CaFPar;
     Double_t x[8] = {1, 2, 3, 4, 5, 6, 7, 8};
-    Double_t xb[14] = {1, 2, 3, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 5, 5.5, 6, 7, 8};
-    Double_t BoneCY[14], BoneCaY[14], TissueCY[8], TissueCaY[8], ParaffinCY[8], ParaffinCaY[8];
+    Double_t xb[8] = {1, 2, 3, 4, 5, 6, 7, 8};
+    Double_t BoneCY[8], BoneCaY[8], TissueCY[8], TissueCaY[8], ParaffinCY[8], ParaffinCaY[8];
 
-    char* BoneFiles[14] =  {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_1cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_2cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_3cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_325mm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_35mm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_375mm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_4cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_425mm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_45mm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_5cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_55mm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_6cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_7cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_8cm.root"};
+    char* BoneFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_1cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_2cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_3cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_4cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_5cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_6cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_7cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_8cm_2.root"
+                                };
 
-    char* TissueFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_1cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_2cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_3cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_4cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_5cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_6cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_7cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_8cm.root"};
+    char* TissueFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_1cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_2cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_3cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_4cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_5cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_6cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_7cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_8cm_2.root"
+                                };
 
-    char* ParaffinFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_1cm.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_2cm.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_3cm.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_4cm.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_5cm.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_6cm.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_7cm.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_8cm.root"};
+    char* ParaffinFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_1cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_2cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_3cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_4cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_5cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_6cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_7cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_8cm_2.root"
+                                };
 
-    for(Int_t i = 0; i < 14; i++){
+    for(Int_t i = 0; i < 8; i++){
 
         TFile *f1 = TFile::Open(BoneFiles[i]);
         TTree *t1 = (TTree*)f1->Get("Peak_Parameters");
@@ -123,7 +120,7 @@ void Peak_Analysis_Part2(){
 
     }
 
-    gr1 = new TGraph(14, xb, BoneCY);
+    gr1 = new TGraph(8, xb, BoneCY);
     gr1->SetMarkerColor(2);
     gr1->SetLineColor(2);
     gr1->SetMarkerStyle(8);
@@ -134,7 +131,7 @@ void Peak_Analysis_Part2(){
     gr1->SetName("BoneCY");
     gr1->Draw("ep");
 
-    gr2 = new TGraph(14, xb, BoneCaY);
+    gr2 = new TGraph(8, xb, BoneCaY);
     gr2->SetMarkerColor(2);
     gr2->SetLineColor(2);
     gr2->SetMarkerStyle(8);
@@ -191,7 +188,7 @@ void Peak_Analysis_Part2(){
 
     TCanvas *canvas1 = new TCanvas("canvas1","canvas1", 1920, 1080);
     TPad *pad1 = new TPad("pad1","",0,0,1,1);
-    TH1F *hr1 = canvas1->DrawFrame(0, 0, 9, 20000);
+    TH1F *hr1 = canvas1->DrawFrame(0, 0, 9, 800000);
     hr1->SetTitle("Carbon 4.4MeV Peak Integral as a Fn of Thickness");
     gr1->SetMarkerStyle(4);
     gr1->SetMarkerSize(2);
@@ -212,7 +209,7 @@ void Peak_Analysis_Part2(){
 
     TCanvas *canvas2 = new TCanvas("canvas2","canvas2", 1920, 1080);
     TPad *pad2 = new TPad("pad2","",0,0,1,1);
-    TH1F *hr2 = canvas1->DrawFrame(0, 0, 9, 10000);
+    TH1F *hr2 = canvas1->DrawFrame(0, 0, 9, 300000);
     hr2->SetTitle("Calcium 3.7MeV Peak Integral as a Fn of Thickness");
     gr2->SetMarkerStyle(4);
     gr2->SetMarkerSize(2);
@@ -231,7 +228,7 @@ void Peak_Analysis_Part2(){
     leg2->AddEntry(gr6, "Paraffin", "p");
     leg2->Draw("Same");
 
-    TFile f2("/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Analysis_Plots.root", "RECREATE");
+    TFile f2("/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Analysis_Plots_2.root", "RECREATE");
     gr1->Write();
     gr2->Write();
     gr3->Write();

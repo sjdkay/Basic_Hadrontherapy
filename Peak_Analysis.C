@@ -7,74 +7,67 @@ void Peak_Analysis(){
 
     double CFPar, CaFPar;
 
-    char* BoneInputFiles[14] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_1cm_Bone_ICRP.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_2cm_Bone_ICRP.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_3cm_Bone_ICRP.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_325mm_Bone_ICRP.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_35mm_Bone_ICRP.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_375mm_Bone_ICRP.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_4cm_Bone_ICRP.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_425mm_Bone_ICRP.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_45mm_Bone_ICRP.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_5cm_Bone_ICRP.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_55mm_Bone_ICRP.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_6cm_Bone_ICRP.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_7cm_Bone_ICRP.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_8cm_Bone_ICRP.root"};
+    char* BoneInputFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Bone/10e6_1cm_Bone_ICRP_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Bone/10e6_2cm_Bone_ICRP_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Bone/10e6_3cm_Bone_ICRP_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Bone/10e6_4cm_Bone_ICRP_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Bone/10e6_5cm_Bone_ICRP_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Bone/10e6_6cm_Bone_ICRP_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Bone/10e6_7cm_Bone_ICRP_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Bone/10e6_8cm_Bone_ICRP_Det.root"
+                              };
 
-    char* TissueInputFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_1cm_Soft_Tissue.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_2cm_Soft_Tissue.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_3cm_Soft_Tissue.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_4cm_Soft_Tissue.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_5cm_Soft_Tissue.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_6cm_Soft_Tissue.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_7cm_Soft_Tissue.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_8cm_Soft_Tissue.root"};
+    char* TissueInputFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Tissue/10e6_1cm_Tissue_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Tissue/10e6_2cm_Tissue_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Tissue/10e6_3cm_Tissue_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Tissue/10e6_4cm_Tissue_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Tissue/10e6_5cm_Tissue_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Tissue/10e6_6cm_Tissue_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Tissue/10e6_7cm_Tissue_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Tissue/10e6_8cm_Tissue_Det.root"
+                               };
 
-    char* ParaffinInputFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_1cm_Paraffin.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_2cm_Paraffin.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_3cm_Paraffin.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_4cm_Paraffin.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_5cm_Paraffin.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_6cm_Paraffin.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_7cm_Paraffin.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/proton/BraggPeak/10e6_8cm_Paraffin.root"};
+    char* ParaffinInputFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Paraffin/10e6_1cm_Paraffin_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Paraffin/10e6_2cm_Paraffin_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Paraffin/10e6_3cm_Paraffin_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Paraffin/10e6_4cm_Paraffin_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Paraffin/10e6_5cm_Paraffin_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Paraffin/10e6_6cm_Paraffin_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Paraffin/10e6_7cm_Paraffin_Det.root",
+                               "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Paraffin/10e6_8cm_Paraffin_Det.root"
+                               };
 
+    char* BoneOutputFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_1cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_2cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_3cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_4cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_5cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_6cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_7cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone/Bone_10e6_8cm_2.root"
+                                };
 
-    char* BoneOutputFiles[14] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_1cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_2cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_3cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_325mm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_35mm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_375mm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_4cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_425mm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_45mm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_5cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_55mm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_6cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_7cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Bone_ICRP_10e6_8cm.root"};
+    char* TissueOutputFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_1cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_2cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_3cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_4cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_5cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_6cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_7cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Tissue/Tissue_10e6_8cm_2.root"
+                                };
 
-    char* TissueOutputFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_1cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_2cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_3cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_4cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_5cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_6cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_7cm.root",
-                          "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Soft_Tissue_10e6_8cm.root"};
+    char* ParaffinOutputFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_1cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_2cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_3cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_4cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_5cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_6cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_7cm_2.root",
+                                "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin/Paraffin_10e6_8cm_2.root"
+                                };
 
-    char* ParaffinOutputFiles[8] = {"/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_1cm.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_2cm.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_3cm.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_4cm.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_5cm.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_6cm.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_7cm.root",
-                      "/scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/Analysis/Paraffin_10e6_8cm.root"};
-
-    for(Int_t i = 0; i < 14; i++){
+    for(Int_t i = 0; i < 8; i++){
         TFile *f = new TFile(BoneInputFiles[i]); // Open the file to clone
         TF1* CFit = new TF1("CFit", "gaus",  4.2, 4.7);
         CFit->SetLineColor(2);
