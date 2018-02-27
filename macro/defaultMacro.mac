@@ -17,8 +17,8 @@
 # Set of the physic models
 #
 /Physics/addPhysics HADRONTHERAPY_1
-#/analysis/setAnalysisFile /scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Tissue/10e6_2cm_Tissue_Det.root
-/analysis/setAnalysisFile /scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Test_File.root
+/analysis/setAnalysisFile /scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Tissue/10e6_1cm_Tissue_Det_2.root
+#/analysis/setAnalysisFile /scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Test_File.root
 
 ##########################
 # Initialisation procedure
@@ -110,14 +110,14 @@
 # USE THE FOLLOWING FOR A VOXELLIZED DETECTOR
 ###################################################
 #
-/changeDetector/size 2 40 40 cm
-/changeDetector/voxelSize 0.2 400 400 mm
+/changeDetector/size 1 40 40 cm
+/changeDetector/voxelSize 0.1 400 400 mm
 
 # Put the detector in the lower left corner of the phantom
 #
 /changeDetector/displacement 0 0 0 cm
-/changePhantom/Mat1Thick 2 cm
-/changePhantom/Mat2Thick 18 cm
+/changePhantom/Mat1Thick 1 cm
+/changePhantom/Mat2Thick 19 cm
 /changePhantom/update
 
 #########################
@@ -135,8 +135,8 @@
 # Default material is water liquid
 
 /changePhantom/material1 G4_TISSUE_SOFT_ICRP
-/changePhantom/material2 G4_PARAFFIN
+/changePhantom/material2 G4_Galactic
 
 /run/printProgress 1000000
 
-/run/beamOn 10000
+/run/beamOn 1000000

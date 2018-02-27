@@ -188,8 +188,7 @@ G4int StepNumber = theTrack -> GetCurrentStepNumber();
                 if (Name == "gamma"){
                     analysis -> gammaEnergyDistribution(EVert/MeV);
                     analysis -> gammaPositionDistribution(VertX/cm);
-                    G4cout << VertX/cm << G4endl;
-                    if(EVert/MeV > 0.1 && EVert/MeV < 10){
+		    if(EVert/MeV > 0.1 && EVert/MeV < 10){
                         analysis -> gammaEnergyDistributionb(EVert/MeV);
                         analysis -> gammaEnergyThetaDistribution(Theta/degree, EVert/MeV);
                         analysis -> gammaEnergyPhiDistribution(Phi/degree, EVert/MeV);
