@@ -198,10 +198,11 @@ G4int StepNumber = theTrack -> GetCurrentStepNumber();
                     }
                     if(EVert/MeV > 2 && EVert/MeV < 5){
                         analysis -> gammaEnergyDistributionc(EVert/MeV);
-                    }
-                    if(EVert/MeV > 3.5 && EVert/MeV < 3.9){
-                        analysis -> gammaEnergyPositionDistribution(VertX/cm, EVert/MeV);
-                    }
+			analysis -> gammaEnergyPositionDistribution(VertX/cm, EVert/MeV);
+		    }
+                    //if(EVert/MeV > 3.5 && EVert/MeV < 3.9){
+		    //  analysis -> gammaEnergyPositionDistribution(VertX/cm, EVert/MeV);
+                    //}
                 }
                 if(Name == "neutron"){
                     analysis ->neutronEnergyDistributiona(EVert/MeV);
