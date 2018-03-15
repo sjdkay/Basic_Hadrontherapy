@@ -94,24 +94,10 @@ aRegion(0)
     SetPhantomSize(40. *cm, 40. *cm, 40. *cm);
     SetPhantomMat1Thick(20. *cm);
     SetPhantomMat2Thick(20. *cm);
-    SetPhantomPosition(G4ThreeVector(10. *cm, 0. *cm, 0. *cm));
+    SetPhantomPosition(G4ThreeVector(0. *cm, 0. *cm, 0. *cm));
     SetDetectorToPhantomPosition(G4ThreeVector(0. *cm, 18. *cm, 18. *cm));
     SetDetectorPosition();
     //GetDetectorToWorldPosition();
-
-//    if(UseComplexPhantom == 0){
-//        G4cout << "Complex phantom not being used, value read as 0";
-//    }
-//
-//    else if (UseComplexPhantom == 1){
-//        G4cout << "Complex phantom being used, value read as 1";
-//        SetComplexPhantomMaterial1("G4_WATER");
-//        SetComplexPhantomMaterial2("G4_WATER");
-//    }
-//    else{
-//        G4cout << "Some other value detected for Complex Phantom Usage";
-//    }
-
 
     // Write virtual parameters to the real ones and check for consistency
     UpdateGeometry();
@@ -148,9 +134,11 @@ void HadrontherapyDetectorConstruction::ConstructPhantom()
                                                PhantomMaterial1,
                                                "phantomLog", 0, 0, 0);
 
+    G4ThreeVector phantom1Position((PhantomThick1/2), 0., 0.); //Ensure phantom position starts at 0, 0, 0
+
     // Definition of the physics volume of the Phantom
     phantom1PhysicalVolume = new G4PVPlacement(0,
-                                              phantomPosition,
+                                              phantom1Position,
                                               "phantomPhys",
                                               phantom1LogicalVolume,
                                               motherPhys,
@@ -167,7 +155,7 @@ void HadrontherapyDetectorConstruction::ConstructPhantom()
                                                PhantomMaterial2,
                                                "phantomLog", 0, 0, 0);
 ;
-    G4ThreeVector phantom2Position((phantomPosition.x()+((PhantomThick1 + PhantomThick2)/2)), phantomPosition.y(), phantomPosition.z());
+    G4ThreeVector phantom2Position(PhantomThick1 + (PhantomThick2/2), 0., 0.);
 
     // Definition of the physics volume of the Phantom
     phantom2PhysicalVolume = new G4PVPlacement(0,
@@ -424,14 +412,15 @@ void HadrontherapyDetectorConstruction::UpdateGeometry()
         phantom1 -> SetXHalfLength(PhantomThick1/2);
         phantom1 -> SetYHalfLength(phantomSizeY/2);
         phantom1 -> SetZHalfLength(phantomSizeZ/2);
-        phantom1PhysicalVolume -> SetTranslation(phantomPosition);
+        G4ThreeVector phantom1Position(PhantomThick1/2, 0., 0.);
+        phantom1PhysicalVolume -> SetTranslation(phantom1Position);
     }
     if (phantom2)
     {
         phantom2 -> SetXHalfLength(PhantomThick2/2);
         phantom2 -> SetYHalfLength(phantomSizeY/2);
         phantom2 -> SetZHalfLength(phantomSizeZ/2);
-        G4ThreeVector phantom2Position((phantomPosition.x()+((PhantomThick1+PhantomThick2)/2)), phantomPosition.y(), phantomPosition.z());
+        G4ThreeVector phantom2Position(PhantomThick1 + (PhantomThick2/2), 0., 0.);
         phantom2PhysicalVolume -> SetTranslation(phantom2Position);
     }
 

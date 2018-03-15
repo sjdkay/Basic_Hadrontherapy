@@ -38,7 +38,7 @@ HadrontherapyAnalysisManager::HadrontherapyAnalysisManager()
 #ifdef G4ANALYSIS_USE_ROOT
 :
 analysisFileName("DoseDistribution2.root"),theTFile(0), histo1(0), histo2(0), histo3(0),
-histo4(0), histo5(0), histo6(0), histo7(0), histo8(0), histo9(0), histo10(0), histo11(0), histo11b(0), histo11c(0), histo11d(0), histo12(0), histo13(0), histo14(0), histo15(0), histo16(0), histo17(0),
+histo4(0), histo5(0), histo6(0), histo7(0), histo8(0), histo9(0), histo10(0), histo11(0), histo11b(0), histo11c(0), histo11d(0), histo11e(0), histo12(0), histo13(0), histo14(0), histo15(0), histo16(0), histo17(0),
 histo18a(0), histo18b(0), histo19a(0), histo19b(0), histo20a(0), histo20b(0), histo21(0), histo22(0),
 kinFragNtuple(0),
 kineticEnergyPrimaryNtuple(0),
@@ -129,6 +129,9 @@ void HadrontherapyAnalysisManager::Clear()
 	delete histo12;
 	histo12 = 0;
 
+    delete histo11e;
+	histo11e = 0;
+
     delete histo11d;
 	histo11d = 0;
 
@@ -204,7 +207,8 @@ void HadrontherapyAnalysisManager::book()
 	histo11 = createHistogram1D("h110","Energy distribution of secondary photons", 200, 0., 20.);
 	histo11b = createHistogram1D("h110b", "Energy distribution of secondary photons", 198, 0.1, 10.);
 	histo11c = createHistogram1D("h110c", "Energy distribution of secondary photons", 300, 2., 5.);
-	histo11d = createHistogram1D("h110d", "X Position distirbution of secondary photons", 200, 0, 10);
+	histo11d = createHistogram1D("h110d", "X Position distirbution of secondary photons", 300, 0, 10);
+    histo11e = createHistogram1D("h110e", "Energy distribution of secondary photons", 800, 3., 5.);
 	histo12 = createHistogram1D("h120","Energy distribution of secondary deuterons", 70, 0., 70.);
 	histo13 = createHistogram1D("h130","Energy distribution of secondary tritons", 70, 0., 70.);
 	histo14 = createHistogram1D("h140","Energy distribution of secondary alpha particles", 70, 0., 70.);
@@ -212,7 +216,7 @@ void HadrontherapyAnalysisManager::book()
 		70, 0., 500.);
 	histo16 = createHistogram1D("hydrogenEnergyAfterPhantom","Energy distribution of secondary helium fragments after the phantom",
 		70, 0., 500.);
-    histo17 = createHistogram2D("h170", "Photon Energy Distribution as fn of X Position", 200, 0, 10, 200, 2., 5.);
+    histo17 = createHistogram2D("h170", "Photon Energy Distribution as fn of X Position", 300, 0, 10, 300, 2., 5.);
     histo18a = createHistogram1D("h180a", "Energy distribution of secondary neutrons", 400, 0, 50);
     histo18b = createHistogram1D("h180b", "Energy distribution of secondary neutrons", 300, 2, 5);
     histo19a = createHistogram1D("h190a", "#theta distribution of secondary photons", 400, 0, 180);
@@ -351,6 +355,12 @@ void HadrontherapyAnalysisManager::gammaEnergyDistributionc(G4double energy)
 void HadrontherapyAnalysisManager::gammaPositionDistribution(G4double XPos)
 {
 	histo11d->Fill(XPos);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+void HadrontherapyAnalysisManager::gammaEnergyDistributione(G4double energy)
+{
+	histo11e->Fill(energy);
 }
 
 /////////////////////////////////////////////////////////////////////////////

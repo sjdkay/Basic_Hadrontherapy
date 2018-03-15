@@ -188,7 +188,7 @@ G4int StepNumber = theTrack -> GetCurrentStepNumber();
                 if (Name == "gamma"){
                     analysis -> gammaEnergyDistribution(EVert/MeV);
                     analysis -> gammaPositionDistribution(VertX/cm);
-		    if(EVert/MeV > 0.1 && EVert/MeV < 10){
+                    if(EVert/MeV > 0.1 && EVert/MeV < 10){
                         analysis -> gammaEnergyDistributionb(EVert/MeV);
                         analysis -> gammaEnergyThetaDistribution(Theta/degree, EVert/MeV);
                         analysis -> gammaEnergyPhiDistribution(Phi/degree, EVert/MeV);
@@ -197,11 +197,11 @@ G4int StepNumber = theTrack -> GetCurrentStepNumber();
                     }
                     if(EVert/MeV > 2 && EVert/MeV < 5){
                         analysis -> gammaEnergyDistributionc(EVert/MeV);
-			analysis -> gammaEnergyPositionDistribution(VertX/cm, EVert/MeV);
-		    }
-                    //if(EVert/MeV > 3.5 && EVert/MeV < 3.9){
-		    //  analysis -> gammaEnergyPositionDistribution(VertX/cm, EVert/MeV);
-                    //}
+                        analysis -> gammaEnergyPositionDistribution(VertX/cm, EVert/MeV);
+                    }
+                    if(EVert/MeV > 3 && EVert/MeV < 5){
+                        analysis -> gammaEnergyDistributione(EVert/MeV);
+                    }
                 }
                 if(Name == "neutron"){
                     analysis ->neutronEnergyDistributiona(EVert/MeV);

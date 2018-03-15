@@ -188,7 +188,7 @@ private:
   G4double PhantomThick1;
   G4double PhantomThick2;
 
-  G4ThreeVector phantomPosition, phantom2Position, detectorPosition, detectorToPhantomPosition; //  phantom center, detector center, detector to phantom relative position
+  G4ThreeVector phantomPosition, phantom1Position, phantom2Position, detectorPosition, detectorToPhantomPosition; //  phantom center, detector center, detector to phantom relative position
 
   G4double sizeOfVoxelAlongX;
   G4double sizeOfVoxelAlongY;
