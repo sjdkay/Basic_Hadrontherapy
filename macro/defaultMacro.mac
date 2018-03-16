@@ -17,7 +17,7 @@
 # Set of the physic models
 #
 /Physics/addPhysics HADRONTHERAPY_1
-/analysis/setAnalysisFile /scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Tissue/10e6_1cm_Tissue_Det_2.root
+/analysis/setAnalysisFile /scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Hybrid/10e6_4cm_Tissue_4cm_Bone.root
 #/analysis/setAnalysisFile /scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Test_File.root
 
 ##########################
@@ -28,23 +28,23 @@
 ##########################
 # Visualisation
 #
-#/vis/open OGL 600x600-0+0
+/vis/open OGL 600x600-0+0
 
 # Disable auto refresh and quieten vis messages whilst scene and
 # trajectories are established:
-#/vis/viewer/set/autoRefresh false
-#/vis/verbose errors
+/vis/viewer/set/autoRefresh false
+/vis/verbose errors
 
-#/vis/drawVolume
-#/vis/viewer/set/viewpointThetaPhi 30 140 deg
-#/vis/viewer/zoom 1
-#/vis/viewer/pan -10  0 cm
-#/vis/scene/add/trajectories smooth
+/vis/drawVolume
+/vis/viewer/set/viewpointThetaPhi 30 140 deg
+/vis/viewer/zoom 1
+/vis/viewer/pan -10  0 cm
+/vis/scene/add/trajectories smooth
 
-#/vis/scene/endOfEventAction accumulate
+/vis/scene/endOfEventAction accumulate
 
-#/vis/viewer/set/autoRefresh true
-#/vis/verbose warnings
+/vis/viewer/set/autoRefresh true
+/vis/verbose warnings
 
 
 ####################################################
@@ -103,21 +103,21 @@
 #/changePhantom/position 20. 0. 0. cm
 #/changePhantom/update
 
-/changePhantom/size 20 40 40  cm
-/changePhantom/position 1 0 0 cm
+/changePhantom/size 8 10 10  cm
+#/changePhantom/position 0 0 0 cm
 
 ###################################################
 # USE THE FOLLOWING FOR A VOXELLIZED DETECTOR
 ###################################################
 #
-/changeDetector/size 1 40 40 cm
-/changeDetector/voxelSize 0.1 400 400 mm
+/changeDetector/size 0.1 10 10 cm
+/changeDetector/voxelSize 0.1 100 100 mm
 
 # Put the detector in the lower left corner of the phantom
 #
 /changeDetector/displacement 0 0 0 cm
-/changePhantom/Mat1Thick 1 cm
-/changePhantom/Mat2Thick 19 cm
+/changePhantom/Mat1Thick 4 cm
+/changePhantom/Mat2Thick 4 cm
 /changePhantom/update
 
 #########################
@@ -134,9 +134,9 @@
 
 # Default material is water liquid
 
-/changePhantom/material1 G4_TISSUE_SOFT_ICRP
-/changePhantom/material2 G4_Galactic
+/changePhantom/material1 G4_TISSUE_SOFT_ICRP 
+/changePhantom/material2 G4_BONE_CORTICAL_ICRP
 
 /run/printProgress 1000000
 
-/run/beamOn 1000000
+/run/beamOn 100000000
