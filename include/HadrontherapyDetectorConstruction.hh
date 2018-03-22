@@ -30,6 +30,7 @@
 #define HadrontherapyDetectorConstruction_H 1
 
 #include "G4Box.hh"
+#include "G4Sphere.hh"
 #include "globals.hh"
 #include "G4VisAttributes.hh"
 #include "G4LogicalVolume.hh"
@@ -59,11 +60,13 @@ static HadrontherapyDetectorConstruction* GetInstance();
 				    G4ThreeVector detectorToWorldPosition);
   G4VPhysicalVolume* motherPhys;
   HadrontherapyDetectorSD*         detectorSD; // Pointer to sensitive detector
+  HadrontherapyDetectorSD*         ExternalDetectorSD;
 
 private:
 
   void ConstructPhantom();
   void ConstructDetector();
+  void ConstructExternalDetector();
   void ParametersCheck();
   void CheckOverlaps();
 
@@ -158,6 +161,7 @@ inline bool IsInside(G4double detectorX,
   void SetPhantomMat1Thick(G4double Mat1Thick);
   void SetPhantomMat2Thick(G4double Mat2Thick);
   void SetDetectorToPhantomPosition(G4ThreeVector DetectorToPhantomPosition);
+  void SetUseExternalDetector(G4int Use){UseExternalDetector=Use;};
   void UpdateGeometry();
   void PrintParameters();
   G4LogicalVolume* GetDetectorLogicalVolume(){ return detectorLogicalVolume;}
@@ -167,15 +171,17 @@ private:
   HadrontherapyDetectorMessenger* detectorMessenger;
 
   G4VisAttributes* skyBlue;
-  G4VisAttributes* red, *blue;
+  G4VisAttributes* red, *blue, *DeathStar;
 
   HadrontherapyDetectorROGeometry* detectorROGeometry; // Pointer to ROGeometry
+  HadrontherapyDetectorROGeometry* ExternalDetectorROGeometry; // Pointer to ROGeometry
   HadrontherapyMatrix*             matrix;
   HadrontherapyLet*                let;
 
   G4Box *phantom1 , *phantom2, *detector;
-  G4LogicalVolume *phantom1LogicalVolume, *phantom2LogicalVolume, *detectorLogicalVolume;
-  G4VPhysicalVolume *phantom1PhysicalVolume, *phantom2PhysicalVolume, *detectorPhysicalVolume;
+  G4Sphere *ExternalDetector;
+  G4LogicalVolume *phantom1LogicalVolume, *phantom2LogicalVolume, *detectorLogicalVolume, *ExternalDetectorLogicalVolume;
+  G4VPhysicalVolume *phantom1PhysicalVolume, *phantom2PhysicalVolume, *detectorPhysicalVolume, *ExternalDetectorPhysicalVolume;
 
   G4double phantomSizeX;
   G4double phantomSizeY;
@@ -202,5 +208,7 @@ private:
 
   G4Material *phantomMaterial, *detectorMaterial, *PhantomMaterial1, *PhantomMaterial2;
   G4Region* aRegion;
+
+  G4int UseExternalDetector;
 };
 #endif

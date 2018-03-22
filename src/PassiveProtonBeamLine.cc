@@ -72,20 +72,15 @@ G4VPhysicalVolume* PassiveProtonBeamLine::Construct()
     // Construct the whole Passive Beam Line
     ConstructPassiveProtonBeamLine();
 
-    //***************************** PW ***************************************
     if (!hadrontherapyDetectorConstruction)
-
-        //***************************** PW ***************************************
 
         // HadrontherapyDetectorConstruction builds ONLY the phantom and the detector with its associated ROGeometry
         hadrontherapyDetectorConstruction = new HadrontherapyDetectorConstruction(physicalTreatmentRoom);
 
 
-    //***************************** PW ***************************************
 
     hadrontherapyDetectorConstruction->InitializeDetectorROGeometry(RO,hadrontherapyDetectorConstruction->GetDetectorToWorldPosition());
 
-    //***************************** PW ***************************************
     return physicalTreatmentRoom;
 }
 

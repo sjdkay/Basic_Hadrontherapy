@@ -45,35 +45,35 @@ HadrontherapyMatrix* HadrontherapyMatrix::instance = NULL;
 G4bool HadrontherapyMatrix::secondary = false;
 
 // Only return a pointer to matrix
-HadrontherapyMatrix* HadrontherapyMatrix::GetInstance() 
+HadrontherapyMatrix* HadrontherapyMatrix::GetInstance()
 {
 	return instance;
 }
 	// This STATIC method delete (!) the old matrix and rewrite a new object returning a pointer to it
 	// TODO A check on the parameters is required!
-HadrontherapyMatrix* HadrontherapyMatrix::GetInstance(G4int voxelX, G4int voxelY, G4int voxelZ, G4double mass)  
+HadrontherapyMatrix* HadrontherapyMatrix::GetInstance(G4int voxelX, G4int voxelY, G4int voxelZ, G4double mass)
 {
 	if (instance) delete instance;
 	instance = new HadrontherapyMatrix(voxelX, voxelY, voxelZ, mass);
-	instance -> Initialize(); 
+	instance -> Initialize();
 	return instance;
 }
 HadrontherapyMatrix::HadrontherapyMatrix(G4int voxelX, G4int voxelY, G4int voxelZ, G4double mass):
     stdFile("Dose.out"),
     doseUnit(gray)
-{  
+{
 	// Number of the voxels of the phantom
 	// For Y = Z = 1 the phantom is divided in slices (and not in voxels)
 	// orthogonal to the beam axis
 	numberOfVoxelAlongX = voxelX;
 	numberOfVoxelAlongY = voxelY;
-	numberOfVoxelAlongZ = voxelZ; 
+	numberOfVoxelAlongZ = voxelZ;
 	massOfVoxel = mass;
 	// Create the dose matrix
 	matrix = new G4double[numberOfVoxelAlongX*numberOfVoxelAlongY*numberOfVoxelAlongZ];
 	if (matrix)
 	{
-		G4cout << "HadrontherapyMatrix: Memory space to store physical dose into " <<  
+		G4cout << "HadrontherapyMatrix: Memory space to store physical dose into " <<
 		numberOfVoxelAlongX*numberOfVoxelAlongY*numberOfVoxelAlongZ <<
 		" voxels has been allocated " << G4endl;
 	}
@@ -99,8 +99,8 @@ void HadrontherapyMatrix::Clear()
 {
     for (size_t i=0; i<ionStore.size(); i++)
     {
-	delete[] ionStore[i].dose; 
-	delete[] ionStore[i].fluence; 
+	delete[] ionStore[i].dose;
+	delete[] ionStore[i].fluence;
     }
     ionStore.clear();
 }
@@ -108,7 +108,7 @@ void HadrontherapyMatrix::Clear()
 /////////////////////////////////////////////////////////////////////////////
 // Initialise the elements of the matrix to zero
 void HadrontherapyMatrix::Initialize()
-{ 
+{
     // Clear ions store
     Clear();
     // Clear dose
@@ -140,55 +140,55 @@ G4int* HadrontherapyMatrix::GetHitTrack(G4int i, G4int j, G4int k)
 }
 /////////////////////////////////////////////////////////////////////////////
 // Dose methods...
-// Fill DOSE/fluence matrix for secondary particles: 
-// If fluence parameter is true (default value is FALSE) then fluence at voxel (i, j, k) is increased. 
-// The energyDeposit parameter fill the dose matrix for voxel (i,j,k) 
+// Fill DOSE/fluence matrix for secondary particles:
+// If fluence parameter is true (default value is FALSE) then fluence at voxel (i, j, k) is increased.
+// The energyDeposit parameter fill the dose matrix for voxel (i,j,k)
 /////////////////////////////////////////////////////////////////////////////
 
 G4bool HadrontherapyMatrix::Fill(G4int trackID,
 				 G4ParticleDefinition* particleDef,
-				 G4int i, G4int j, G4int k, 
+				 G4int i, G4int j, G4int k,
 				 G4double energyDeposit,
-				 G4bool fluence) 
+				 G4bool fluence)
 {
     if ( (energyDeposit <=0. && !fluence) || !secondary) return false;
-    // Get Particle Data Group particle ID 
+    // Get Particle Data Group particle ID
     G4int PDGencoding = particleDef -> GetPDGEncoding();
     PDGencoding -= PDGencoding%10;
-	
+
     // Search for already allocated data...
     for (size_t l=0; l < ionStore.size(); l++)
     {
-		if (ionStore[l].PDGencoding == PDGencoding ) 
-		{   // Is it a primary or a secondary particle? 
+		if (ionStore[l].PDGencoding == PDGencoding )
+		{   // Is it a primary or a secondary particle?
 		  if ( (trackID ==1 && ionStore[l].isPrimary) || (trackID !=1 && !ionStore[l].isPrimary))
 			{
 				if (energyDeposit > 0.) ionStore[l].dose[Index(i, j, k)] += energyDeposit;
-				
+
 					// Fill a matrix per each ion with the fluence
 				if (fluence) ionStore[l].fluence[Index(i, j, k)]++;
 				return true;
 			}
 		}
     }
-	
+
     G4int Z = particleDef-> GetAtomicNumber();
     G4int A = particleDef-> GetAtomicMass();
 
     G4String fullName = particleDef -> GetParticleName();
-    G4String name = fullName.substr (0, fullName.find("[") ); // cut excitation energy  
+    G4String name = fullName.substr (0, fullName.find("[") ); // cut excitation energy
   // Let's put a new particle in our store...
-    ion newIon = 
+    ion newIon =
     {
 		(trackID == 1) ? true:false,
 		PDGencoding,
 		name,
-		name.length(), 
-		Z, 
-		A, 
+		name.length(),
+		Z,
+		A,
 		new G4double[numberOfVoxelAlongX * numberOfVoxelAlongY * numberOfVoxelAlongZ],
 		new unsigned int[numberOfVoxelAlongX * numberOfVoxelAlongY * numberOfVoxelAlongZ]
-    }; 
+    };
 		// Initialize data
     if (newIon.dose && newIon.fluence)
     {
@@ -199,14 +199,14 @@ G4bool HadrontherapyMatrix::Fill(G4int trackID,
 		}
 		if (energyDeposit > 0.) newIon.dose[Index(i, j, k)] += energyDeposit;
 		if (fluence) newIon.fluence[Index(i, j, k)]++;
-		
+
 		ionStore.push_back(newIon);
-		
+
 		// TODO Put some verbosity check
 		/*
-		 G4cout << "Memory space to store the DOSE/FLUENCE into " <<  
-		 numberOfVoxelAlongX*numberOfVoxelAlongY*numberOfVoxelAlongZ << 
-		 " voxels has been allocated for the nuclide " << newIon.name << 
+		 G4cout << "Memory space to store the DOSE/FLUENCE into " <<
+		 numberOfVoxelAlongX*numberOfVoxelAlongY*numberOfVoxelAlongZ <<
+		 " voxels has been allocated for the nuclide " << newIon.name <<
 		 " (Z = " << Z << ", A = " << A << ")" << G4endl ;
 		 */
 		return true;
@@ -215,9 +215,9 @@ G4bool HadrontherapyMatrix::Fill(G4int trackID,
     {
 		return false;
     }
-	
+
 }
-	
+
 	/////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////
 	// Methods to store data to filenames...
@@ -232,12 +232,12 @@ void HadrontherapyMatrix::StoreMatrix(G4String file, void* data, size_t psize)
 		ofs.open(file, std::ios::out);
 		if (ofs.is_open())
 		{
-			for(G4int i = 0; i < numberOfVoxelAlongX; i++) 
-				for(G4int j = 0; j < numberOfVoxelAlongY; j++) 
-					for(G4int k = 0; k < numberOfVoxelAlongZ; k++) 
+			for(G4int i = 0; i < numberOfVoxelAlongX; i++)
+				for(G4int j = 0; j < numberOfVoxelAlongY; j++)
+					for(G4int k = 0; k < numberOfVoxelAlongZ; k++)
 					{
 						G4int n = Index(i, j, k);
-							// Check for data type: u_int, G4double, XXX 
+							// Check for data type: u_int, G4double, XXX
 						if (psize == sizeof(unsigned int))
 						{
 							unsigned int* pdata = (unsigned int*)data;
@@ -266,7 +266,7 @@ void HadrontherapyMatrix::StoreFluenceData()
 	// Store dose per single ion in multiple files
 void HadrontherapyMatrix::StoreDoseData()
 {
-	
+
     for (size_t i=0; i < ionStore.size(); i++){
 		StoreMatrix(ionStore[i].name + "_Dose.out", ionStore[i].dose, sizeof(G4double));
     }
@@ -285,10 +285,10 @@ void HadrontherapyMatrix::StoreDoseFluenceAscii(G4String file)
     ofs.open(filename, std::ios::out);
     if (ofs.is_open())
     {
-	// Write the voxels index and the list of particles/ions 
+	// Write the voxels index and the list of particles/ions
 	ofs << std::setprecision(6) << std::left <<
-	    "i\tj\tk\t"; 
-	// Total dose 
+	    "i\tj\tk\t";
+	// Total dose
 	ofs << std::setw(width) << "Dose(Gy)";
 	if (secondary)
 	{
@@ -305,9 +305,9 @@ void HadrontherapyMatrix::StoreDoseFluenceAscii(G4String file)
 	     */
 	    /*
 	    ofs << std::setprecision(6) << std::left <<
-	    "0\t0\t0\t"; 
+	    "0\t0\t0\t";
 
-	    // Total dose 
+	    // Total dose
 	    ofs << std::setw(width) << '0';
 	    for (size_t l=0; l < ionStore.size(); l++)
 	    {
@@ -318,9 +318,9 @@ void HadrontherapyMatrix::StoreDoseFluenceAscii(G4String file)
 	    */
 	}
 	// Write data
-	for(G4int i = 0; i < numberOfVoxelAlongX; i++) 
-	    for(G4int j = 0; j < numberOfVoxelAlongY; j++) 
-		for(G4int k = 0; k < numberOfVoxelAlongZ; k++) 
+	for(G4int i = 0; i < numberOfVoxelAlongX; i++)
+	    for(G4int j = 0; j < numberOfVoxelAlongY; j++)
+		for(G4int k = 0; k < numberOfVoxelAlongZ; k++)
 		{
 		    G4int n = Index(i, j, k);
 		    // Write only not identically null data lines
@@ -328,15 +328,15 @@ void HadrontherapyMatrix::StoreDoseFluenceAscii(G4String file)
 		    {
 			ofs << G4endl;
 			ofs << i << '\t' << j << '\t' << k << '\t';
-			// Total dose 
-			ofs << std::setw(width) << (matrix[n]/massOfVoxel)/doseUnit; 
+			// Total dose
+			ofs << std::setw(width) << (matrix[n]/massOfVoxel)/doseUnit;
 			if (secondary)
 			{
 			    for (size_t l=0; l < ionStore.size(); l++)
 			    {
 				// Fill ASCII file rows
 				ofs << std::setw(width) << ionStore[l].dose[n]/massOfVoxel/doseUnit <<
-				    std::setw(width) << ionStore[l].fluence[n]; 
+				    std::setw(width) << ionStore[l].fluence[n];
 			    }
 			}
 		    }
@@ -352,50 +352,48 @@ void HadrontherapyMatrix::StoreDoseFluenceRoot()
     HadrontherapyAnalysisManager* analysis = HadrontherapyAnalysisManager::GetInstance();
     if (analysis -> IsTheTFile())
     {
-	for(G4int i = 0; i < numberOfVoxelAlongX; i++) 
-	    for(G4int j = 0; j < numberOfVoxelAlongY; j++) 
-		for(G4int k = 0; k < numberOfVoxelAlongZ; k++) 
+	for(G4int i = 0; i < numberOfVoxelAlongX; i++)
+	    for(G4int j = 0; j < numberOfVoxelAlongY; j++)
+		for(G4int k = 0; k < numberOfVoxelAlongZ; k++)
 		{
 		    G4int n = Index(i, j, k);
 		    for (size_t l=0; l < ionStore.size(); l++)
 
 		    {
-			// Do the same work for .root file: fill dose/fluence ntuple  
-			analysis -> FillVoxelFragmentTuple( i, j, k, 
-				ionStore[l].A, 
-				ionStore[l].Z, 
-				ionStore[l].dose[n]/massOfVoxel/doseUnit, 
+			// Do the same work for .root file: fill dose/fluence ntuple
+			analysis -> FillVoxelFragmentTuple( i, j, k,
+				ionStore[l].A,
+				ionStore[l].Z,
+				ionStore[l].dose[n]/massOfVoxel/doseUnit,
 				ionStore[l].fluence[n] );
-
-
 		    }
 		}
     }
 }
 #endif
 
-void HadrontherapyMatrix::Fill(G4int i, G4int j, G4int k, 
+void HadrontherapyMatrix::Fill(G4int i, G4int j, G4int k,
 			       G4double energyDeposit)
 {
     if (matrix)
 		matrix[Index(i,j,k)] += energyDeposit;
-	
-    // Store the energy deposit in the matrix element corresponding 
-    // to the phantom voxel  
+
+    // Store the energy deposit in the matrix element corresponding
+    // to the phantom voxel
 }
 void HadrontherapyMatrix::TotalEnergyDeposit()
 {
     // Convert energy deposited to dose.
-    // Store the information of the matrix in a ntuple and in 
+    // Store the information of the matrix in a ntuple and in
     // a 1D Histogram
 #ifdef G4ANALYSIS_USE_ROOT
       HadrontherapyAnalysisManager* analysis = HadrontherapyAnalysisManager::GetInstance();
 #endif
 
     if (matrix)
-    {  
-	for(G4int i = 0; i < numberOfVoxelAlongX; i++) 
-	    for(G4int j = 0; j < numberOfVoxelAlongY; j++) 
+    {
+	for(G4int i = 0; i < numberOfVoxelAlongX; i++)
+	    for(G4int j = 0; j < numberOfVoxelAlongY; j++)
 		for(G4int k = 0; k < numberOfVoxelAlongZ; k++)
 		{
 #ifdef G4ANALYSIS_USE_ROOT

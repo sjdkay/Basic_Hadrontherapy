@@ -62,19 +62,12 @@ HadrontherapyDetectorConstruction* HadrontherapyDetectorConstruction::instance =
 HadrontherapyDetectorConstruction::HadrontherapyDetectorConstruction(G4VPhysicalVolume* physicalTreatmentRoom)
 : motherPhys(physicalTreatmentRoom), // pointer to WORLD volume
 detectorSD(0), detectorROGeometry(0), matrix(0),
-phantom1(0), phantom2(0), detector(0),
+phantom1(0), phantom2(0), detector(0), ExternalDetector(0), ExternalDetectorSD(0), ExternalDetectorROGeometry(0),
 phantom1LogicalVolume(0), phantom2LogicalVolume(0), detectorLogicalVolume(0),
 phantom1PhysicalVolume(0), phantom2PhysicalVolume(0), detectorPhysicalVolume(0),
 aRegion(0)
 {
     HadrontherapyAnalysisManager::GetInstance();
-
-    /* NOTE! that the HadrontherapyDetectorConstruction class
-     * does NOT inherit from G4VUserDetectorConstruction G4 class
-     * So the Construct() mandatory virtual method is inside another geometric class
-     * like the passiveProtonBeamLIne, ...
-     */
-
 
     // Messenger to change parameters of the phantom/detector geometry
     detectorMessenger = new HadrontherapyDetectorMessenger(this);
@@ -98,6 +91,8 @@ aRegion(0)
     SetDetectorToPhantomPosition(G4ThreeVector(0. *cm, 18. *cm, 18. *cm));
     SetDetectorPosition();
     //GetDetectorToWorldPosition();
+
+    UseExternalDetector = 0;
 
     // Write virtual parameters to the real ones and check for consistency
     UpdateGeometry();
@@ -154,7 +149,7 @@ void HadrontherapyDetectorConstruction::ConstructPhantom()
     phantom2LogicalVolume = new G4LogicalVolume(phantom2,
                                                PhantomMaterial2,
                                                "phantomLog", 0, 0, 0);
-;
+
     G4ThreeVector phantom2Position(PhantomThick1 + (PhantomThick2/2), 0., 0.);
 
     // Definition of the physics volume of the Phantom
@@ -213,6 +208,7 @@ void HadrontherapyDetectorConstruction::ConstructDetector()
                                                 detectorMaterial,
                                                 "DetectorLog",
                                                 0,0,0);
+
     // Definition of the physical volume of the Phantom
     detectorPhysicalVolume = new G4PVPlacement(0,
                                                detectorPosition, // Set by displacement
@@ -220,12 +216,10 @@ void HadrontherapyDetectorConstruction::ConstructDetector()
                                                detectorLogicalVolume,
                                                phantom1PhysicalVolume,
                                                false,0);
-
     // Visualisation attributes of the detector
     skyBlue = new G4VisAttributes( G4Colour(135/255. , 206/255. ,  235/255. ));
     skyBlue -> SetVisibility(true);
     skyBlue -> SetForceSolid(true);
-    //skyBlue -> SetForceWireframe(true);
     detectorLogicalVolume -> SetVisAttributes(skyBlue);
 
     // **************
@@ -240,6 +234,37 @@ void HadrontherapyDetectorConstruction::ConstructDetector()
         detectorLogicalVolume -> SetRegion(aRegion);
         aRegion -> AddRootLogicalVolume(detectorLogicalVolume);
     }
+}
+
+void HadrontherapyDetectorConstruction::ConstructExternalDetector()
+{
+
+    G4Material* ExtDetMat = G4NistManager::Instance()->FindOrBuildMaterial("G4_SODIUM_IODIDE", false);
+    // Definition of the solid volume of the External Detector
+    ExternalDetector = new G4Sphere("ExternalDetector",
+                                    15*cm, 20*cm, 0, 360*degree, 0, 180*degree); //Rmin, Rmax, Starting Phi, Final Phi, Starting Theta, Final Theta
+
+    // Definition of the logic volume of the External Detector
+    ExternalDetectorLogicalVolume = new G4LogicalVolume(ExternalDetector,
+                                                ExtDetMat,
+                                                "ExternalDetectorLog",
+                                                0,0,0);
+
+    G4ThreeVector ExternalDetectorPosition((PhantomThick1 + PhantomThick2)/2,0,0);
+
+    // Definition of the physical volume of the External Detector
+    ExternalDetectorPhysicalVolume = new G4PVPlacement(0, //Rotation
+                                               ExternalDetectorPosition, // Positioning
+                                               "ExternalDetectorPhys",
+                                               ExternalDetectorLogicalVolume,
+                                               motherPhys,
+                                               false,0);
+
+    // Visualisation attributes of the detector
+    DeathStar = new G4VisAttributes( G4Colour(171/255. , 171/255. ,  171/255. ));
+    DeathStar -> SetVisibility(true);
+    DeathStar -> SetForceWireframe(true);
+    ExternalDetectorLogicalVolume -> SetVisAttributes(DeathStar);
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -398,6 +423,7 @@ void HadrontherapyDetectorConstruction::SetPhantomMat2Thick(G4double Mat2Thick)
 {
     PhantomThick2 = Mat2Thick;
 }
+
 /////////////////////////////////////////////////////////////////////////////
 void HadrontherapyDetectorConstruction::UpdateGeometry()
 {
@@ -436,6 +462,13 @@ void HadrontherapyDetectorConstruction::UpdateGeometry()
         detectorPhysicalVolume -> SetTranslation(detectorPosition);
     }
     else    ConstructDetector();
+
+    if(UseExternalDetector==1){
+        G4cout << "Use external detector set to 1, building spherical external detector" << G4endl;
+        ConstructExternalDetector();
+    }
+
+    else G4cout << "Use external detector set to 0 (or other non 1 value) or left absent, spherical external detector not built" << G4endl;
 
     // Round to nearest integer number of voxel
 

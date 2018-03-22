@@ -134,6 +134,13 @@ HadrontherapyDetectorMessenger::HadrontherapyDetectorMessenger(HadrontherapyDete
     changeTheDetectorVoxelCmd -> SetUnitCandidates("nm um mm cm");
     changeTheDetectorVoxelCmd -> AvailableForStates(G4State_Idle);
 
+    // Use external detector or not
+    UseExternalDetectorCmd = new G4UIcmdWithAnInteger("/changeDetector/UseExternalDetector",this);
+    UseExternalDetectorCmd -> SetGuidance("Use external detector or not! Set 1 to use, 0 to not use"
+                                          "This is set to 0 by default!");
+    UseExternalDetectorCmd->SetParameterName("UseExternalDetector",false);
+    UseExternalDetectorCmd->AvailableForStates(G4State_Idle);
+
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -148,6 +155,7 @@ HadrontherapyDetectorMessenger::~HadrontherapyDetectorMessenger()
     delete changePhantomMaterial1Cmd;
     delete changePhantomMaterial2Cmd;
     delete updateCmd;
+    delete UseExternalDetectorCmd;
     delete changeTheDetectorDir;
     delete changeTheDetectorSizeCmd;
     delete changeTheDetectorToPhantomPositionCmd;
@@ -202,5 +210,8 @@ void HadrontherapyDetectorMessenger::SetNewValue(G4UIcommand* command,G4String n
   else if (command == updateCmd)
   {
     hadrontherapyDetector -> UpdateGeometry();
+  }
+  else if (command == UseExternalDetectorCmd){
+    hadrontherapyDetector -> SetUseExternalDetector(UseExternalDetectorCmd->GetNewIntValue(newValue));
   }
 }

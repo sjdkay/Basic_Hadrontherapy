@@ -55,11 +55,10 @@ public:
     drawFlag = val;
   };
 
-private: 
+private:
   G4String drawFlag; //Visualisation flag
   G4int hitsCollectionID;
-  //HadrontherapyMatrix *matrix; 
-  G4int printModulo;  
+  G4int printModulo;
   HadrontherapyEventActionMessenger* pointerEventMessenger;
 };
 

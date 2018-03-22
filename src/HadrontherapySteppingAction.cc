@@ -134,7 +134,6 @@ G4int StepNumber = theTrack -> GetCurrentStepNumber();
     }
 
     // Electromagnetic and hadronic processes of primary particles in the phantom
-    //setting phantomPhys correctly will break something here fixme
     if ((aStep -> GetTrack() -> GetTrackID() == 1) &&
 	    (aStep -> GetTrack() -> GetVolume() -> GetName() == "PhantomPhys") &&
 	    (aStep -> GetPostStepPoint() -> GetProcessDefinedStep() != NULL))

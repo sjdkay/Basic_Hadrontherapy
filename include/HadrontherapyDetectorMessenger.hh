@@ -55,8 +55,8 @@ private:
 
   G4UIdirectory *changeThePhantomDir,  *changeTheDetectorDir;
 
-
   G4UIcmdWithoutParameter   *updateCmd;
+  G4UIcmdWithAnInteger      *UseExternalDetectorCmd;
   G4UIcmdWithAString        *changeThePhantomMaterialCmd;
   G4UIcmdWithAString        *changePhantomMaterial1Cmd;
   G4UIcmdWithAString        *changePhantomMaterial2Cmd;

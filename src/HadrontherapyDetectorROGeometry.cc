@@ -40,8 +40,6 @@
 #include "G4SolidStore.hh"
 #include "G4LogicalVolumeStore.hh"
 
-
-
 #include "G4SDManager.hh"
 #include "G4RunManager.hh"
 
@@ -81,7 +79,7 @@ void HadrontherapyDetectorROGeometry::Initialize(G4ThreeVector pos,
 						 G4int numberOfVoxelsX,
 						 G4int numberOfVoxelsY,
 						 G4int numberOfVoxelsZ)
-{  
+{
   detectorToWorldPosition = pos;
   detectorSizeX = detectorDimX;
   detectorSizeY= detectorDimY;
@@ -92,8 +90,6 @@ void HadrontherapyDetectorROGeometry::Initialize(G4ThreeVector pos,
 
   isInitialized = true;
 
-
-  
 }
 
 void HadrontherapyDetectorROGeometry::UpdateROGeometry()
@@ -101,11 +97,9 @@ void HadrontherapyDetectorROGeometry::UpdateROGeometry()
   //Nothing happens if the RO geometry is not built. But parameters are properly set.
   if (!isBuilt)
     {
-      //G4Exception("HadrontherapyDetectorROGeometry::UpdateROGeometry","had001",
-      //		  JustWarning,"Cannot update geometry before it is built");
       return;
     }
- 
+
   //1) Update the dimensions of the G4Boxes
   G4double halfDetectorSizeX = detectorSizeX;
   G4double halfDetectorSizeY = detectorSizeY;
@@ -119,7 +113,7 @@ void HadrontherapyDetectorROGeometry::UpdateROGeometry()
   G4double halfXVoxelSizeY = halfDetectorSizeY;
   G4double halfXVoxelSizeZ = halfDetectorSizeZ;
   G4double voxelXThickness = 2*halfXVoxelSizeX;
-  
+
   RODetectorXDivision->SetXHalfLength(halfXVoxelSizeX);
   RODetectorXDivision->SetYHalfLength(halfXVoxelSizeY);
   RODetectorXDivision->SetZHalfLength(halfXVoxelSizeZ);
@@ -154,7 +148,7 @@ void HadrontherapyDetectorROGeometry::UpdateROGeometry()
 							detectorToWorldPosition,
 							RODetectorLog,
 							"RODetectorPhys",
-							worldLogical,							
+							worldLogical,
 							false,0);
 
   myVol = store->GetVolume("RODetectorXDivisionPhys");
@@ -173,7 +167,7 @@ void HadrontherapyDetectorROGeometry::UpdateROGeometry()
 							       kYAxis,
 							       numberOfVoxelsAlongY,
 							       voxelYThickness);
-  
+
   myVol = store->GetVolume("RODetectorZDivisionPhys");
   store->DeRegister(myVol);
   new G4PVReplica("RODetectorZDivisionPhys",
@@ -197,14 +191,13 @@ void HadrontherapyDetectorROGeometry::Construct()
   // A dummy material is used to fill the volumes of the readout geometry.
   // (It will be allowed to set a NULL pointer in volumes of such virtual
   // division in future, since this material is irrelevant for tracking.)
-  
 
   //
   // World
   //
   G4VPhysicalVolume* ghostWorld = GetWorld();
   worldLogical = ghostWorld->GetLogicalVolume();
-  
+
   if (!isInitialized)
     {
       G4Exception("HadrontherapyDetectorROGeometry::Construct","had001",
@@ -212,48 +205,44 @@ void HadrontherapyDetectorROGeometry::Construct()
       return;
     }
 
-  
   G4double halfDetectorSizeX = detectorSizeX;
   G4double halfDetectorSizeY = detectorSizeY;
   G4double halfDetectorSizeZ = detectorSizeZ;
-    
-    // World volume of ROGeometry ... SERVE SOLO PER LA ROG
 
-  // Detector ROGeometry 
-  RODetector = new G4Box("RODetector", 
-			 halfDetectorSizeX, 
-			 halfDetectorSizeY, 
+  // World volume of ROGeometry
+
+  // Detector ROGeometry
+  RODetector = new G4Box("RODetector",
+			 halfDetectorSizeX,
+			 halfDetectorSizeY,
 			 halfDetectorSizeZ);
-  
+
   RODetectorLog = new G4LogicalVolume(RODetector,
 				      0,
 				      "RODetectorLog",
 				      0,0,0);
-  
-  
-  
+
+
+
   G4VPhysicalVolume *RODetectorPhys = new G4PVPlacement(0,
 							detectorToWorldPosition,RODetectorLog,
 							"RODetectorPhys",
-							worldLogical,							
+							worldLogical,
 							false,0);
 
-
-
-  
   // Division along X axis: the detector is divided in slices along the X axis
-  
+
   G4double halfXVoxelSizeX = halfDetectorSizeX/numberOfVoxelsAlongX;
   G4double halfXVoxelSizeY = halfDetectorSizeY;
   G4double halfXVoxelSizeZ = halfDetectorSizeZ;
   G4double voxelXThickness = 2*halfXVoxelSizeX;
-  
+
 
   RODetectorXDivision = new G4Box("RODetectorXDivision",
 				  halfXVoxelSizeX,
 				  halfXVoxelSizeY,
 				  halfXVoxelSizeZ);
-  
+
   RODetectorXDivisionLog = new G4LogicalVolume(RODetectorXDivision,
 					       0,
 					       "RODetectorXDivisionLog",
@@ -274,7 +263,7 @@ void HadrontherapyDetectorROGeometry::Construct()
   G4double voxelYThickness = 2*halfYVoxelSizeY;
 
   RODetectorYDivision = new G4Box("RODetectorYDivision",
-				  halfYVoxelSizeX, 
+				  halfYVoxelSizeX,
 				  halfYVoxelSizeY,
 				  halfYVoxelSizeZ);
 
@@ -282,31 +271,31 @@ void HadrontherapyDetectorROGeometry::Construct()
 					       0,
 					       "RODetectorYDivisionLog",
 					       0,0,0);
- 
+
   G4VPhysicalVolume *RODetectorYDivisionPhys = new G4PVReplica("RODetectorYDivisionPhys",
 							      RODetectorYDivisionLog,
 							      RODetectorXDivisionPhys,
 							      kYAxis,
 							      numberOfVoxelsAlongY,
 							      voxelYThickness);
-  
+
   // Division along Z axis: the slices along the Y axis are divided along the Z axis
 
   G4double halfZVoxelSizeX = halfXVoxelSizeX;
   G4double halfZVoxelSizeY = halfYVoxelSizeY;
   G4double halfZVoxelSizeZ = halfDetectorSizeZ/numberOfVoxelsAlongZ;
   G4double voxelZThickness = 2*halfZVoxelSizeZ;
- 
+
   RODetectorZDivision = new G4Box("RODetectorZDivision",
 				  halfZVoxelSizeX,
-				  halfZVoxelSizeY, 
+				  halfZVoxelSizeY,
 				  halfZVoxelSizeZ);
- 
+
   RODetectorZDivisionLog = new G4LogicalVolume(RODetectorZDivision,
 					       0,
 					       "RODetectorZDivisionLog",
 					       0,0,0);
- 
+
   new G4PVReplica("RODetectorZDivisionPhys",
 		  RODetectorZDivisionLog,
 		  RODetectorYDivisionPhys,
@@ -320,13 +309,12 @@ void HadrontherapyDetectorROGeometry::Construct()
 
 void HadrontherapyDetectorROGeometry::ConstructSD()
 {
- 
+
  G4String sensitiveDetectorName = "RODetector";
- 
+
  HadrontherapyDetectorSD* detectorSD = new HadrontherapyDetectorSD(sensitiveDetectorName);
  G4SDManager::GetSDMpointer()->AddNewDetector(detectorSD);
  SetSensitiveDetector(sensitiveLogicalVolume,detectorSD);
-
 
 }
 
