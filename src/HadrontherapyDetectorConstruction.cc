@@ -49,6 +49,7 @@
 #include "HadrontherapyDetectorROGeometry.hh"
 #include "HadrontherapyDetectorMessenger.hh"
 #include "HadrontherapyDetectorSD.hh"
+#include "HadrontherapyExternalDetectorSD.hh"
 #include "HadrontherapyMatrix.hh"
 #include "HadrontherapyLet.hh"
 #include "PassiveProtonBeamLine.hh"
@@ -242,7 +243,7 @@ void HadrontherapyDetectorConstruction::ConstructExternalDetector()
     G4Material* ExtDetMat = G4NistManager::Instance()->FindOrBuildMaterial("G4_SODIUM_IODIDE", false);
     // Definition of the solid volume of the External Detector
     ExternalDetector = new G4Sphere("ExternalDetector",
-                                    15*cm, 20*cm, 0, 360*degree, 0, 180*degree); //Rmin, Rmax, Starting Phi, Final Phi, Starting Theta, Final Theta
+                                    20*cm, 25*cm, 0, 360*degree, 0, 180*degree); //Rmin, Rmax, Starting Phi, Final Phi, Starting Theta, Final Theta
 
     // Definition of the logic volume of the External Detector
     ExternalDetectorLogicalVolume = new G4LogicalVolume(ExternalDetector,
@@ -251,6 +252,11 @@ void HadrontherapyDetectorConstruction::ConstructExternalDetector()
                                                 0,0,0);
 
     G4ThreeVector ExternalDetectorPosition((PhantomThick1 + PhantomThick2)/2,0,0);
+
+    G4SDManager* SDman = G4SDManager::GetSDMpointer();
+    ExternalDetectorSD = new HadrontherapyExternalDetectorSD("ExtDetSD");
+    SDman -> AddNewDetector(ExternalDetectorSD);
+    ExternalDetectorLogicalVolume->SetSensitiveDetector(ExternalDetectorSD);
 
     // Definition of the physical volume of the External Detector
     ExternalDetectorPhysicalVolume = new G4PVPlacement(0, //Rotation

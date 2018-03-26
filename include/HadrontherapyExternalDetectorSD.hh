@@ -2,7 +2,7 @@
 #define HadrontherapyExternalDetectorSD_h 1
 
 #include "G4VSensitiveDetector.hh"
-#include "HadrontherapyDetectorHit.hh"
+#include "HadrontherapyExternalDetectorHit.hh"
 #include "globals.hh"
 
 class G4Step;
@@ -22,7 +22,7 @@ public:
   void EndOfEvent(G4HCofThisEvent*HCE);
 
 private:
-  //HadrontherapyExternalDetectorHitsCollection *EDHitsCollection;
+  HadrontherapyExternalDetectorHitsCollection *EDHitsCollection;
   G4String sensitiveDetectorName;
 };
 #endif

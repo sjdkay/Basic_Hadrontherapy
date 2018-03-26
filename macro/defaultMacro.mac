@@ -17,8 +17,8 @@
 # Set of the physic models
 #
 /Physics/addPhysics HADRONTHERAPY_1
-/analysis/setAnalysisFile /scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Hybrid/10e6_4cm_Tissue_4cm_Bone.root
-#/analysis/setAnalysisFile /scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Test_File.root
+#/analysis/setAnalysisFile /scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Hybrid/10e6_4cm_Tissue_4cm_Bone.root
+/analysis/setAnalysisFile /scratch/IAA/Proton_Therapy/Basic_Hadrontherapy/build/SimulationOutputs/Test_File.root
 
 ##########################
 # Initialisation procedure
@@ -118,6 +118,9 @@
 /changeDetector/displacement 0 0 0 cm
 /changePhantom/Mat1Thick 4 cm
 /changePhantom/Mat2Thick 4 cm
+
+/changeDetector/UseExternalDetector 1
+
 /changePhantom/update
 
 #########################
@@ -139,4 +142,4 @@
 
 /run/printProgress 1000000
 
-/run/beamOn 100000000
+/run/beamOn 100

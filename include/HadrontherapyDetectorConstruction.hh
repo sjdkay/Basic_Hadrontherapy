@@ -36,6 +36,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4UnitsTable.hh"
 #include "HadrontherapyDetectorROGeometry.hh"
+#include "HadrontherapyExternalDetectorSD.hh"
 
 class G4VPhysicalVolume;
 class G4LogicalVolume;
@@ -60,7 +61,7 @@ static HadrontherapyDetectorConstruction* GetInstance();
 				    G4ThreeVector detectorToWorldPosition);
   G4VPhysicalVolume* motherPhys;
   HadrontherapyDetectorSD*         detectorSD; // Pointer to sensitive detector
-  HadrontherapyDetectorSD*         ExternalDetectorSD;
+  HadrontherapyExternalDetectorSD*         ExternalDetectorSD;
 
 private:
 
