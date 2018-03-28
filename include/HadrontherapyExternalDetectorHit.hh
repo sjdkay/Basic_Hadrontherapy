@@ -15,7 +15,6 @@ public:
   HadrontherapyExternalDetectorHit(const HadrontherapyExternalDetectorHit&);
   virtual ~HadrontherapyExternalDetectorHit();
 
-
   const HadrontherapyExternalDetectorHit& operator=(const HadrontherapyExternalDetectorHit&);
 
   G4int operator==(const HadrontherapyExternalDetectorHit&) const;
@@ -31,6 +30,7 @@ private:
   G4double VertexEnergy;
   G4ThreeVector VertexPosition, VertexMomentum, position, momentum;
   G4ParticleDefinition* particle;
+  G4int TrackID;
 
 public:
 
@@ -49,6 +49,8 @@ public:
     {return momentum;}
     inline G4ParticleDefinition* GetParticle()
     {return particle;}
+    inline G4int GetTrackID()
+    {return TrackID;}
 
     // Methods to store the information of the hit
     inline void SetEdep(G4double eDep)
@@ -67,6 +69,8 @@ public:
     {momentum = mom;}
     inline void SetParticle(G4ParticleDefinition* pdef)
     {particle = pdef;}
+    inline void SetTrackID(G4int TrID)
+    {TrackID = TrID;}
 };
 
 typedef G4THitsCollection<HadrontherapyExternalDetectorHit> HadrontherapyExternalDetectorHitsCollection;
@@ -76,7 +80,6 @@ extern G4ThreadLocal G4Allocator<HadrontherapyExternalDetectorHit>* Hadrontherap
 
 inline void* HadrontherapyExternalDetectorHit::operator new(size_t)
 {
-
 
  if(!HadrontherapyExternalDetectorHitAllocator)
   HadrontherapyExternalDetectorHitAllocator= new G4Allocator<HadrontherapyExternalDetectorHit>;

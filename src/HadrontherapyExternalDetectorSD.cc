@@ -14,9 +14,11 @@ HadrontherapyExternalDetectorSD::HadrontherapyExternalDetectorSD(G4String name):
     G4VSensitiveDetector(name)
 {
     G4String HCname;
-    collectionName.insert(HCname="HadrontherapyExternalDetectorHitsCollection");
+    collectionName.insert(HCname="EDHitsCollection");
     EDHitsCollection = NULL;
     sensitiveDetectorName = name;
+
+    HCID = -1;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -25,16 +27,19 @@ HadrontherapyExternalDetectorSD::~HadrontherapyExternalDetectorSD()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-void HadrontherapyExternalDetectorSD::Initialize(G4HCofThisEvent*)
+void HadrontherapyExternalDetectorSD::Initialize(G4HCofThisEvent* HCE2)
 {
     EDHitsCollection = new HadrontherapyExternalDetectorHitsCollection(sensitiveDetectorName,
 	    collectionName[0]);
+    if(HCID < 0){
+        HCID = GetCollectionID(0);
+    }
+    HCE2->AddHitsCollection(HCID, EDHitsCollection);
 }
 
 /////////////////////////////////////////////////////////////////////////////
 G4bool HadrontherapyExternalDetectorSD::ProcessHits(G4Step* aStep, G4TouchableHistory* )
 {
-
     HadrontherapyAnalysisManager* analysis = HadrontherapyAnalysisManager::GetInstance();
 
     G4TouchableHistory* theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
@@ -43,6 +48,7 @@ G4bool HadrontherapyExternalDetectorSD::ProcessHits(G4Step* aStep, G4TouchableHi
     G4Track* theTrack = aStep  ->  GetTrack();
     G4double edep = aStep->GetTotalEnergyDeposit();
     G4int StepNo = theTrack -> GetCurrentStepNumber();
+    G4int TID = theTrack->GetTrackID();
 
     if (edep==0.) return false;
 
@@ -53,29 +59,18 @@ G4bool HadrontherapyExternalDetectorSD::ProcessHits(G4Step* aStep, G4TouchableHi
     G4ThreeVector Vert = theTrack -> GetVertexPosition();
     G4ThreeVector VertMom = theTrack -> GetVertexMomentumDirection();
 
-    G4cout << EVert/MeV << "   " << Vert(0)/cm << "   " << Vert(1)/cm << "   " << Vert(2)/cm <<G4endl;
-
     HadrontherapyExternalDetectorHit* detectorHit = new HadrontherapyExternalDetectorHit();
 
-    detectorHit->AddEdep(edep);
-    //detectorHit->SetPosition(Position);
+    detectorHit->addEdep(edep);
+    detectorHit->SetPosition(Position);
+    detectorHit->SetParticle(particleDef);
+    detectorHit->SetTrackID(TID);
     //detectorHit->SetMomentum(Momentum);
-    //detectorHit->SetParticle(particleDef);
 
     EDHitsCollection->insert(detectorHit);
 
     return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////
-void HadrontherapyExternalDetectorSD::EndOfEvent(G4HCofThisEvent* HCE)
-{
-    static G4int HCID = -1;
-    if(HCID < 0)
-    {
-	HCID = GetCollectionID(0);
-    }
-
-    HCE -> AddHitsCollection(HCID,EDHitsCollection);
-}
-
+void HadrontherapyExternalDetectorSD::EndOfEvent(G4HCofThisEvent*)
+{;}

@@ -82,6 +82,7 @@ if(volumePost){
 
 G4Track* theTrack = aStep->GetTrack();
 G4int TrackNumber = aStep -> GetTrack() -> GetTrackID();
+G4int ParentTrackNumber = aStep ->GetTrack()->GetParentID();
 G4int StepNumber = theTrack -> GetCurrentStepNumber();
 
     if( aStep->GetTrack()->GetVolume()->GetName() == "NewDetectorPhys"){
@@ -187,6 +188,8 @@ G4int StepNumber = theTrack -> GetCurrentStepNumber();
                 if (Name == "gamma"){
                     analysis -> gammaEnergyDistribution(EVert/MeV);
                     analysis -> gammaPositionDistribution(VertX/cm);
+                    analysis -> FillPromptGammaNtuple(ParentTrackNumber, EVert/MeV, VertX/cm, Vert(1)/cm, Vert(2)/cm, Theta/degree, Phi/degree);
+
                     if(EVert/MeV > 0.1 && EVert/MeV < 10){
                         analysis -> gammaEnergyDistributionb(EVert/MeV);
                         analysis -> gammaEnergyThetaDistribution(Theta/degree, EVert/MeV);

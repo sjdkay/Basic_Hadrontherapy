@@ -37,10 +37,7 @@ void HadrontherapyDetectorSD::Initialize(G4HCofThisEvent*)
 /////////////////////////////////////////////////////////////////////////////
 G4bool HadrontherapyDetectorSD::ProcessHits(G4Step* aStep, G4TouchableHistory* )
 {
-
-
   if (aStep -> GetPreStepPoint() -> GetPhysicalVolume() -> GetName() != "RODetectorZDivisionPhys") return false;
-
 
     // Get kinetic energy
     G4Track * theTrack = aStep  ->  GetTrack();
@@ -100,10 +97,7 @@ G4bool HadrontherapyDetectorSD::ProcessHits(G4Step* aStep, G4TouchableHistory* )
 	}
     }
 
-
-
     //  ******************** let ***************************
-
 
     if (matrix)
     {

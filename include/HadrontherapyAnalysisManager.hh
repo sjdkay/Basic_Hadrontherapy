@@ -150,6 +150,8 @@ public:
   void gammaEnergyThetaDistribution(G4double theta, G4double energy);
   void gammaEnergyPhiDistribution(G4double phi, G4double energy);
 
+  void EDEnergyDeposit(G4double EDep);
+
   void deuteronEnergyDistribution(G4double secondaryParticleKineticEnergy);
   ///< Energy distribution of secondary deuterons originated in the phantom
 
@@ -170,6 +172,9 @@ public:
 
   //Kinetic energy by voxel, mass number A and atomic number Z of only primary particles
   void FillKineticEnergyPrimaryNTuple(G4int i, G4int j, G4int k, G4double kinEnergy);
+
+  void FillPromptGammaNtuple(G4int ParentTID, G4double energy, G4double PosX, G4double PosY, G4double PosZ, G4double Theta, G4double Phi);
+  void FillExternalDetectorNtuple(G4double EDep, G4int nHits);
 
   ///< Energy by voxel, mass number A and atomic number Z.
   void FillVoxelFragmentTuple(G4int i, G4int j, G4int k, G4int A, G4double Z, G4double energy, G4double fluence);
@@ -246,8 +251,12 @@ private:
   TH2F *histo21;
   TH2F *histo22;
 
+  TH1F *EDHist1;
+
   TNtuple *kinFragNtuple;
   TNtuple *kineticEnergyPrimaryNtuple;
+  TNtuple *PromptGammaNtuple;
+  TNtuple *ExternalDetectorNtuple;
 
   // ntuple containing the fluence of all the particle in any voxel
   TNtuple *doseFragNtuple;

@@ -57,7 +57,8 @@ public:
 
 private:
   G4String drawFlag; //Visualisation flag
-  G4int hitsCollectionID;
+  G4int DHitsCollectionID;
+  G4int EDHitsCollectionID;
   G4int printModulo;
   HadrontherapyEventActionMessenger* pointerEventMessenger;
 };

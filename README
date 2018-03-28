@@ -1,8 +1,28 @@
-30/1/18
-
 This is a simplified version of the existing Geant4 Hadrontherapy example.
 
 See https://twiki.cern.ch/twiki/bin/view/Geant4/AdvancedExamplesHadrontherapy for details of the original example.
+
+28/3/18
+
+This version of the Hadrontherapy example removes the beamline elements and builds only the Phantom and an optional external detector. The phantom can be made of two different materials (the thickness of each can also be varied). Information about the gammas produced from proton beam interactions are stored in output files.
+
+The external detector is currently simply a 5cm "shell" of Sodium Iodide surrounding the phantom. Output is currently only the energy deposition in this detector for each event.
+
+To modify the geometry of the external detector see HadrontherapyDetectorConstruction.cc
+
+To modify information stored in the hit collection for the external detector see HadrontherapyExternalDetectorSD.cc and HadrontherapyExternalDetectorHit.cc (and associated include files).
+
+To modify the information about the prompt gammas produced by the proton beam look at HadrontherapySteppingAction.cc.
+
+To introduce new histograms or modify existing ones edit HadrontherapyAnalysisManager.cc
+
+To modify how the Hit collections for the external detector are used/processed see HadrontherapyEventAction.cc
+
+////// FUTURE STEPS ////////
+
+Useful further development would be to alter the External Detector and construct this as a series of cylindrical detectors along the x axis of the phantom. Further analysis of the distribution of photons into the detector would also be useful.
+
+30/1/18
 
 This version reduces the original to simply be the phantom with detector. Future versions will include - 
 

@@ -11,19 +11,20 @@ class G4TouchableHistory;
 class HadrontherapyExternalDetectorSD : public G4VSensitiveDetector
 {
 public:
-  HadrontherapyExternalDetectorSD(G4String name);
-  ~HadrontherapyExternalDetectorSD();
+    HadrontherapyExternalDetectorSD(G4String name);
+    ~HadrontherapyExternalDetectorSD();
 
-  std::ofstream ofs;
-  void Initialize(G4HCofThisEvent*);
+    std::ofstream ofs;
+    void Initialize(G4HCofThisEvent*);
 
-  G4bool ProcessHits(G4Step*aStep,G4TouchableHistory*ROhist);
+    G4bool ProcessHits(G4Step*aStep,G4TouchableHistory*ROhist);
 
-  void EndOfEvent(G4HCofThisEvent*HCE);
+    void EndOfEvent(G4HCofThisEvent*);
 
 private:
-  HadrontherapyExternalDetectorHitsCollection *EDHitsCollection;
-  G4String sensitiveDetectorName;
+    G4int HCID;
+    HadrontherapyExternalDetectorHitsCollection *EDHitsCollection;
+    G4String sensitiveDetectorName;
 };
 #endif
 

@@ -1,30 +1,4 @@
-//
-// ********************************************************************
-// * License and Disclaimer                                           *
-// *                                                                  *
-// * The  Geant4 software  is  copyright of the Copyright Holders  of *
-// * the Geant4 Collaboration.  It is provided  under  the terms  and *
-// * conditions of the Geant4 Software License,  included in the file *
-// * LICENSE and available at  http://cern.ch/geant4/license .  These *
-// * include a list of copyright holders.                             *
-// *                                                                  *
-// * Neither the authors of this software system, nor their employing *
-// * institutes,nor the agencies providing financial support for this *
-// * work  make  any representation or  warranty, express or implied, *
-// * regarding  this  software system or assume any liability for its *
-// * use.  Please see the license in the file  LICENSE  and URL above *
-// * for the full disclaimer and the limitation of liability.         *
-// *                                                                  *
-// * This  code  implementation is the result of  the  scientific and *
-// * technical work of the GEANT4 collaboration.                      *
-// * By using,  copying,  modifying or  distributing the software (or *
-// * any work based  on the software)  you  agree  to acknowledge its *
-// * use  in  resulting  scientific  publications,  and indicate your *
-// * acceptance of all terms of the Geant4 Software license.          *
-// ********************************************************************
-//
-// Hadrontherapy advanced example for Geant4
-// See more at: https://twiki.cern.ch/twiki/bin/view/Geant4/AdvancedExamplesHadrontherapy
+// This has been edited to add many new histograms/nTuples and filling routines for them
 
 #include "HadrontherapyAnalysisManager.hh"
 #include "HadrontherapyMatrix.hh"
@@ -40,8 +14,11 @@ HadrontherapyAnalysisManager::HadrontherapyAnalysisManager()
 analysisFileName("DoseDistribution2.root"),theTFile(0), histo1(0), histo2(0), histo3(0),
 histo4(0), histo5(0), histo6(0), histo7(0), histo8(0), histo9(0), histo10(0), histo11(0), histo11b(0), histo11c(0), histo11d(0), histo11e(0), histo12(0), histo13(0), histo14(0), histo15(0), histo16(0), histo17(0),
 histo18a(0), histo18b(0), histo19a(0), histo19b(0), histo20a(0), histo20b(0), histo21(0), histo22(0),
+EDHist1(0),
 kinFragNtuple(0),
 kineticEnergyPrimaryNtuple(0),
+ExternalDetectorNtuple(0),
+PromptGammaNtuple(0),
 doseFragNtuple(0),
 fluenceFragNtuple(0),
 letFragNtuple(0),
@@ -84,8 +61,16 @@ void HadrontherapyAnalysisManager::Clear()
 	theROOTIonTuple = 0;
 
 	delete theROOTNtuple;
-
 	theROOTNtuple = 0;
+
+	delete ExternalDetectorNtuple;
+	ExternalDetectorNtuple = 0;
+
+    delete PromptGammaNtuple;
+	PromptGammaNtuple = 0;
+
+	delete EDHist1;
+	EDHist1 = 0;
 
     delete histo22;
 	histo22 = 0;
@@ -226,12 +211,24 @@ void HadrontherapyAnalysisManager::book()
     histo21 = createHistogram2D("h210" , "Energy Distribution as fn of #theta", 200, 0, 180, 200, 0.1, 10);
     histo22 = createHistogram2D("h220" , "Energy Distribution as fn of #phi", 200, -180, 180, 200, 0.1, 10);
 
+    EDHist1 = createHistogram1D("EDHist1", "Energy Deposition in External Detector", 1000, 0, 10);
+
 	kinFragNtuple  = new TNtuple("kinFragNtuple",
 		"Kinetic energy by voxel & fragment",
 		"i:j:k:A:Z:kineticEnergy");
+
 	kineticEnergyPrimaryNtuple= new TNtuple("kineticEnergyPrimaryNtuple",
 		"Kinetic energy by voxel of primary",
 		"i:j:k:kineticEnergy");
+
+    ExternalDetectorNtuple = new TNtuple("ExternalDetectorNtuple",
+		"Energy by event",
+		"Energy:Hits");
+
+   PromptGammaNtuple = new TNtuple("PromptGammaNtuple",
+		"Prompt Gamma Information",
+		"ParentTrackID:Energy:VertexX:VertexY:VertexZ:Theta:Phi");
+
 	doseFragNtuple = new TNtuple("doseFragNtuple",
 		"Energy deposit by voxel & fragment",
 		"i:j:k:A:Z:energy");
@@ -488,6 +485,24 @@ void HadrontherapyAnalysisManager::FillLetFragmentTuple(G4int i, G4int j, G4int 
 void HadrontherapyAnalysisManager::FillFragmentTuple(G4int A, G4double Z, G4double energy, G4double posX, G4double posY, G4double posZ)
 {
 	fragmentNtuple->Fill(A, Z, energy, posX, posY, posZ);
+}
+
+	/////////////////////////////////////////////////////////////////////////////
+void HadrontherapyAnalysisManager::EDEnergyDeposit(G4double EDep)
+{
+	EDHist1->Fill(EDep);
+}
+
+	/////////////////////////////////////////////////////////////////////////////
+void HadrontherapyAnalysisManager::FillPromptGammaNtuple(G4int ParentTID, G4double energy, G4double PosX, G4double PosY, G4double PosZ, G4double Theta, G4double Phi)
+{
+	PromptGammaNtuple->Fill(ParentTID, energy, PosX, PosY, PosZ, Theta, Phi);
+}
+
+	/////////////////////////////////////////////////////////////////////////////
+void HadrontherapyAnalysisManager::FillExternalDetectorNtuple(G4double EDep, G4int nHits)
+{
+	ExternalDetectorNtuple->Fill(EDep, nHits);
 }
 
 	/////////////////////////////////////////////////////////////////////////////
