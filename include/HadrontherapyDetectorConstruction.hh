@@ -30,11 +30,13 @@
 #define HadrontherapyDetectorConstruction_H 1
 
 #include "G4Box.hh"
+#include "G4Sphere.hh"
 #include "globals.hh"
 #include "G4VisAttributes.hh"
 #include "G4LogicalVolume.hh"
 #include "G4UnitsTable.hh"
 #include "HadrontherapyDetectorROGeometry.hh"
+#include "HadrontherapyExternalDetectorSD.hh"
 
 class G4VPhysicalVolume;
 class G4LogicalVolume;
@@ -59,11 +61,13 @@ static HadrontherapyDetectorConstruction* GetInstance();
 				    G4ThreeVector detectorToWorldPosition);
   G4VPhysicalVolume* motherPhys;
   HadrontherapyDetectorSD*         detectorSD; // Pointer to sensitive detector
+  HadrontherapyExternalDetectorSD*         ExternalDetectorSD;
 
 private:
 
   void ConstructPhantom();
   void ConstructDetector();
+  void ConstructExternalDetector();
   void ParametersCheck();
   void CheckOverlaps();
 
@@ -77,7 +81,7 @@ inline G4ThreeVector GetDetectorToWorldPosition()
 // Get displacement between phantom and detector by detector position (center of), phantom (center of) and detector sizes
 inline G4ThreeVector GetDetectorToPhantomPosition()
 {
-    return G4ThreeVector(phantomSizeX/2 - detectorSizeX/2 + detectorPosition.getX(),
+    return G4ThreeVector(PhantomThick1/2 - detectorSizeX/2 + detectorPosition.getX(),
                          phantomSizeY/2 - detectorSizeY/2 + detectorPosition.getY(),
                          phantomSizeZ/2 - detectorSizeZ/2 + detectorPosition.getZ()
 		          );
@@ -88,7 +92,7 @@ inline G4ThreeVector GetDetectorToPhantomPosition()
 inline void SetDetectorPosition()
   {
 	  // Adjust detector position
-	  detectorPosition.setX(detectorToPhantomPosition.getX() - phantomSizeX/2 + detectorSizeX/2);
+	  detectorPosition.setX(detectorToPhantomPosition.getX() - PhantomThick1/2 + detectorSizeX/2);
 	  detectorPosition.setY(detectorToPhantomPosition.getY() - phantomSizeY/2 + detectorSizeY/2);
 	  detectorPosition.setZ(detectorToPhantomPosition.getZ() - phantomSizeZ/2 + detectorSizeZ/2);
 
@@ -149,17 +153,16 @@ inline bool IsInside(G4double detectorX,
 }
 /////////////////////////////////////////////////////////////////////////////
 
-  G4bool  SetPhantomMaterial(G4String material);
-  G4bool  SetComplexPhantomMaterial1(G4String material);
-  G4bool  SetComplexPhantomMaterial2(G4String material);
-  void SetUseComplexPhantom(G4int use){UseComplexPhantom=use;}
+  G4bool  SetPhantomMaterial1(G4String material1);
+  G4bool  SetPhantomMaterial2(G4String material2);
   void SetVoxelSize(G4double sizeX, G4double sizeY, G4double sizeZ);
   void SetDetectorSize(G4double sizeX, G4double sizeY, G4double sizeZ);
   void SetPhantomSize(G4double sizeX, G4double sizeY, G4double sizeZ);
   void SetPhantomPosition(G4ThreeVector);
-  void SetComplexPhantomMat1Thick(G4double tm1);
-  void SetComplexPhantomMat2Thick(G4double tm2);
+  void SetPhantomMat1Thick(G4double Mat1Thick);
+  void SetPhantomMat2Thick(G4double Mat2Thick);
   void SetDetectorToPhantomPosition(G4ThreeVector DetectorToPhantomPosition);
+  void SetUseExternalDetector(G4int Use){UseExternalDetector=Use;};
   void UpdateGeometry();
   void PrintParameters();
   G4LogicalVolume* GetDetectorLogicalVolume(){ return detectorLogicalVolume;}
@@ -169,15 +172,17 @@ private:
   HadrontherapyDetectorMessenger* detectorMessenger;
 
   G4VisAttributes* skyBlue;
-  G4VisAttributes* red;
+  G4VisAttributes* red, *blue, *DeathStar;
 
   HadrontherapyDetectorROGeometry* detectorROGeometry; // Pointer to ROGeometry
+  HadrontherapyDetectorROGeometry* ExternalDetectorROGeometry; // Pointer to ROGeometry
   HadrontherapyMatrix*             matrix;
   HadrontherapyLet*                let;
 
-  G4Box *phantom , *detector;
-  G4LogicalVolume *phantomLogicalVolume, *detectorLogicalVolume;
-  G4VPhysicalVolume *phantomPhysicalVolume, *detectorPhysicalVolume;
+  G4Box *phantom1 , *phantom2, *detector;
+  G4Sphere *ExternalDetector;
+  G4LogicalVolume *phantom1LogicalVolume, *phantom2LogicalVolume, *detectorLogicalVolume, *ExternalDetectorLogicalVolume;
+  G4VPhysicalVolume *phantom1PhysicalVolume, *phantom2PhysicalVolume, *detectorPhysicalVolume, *ExternalDetectorPhysicalVolume;
 
   G4double phantomSizeX;
   G4double phantomSizeY;
@@ -187,7 +192,10 @@ private:
   G4double detectorSizeY;
   G4double detectorSizeZ;
 
-  G4ThreeVector phantomPosition, detectorPosition, detectorToPhantomPosition; //  phantom center, detector center, detector to phantom relative position
+  G4double PhantomThick1;
+  G4double PhantomThick2;
+
+  G4ThreeVector phantomPosition, phantom1Position, phantom2Position, detectorPosition, detectorToPhantomPosition; //  phantom center, detector center, detector to phantom relative position
 
   G4double sizeOfVoxelAlongX;
   G4double sizeOfVoxelAlongY;
@@ -199,7 +207,9 @@ private:
 
   G4double volumeOfVoxel, massOfVoxel;
 
-  G4Material *phantomMaterial, *detectorMaterial, *ComplexPhantomMaterial1, *ComplexPhantomMaterial2;
+  G4Material *phantomMaterial, *detectorMaterial, *PhantomMaterial1, *PhantomMaterial2;
   G4Region* aRegion;
+
+  G4int UseExternalDetector;
 };
 #endif

@@ -37,70 +37,97 @@
 #include "HadrontherapyEventAction.hh"
 #include "HadrontherapyDetectorHit.hh"
 #include "HadrontherapyDetectorSD.hh"
+#include "HadrontherapyExternalDetectorSD.hh"
+#include "HadrontherapyExternalDetectorHit.hh"
 #include "HadrontherapyDetectorConstruction.hh"
 #include "HadrontherapyMatrix.hh"
 #include "HadrontherapyEventActionMessenger.hh"
+#include "HadrontherapyAnalysisManager.hh"
 
 /////////////////////////////////////////////////////////////////////////////
 HadrontherapyEventAction::HadrontherapyEventAction() :
   drawFlag("all" ),printModulo(10), pointerEventMessenger(0)
-{ 
-  hitsCollectionID = -1;
-  pointerEventMessenger = new HadrontherapyEventActionMessenger(this);
+{
+    DHitsCollectionID = -1;
+    EDHitsCollectionID = -1;
+    pointerEventMessenger = new HadrontherapyEventActionMessenger(this);
 }
 
 /////////////////////////////////////////////////////////////////////////////
 HadrontherapyEventAction::~HadrontherapyEventAction()
 {
- delete pointerEventMessenger;
-}  
+    delete pointerEventMessenger;
+}
 
 /////////////////////////////////////////////////////////////////////////////
 void HadrontherapyEventAction::BeginOfEventAction(const G4Event* evt)
-{ 
-  G4int evtNb = evt->GetEventID();
-  //printing survey
-  if (evtNb%printModulo == 0)
+{
+    G4int evtNb = evt->GetEventID();
+    //printing survey
+    if (evtNb%printModulo == 0)
      G4cout << "\n---> Begin of Event: " << evtNb << G4endl;
-   
-  G4SDManager* pSDManager = G4SDManager::GetSDMpointer();
-  if(hitsCollectionID == -1)
-    hitsCollectionID = pSDManager -> GetCollectionID("HadrontherapyDetectorHitsCollection");
-  
+
+    G4SDManager* pSDManager = G4SDManager::GetSDMpointer();
+    if(DHitsCollectionID == -1)
+    DHitsCollectionID = pSDManager -> GetCollectionID("HadrontherapyDetectorHitsCollection");
+    if(EDHitsCollectionID == -1)
+    EDHitsCollectionID = pSDManager -> GetCollectionID("EDHitsCollection");
 }
 
 /////////////////////////////////////////////////////////////////////////////
 void HadrontherapyEventAction::EndOfEventAction(const G4Event* evt)
-{ 
-  if(hitsCollectionID < 0)
-  return;
-  G4HCofThisEvent* HCE = evt -> GetHCofThisEvent();
+{
+    if(DHitsCollectionID < 0) return;
+    if(EDHitsCollectionID < 0) return;
 
-  // Clear voxels hit list 
-  HadrontherapyMatrix* matrix = HadrontherapyMatrix::GetInstance();
-  if (matrix) matrix -> ClearHitTrack(); 
+    G4HCofThisEvent* HCE = evt -> GetHCofThisEvent();
+    G4HCofThisEvent* HCE2 = evt -> GetHCofThisEvent();
 
-  if(HCE)
-  {
-    HadrontherapyDetectorHitsCollection* CHC = (HadrontherapyDetectorHitsCollection*)(HCE -> GetHC(hitsCollectionID));
+    // Clear voxels hit list
+    HadrontherapyMatrix* matrix = HadrontherapyMatrix::GetInstance();
+    HadrontherapyAnalysisManager* analysis =  HadrontherapyAnalysisManager::GetInstance();
+    if (matrix) matrix -> ClearHitTrack();
+
+    if(HCE)
+    {
+    HadrontherapyDetectorHitsCollection* CHC = (HadrontherapyDetectorHitsCollection*)(HCE -> GetHC(DHitsCollectionID));
     if(CHC)
-     {
-       if(matrix)
-	  { 
-	      // Fill the matrix with the information: voxel and associated energy deposit 
-          // in the detector at the end of the event
-
-	  G4int HitCount = CHC -> entries();
-	  for (G4int h=0; h<HitCount; h++)
-	    {
-	      G4int i = ((*CHC)[h]) -> GetXID();
-	      G4int j = ((*CHC)[h]) -> GetYID();
-	      G4int k = ((*CHC)[h]) -> GetZID();
-              G4double energyDeposit = ((*CHC)[h]) -> GetEdep();
-              matrix -> Fill(i, j, k, energyDeposit/MeV);              
-	    }
-	  }
+        {
+        if(matrix)
+            {
+            // Fill the matrix with the information: voxel and associated energy deposit
+            // in the detector at the end of the event
+            G4int HitCount = CHC -> entries();
+            for (G4int h=0; h<HitCount; h++)
+                {
+                G4int i = ((*CHC)[h]) -> GetXID();
+                G4int j = ((*CHC)[h]) -> GetYID();
+                G4int k = ((*CHC)[h]) -> GetZID();
+                G4double energyDeposit = ((*CHC)[h]) -> GetEdep();
+                matrix -> Fill(i, j, k, energyDeposit/MeV);
+                }
+            }
+        }
     }
-  }
+
+    G4int TotalEDHits = 0;
+    G4double TotalEDEDep = 0.;
+    if (HCE2){
+    HadrontherapyExternalDetectorHitsCollection* CHC2 = (HadrontherapyExternalDetectorHitsCollection*)(HCE2 -> GetHC(EDHitsCollectionID));
+        if(CHC2){
+            int n_hit = CHC2->entries();
+            for ( int i = 0 ; i < n_hit; i++){
+                G4double EDep = (*CHC2)[i]->GetEdep();
+                G4ThreeVector position = (*CHC2)[i]->GetPosition();
+                G4int TrackID = (*CHC2)[i]->GetTrackID();
+                if(EDep >0){
+                    TotalEDHits++;
+                    TotalEDEDep += EDep;
+                }
+            }
+            if(TotalEDEDep != 0) analysis->EDEnergyDeposit(TotalEDEDep / MeV);
+            analysis->FillExternalDetectorNtuple(TotalEDEDep / MeV, TotalEDHits);
+        }
+    }
 }
 

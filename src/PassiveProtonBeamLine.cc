@@ -42,9 +42,7 @@
 #include "HadrontherapyModulator.hh"
 #include "PassiveProtonBeamLine.hh"
 #include "PassiveProtonBeamLineMessenger.hh"
-//#include "FaradayCup.hh"
 
-//G4bool PassiveProtonBeamLine::doCalculation = false;
 /////////////////////////////////////////////////////////////////////////////
 PassiveProtonBeamLine::PassiveProtonBeamLine():
 physicalTreatmentRoom(0),hadrontherapyDetectorConstruction(0)
@@ -74,20 +72,15 @@ G4VPhysicalVolume* PassiveProtonBeamLine::Construct()
     // Construct the whole Passive Beam Line
     ConstructPassiveProtonBeamLine();
 
-    //***************************** PW ***************************************
     if (!hadrontherapyDetectorConstruction)
-
-        //***************************** PW ***************************************
 
         // HadrontherapyDetectorConstruction builds ONLY the phantom and the detector with its associated ROGeometry
         hadrontherapyDetectorConstruction = new HadrontherapyDetectorConstruction(physicalTreatmentRoom);
 
 
-    //***************************** PW ***************************************
 
     hadrontherapyDetectorConstruction->InitializeDetectorROGeometry(RO,hadrontherapyDetectorConstruction->GetDetectorToWorldPosition());
 
-    //***************************** PW ***************************************
     return physicalTreatmentRoom;
 }
 
@@ -104,10 +97,10 @@ void PassiveProtonBeamLine::ConstructPassiveProtonBeamLine()
     const G4double worldZ = 400.0 *cm;
     G4bool isotopes = false;
 
-    G4Material* airNist =  G4NistManager::Instance()->FindOrBuildMaterial("G4_AIR", isotopes);
+    G4Material* Galactic =  G4NistManager::Instance()->FindOrBuildMaterial("G4_Galactic", isotopes);
     G4Box* treatmentRoom = new G4Box("TreatmentRoom",worldX,worldY,worldZ);
     G4LogicalVolume* logicTreatmentRoom = new G4LogicalVolume(treatmentRoom,
-                                                              airNist,
+                                                              Galactic,
                                                               "logicTreatmentRoom",
                                                               0,0,0);
     physicalTreatmentRoom = new G4PVPlacement(0,
@@ -119,10 +112,4 @@ void PassiveProtonBeamLine::ConstructPassiveProtonBeamLine()
 
     // The treatment room is invisible in the Visualisation
     logicTreatmentRoom -> SetVisAttributes (G4VisAttributes::Invisible);
-
-    // Components of the Passive Proton Beam Line
-
-    // The following lines construc a typical modulator wheel inside the Passive Beam line.
-    // Please remember to set the nodulator material (default is air, i.e. no modulator!)
-    // in the HadrontherapyModulator.cc file
 }

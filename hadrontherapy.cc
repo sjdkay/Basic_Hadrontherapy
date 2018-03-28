@@ -63,6 +63,7 @@
 #include "HadrontherapyEventAction.hh"
 #include "HadrontherapyPhysicsList.hh"
 #include "HadrontherapyDetectorSD.hh"
+#include "HadrontherapyExternalDetectorSD.hh"
 #include "HadrontherapyPrimaryGeneratorAction.hh"
 #include "HadrontherapyRunAction.hh"
 #include "HadrontherapyMatrix.hh"

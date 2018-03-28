@@ -69,24 +69,23 @@ void HadrontherapyActionInitialization::BuildForMaster() const
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HadrontherapyActionInitialization::Build() const
-{       
+{
  // Initialize the primary particles
   HadrontherapyPrimaryGeneratorAction *pPrimaryGenerator = new HadrontherapyPrimaryGeneratorAction();
   SetUserAction(pPrimaryGenerator);
-	
+
   // Optional UserActions: run, event, stepping
   HadrontherapyRunAction* pRunAction = new HadrontherapyRunAction();
   SetUserAction(pRunAction);
 
-	
   HadrontherapyEventAction* pEventAction = new HadrontherapyEventAction();
   SetUserAction(pEventAction);
-	
-  HadrontherapySteppingAction* steppingAction = new HadrontherapySteppingAction(pRunAction); 
-  SetUserAction(steppingAction);  
+
+  HadrontherapySteppingAction* steppingAction = new HadrontherapySteppingAction(pRunAction);
+  SetUserAction(steppingAction);
 
 
-       
-}  
+
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

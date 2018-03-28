@@ -54,20 +54,20 @@ HadrontherapyLet* HadrontherapyLet::GetInstance()
 HadrontherapyLet::HadrontherapyLet(HadrontherapyDetectorConstruction* pDet)
   :filename("Let.out"),matrix(0) // Default output filename
 {
-    
+
     matrix = HadrontherapyMatrix::GetInstance();
-    
-    if (!matrix) 
+
+    if (!matrix)
       G4Exception("HadrontherapyLet::HadrontherapyLet",
-		  "Hadrontherapy0005", FatalException, 
+		  "Hadrontherapy0005", FatalException,
 		  "HadrontherapyMatrix not found. Firstly create an instance of it.");
-    
+
     nVoxels = matrix -> GetNvoxel();
-    
+
     numberOfVoxelAlongX = matrix -> GetNumberOfVoxelAlongX();
     numberOfVoxelAlongY = matrix -> GetNumberOfVoxelAlongY();
     numberOfVoxelAlongZ = matrix -> GetNumberOfVoxelAlongZ();
-    
+
     G4RunManager *runManager = G4RunManager::GetRunManager();
     pPGA = (HadrontherapyPrimaryGeneratorAction*)runManager -> GetUserPrimaryGeneratorAction();
     // Pointer to the detector material
@@ -76,7 +76,7 @@ HadrontherapyLet::HadrontherapyLet(HadrontherapyDetectorConstruction* pDet)
     // Instances for Total LET
     totalLetD =      new G4double[nVoxels];
     DtotalLetD =     new G4double[nVoxels];
-    
+
 }
 
 HadrontherapyLet::~HadrontherapyLet()
@@ -114,11 +114,11 @@ void  HadrontherapyLet::FillEnergySpectrum(G4int trackID,
 	if (DE <= 0. || DX <=0.) return;
 	if (!doCalculation) return;
 	G4int Z = particleDef -> GetAtomicNumber();
-    
-    
+
+
 	G4int PDGencoding = particleDef -> GetPDGEncoding();
 	PDGencoding -= PDGencoding%10;
-    
+
 	G4int voxel = matrix -> Index(i,j,k);
 	// Total LET calculation...
 	totalLetD[voxel]  += DE*(DE/DX);
@@ -134,15 +134,15 @@ void  HadrontherapyLet::FillEnergySpectrum(G4int trackID,
                 if ( ((trackID ==1) && (ionLetStore[l].isPrimary)) || ((trackID !=1) && (!ionLetStore[l].isPrimary)))
 					break;
 		}
-        
+
 		if (l == ionLetStore.size()) // Just another type of ion/particle for our store...
 		{
-            
+
 			G4int A = particleDef -> GetAtomicMass();
-            
+
 			G4String fullName = particleDef -> GetParticleName();
 			G4String name = fullName.substr (0, fullName.find("[") ); // cut excitation energy [x.y]
-            
+
 			ionLet ion =
 			{
 				(trackID == 1) ? true:false, // is it the primary particle?
@@ -154,20 +154,17 @@ void  HadrontherapyLet::FillEnergySpectrum(G4int trackID,
 				new G4double[nVoxels], // Let Dose Numerator
 				new G4double[nVoxels]  // Let Dose Denominator
 			};
-            
+
 			// Initialize let
 			for(G4int v=0; v < nVoxels; v++) ion.letDN[v] = ion.letDD[v] = 0.;
 			ionLetStore.push_back(ion);
 			//G4cout << "Allocated LET data for " << ion.name << G4endl;
-            
+
 		}
 		ionLetStore[l].letDN[voxel] += DE*(DE/DX);
 		ionLetStore[l].letDD[voxel] += DE;
 	}
 }
-
-
-
 
 void HadrontherapyLet::LetOutput()
 {
@@ -175,16 +172,16 @@ void HadrontherapyLet::LetOutput()
 	// Sort ions by A and then by Z ...
 	std::sort(ionLetStore.begin(), ionLetStore.end());
 	// Compute Let Track and Let Dose for any single ion
-    
+
 	for(G4int v=0; v < nVoxels; v++)
 	{
 		for (size_t ion=0; ion < ionLetStore.size(); ion++)
 		{
 			if (ionLetStore[ion].letDD[v] >0.) ionLetStore[ion].letDN[v] = ionLetStore[ion].letDN[v] / ionLetStore[ion].letDD[v];
-            
+
 		}// end loop over ions
 	}
-    
+
 }// end loop over voxels
 
 void HadrontherapyLet::StoreLetAscii()
@@ -195,7 +192,7 @@ void HadrontherapyLet::StoreLetAscii()
 		ofs.open(filename, std::ios::out);
 		if (ofs.is_open())
 		{
-            
+
 			// Write the voxels index and the list of particles/ions
 			ofs << std::setprecision(6) << std::left <<
             "i\tj\tk\t";
@@ -206,7 +203,7 @@ void HadrontherapyLet::StoreLetAscii()
 				ofs << std::setw(width) << ionLetStore[l].name  + a ;
 			}
 			ofs << G4endl;
-            
+
 			// Write data
 			for(G4int i = 0; i < numberOfVoxelAlongX; i++)
 				for(G4int j = 0; j < numberOfVoxelAlongY; j++)
@@ -221,7 +218,7 @@ void HadrontherapyLet::StoreLetAscii()
 							{
 								ofs << G4endl;
 								ofs << i << '\t' << j << '\t' << k << '\t';
-                                
+
 								ofs << std::setw(width) << totalLetD[v]/(keV/um);
 								for (size_t ll=0; ll < ionLetStore.size(); ll++)
 								{
@@ -234,30 +231,27 @@ void HadrontherapyLet::StoreLetAscii()
 			ofs.close();
             G4cout << "Let is being written to " << filename << G4endl;
 		}
-        
+
 	}
 }
 
 void HadrontherapyLet::StoreLetRoot()
 {
 #ifdef G4ANALYSIS_USE_ROOT
-    
+
     HadrontherapyAnalysisManager* analysis = HadrontherapyAnalysisManager::GetInstance();
-    
+
     for(G4int i = 0; i < numberOfVoxelAlongX; i++)
-        for(G4int j = 0; j < numberOfVoxelAlongY; j++) 
-            for(G4int k = 0; k < numberOfVoxelAlongZ; k++) 
+        for(G4int j = 0; j < numberOfVoxelAlongY; j++)
+            for(G4int k = 0; k < numberOfVoxelAlongZ; k++)
             {
                 G4int v = matrix -> Index(i, j, k);
                 for (size_t ion=0; ion < ionLetStore.size(); ion++)
                 {
-                    
                     analysis -> FillLetFragmentTuple( i, j, k, ionLetStore[ion].A, ionLetStore[ion].Z, ionLetStore[ion].letDN[v]);
-                    
-                    
                 }
             }
-    
+
 #endif
 }
 
